@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as d3 from 'd3';
 import { Graph } from "react-d3-graph";
-// import {Scrubber} from "@mbostock/scrubber";
-import {ReusableObject} from '../components/ReusableObject';
 
 export interface IPreviewProps {
   data: any[]
