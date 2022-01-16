@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 type ReusableType = {
-    id: string,
+    id: number,
+    text: string,
     children?: ReusableType[]
 }
 
@@ -20,14 +21,14 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
 
     const downloadChildren = () => {
         setTimeout(() => {
-            setChildren([{id: 'er', children: []}])
+            setChildren([{id: 1, text: 'er', children: []}]);
             setLoading(true);
         }, 5000);
     }
 
     return (
       <div>
-        parent = {props.data!.id} 
+        parent = {props.data!.text} 
         {props.data && props.data.children?.length && loading && children.map(x => (
             <div key={x.id}>
                 <ReusableObject data={x}></ReusableObject>
