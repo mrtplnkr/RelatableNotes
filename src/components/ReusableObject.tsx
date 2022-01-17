@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-type ReusableType = {
+export type ReusableType = {
     id: number,
     text: string,
-    children?: ReusableType[]
+    children?: ReusableType[],
+    size?: number
 }
 
 export interface IReusableObjectProps {
@@ -12,28 +13,45 @@ export interface IReusableObjectProps {
 
 export const ReusableObject = React.memo(function RecursiveObject(props: IReusableObjectProps) {
     
+    const [fontSize, setFontSize] = React.useState<number>(18);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [children, setChildren] = React.useState<ReusableType[]>([]);
 
     React.useEffect(() => {
-        downloadChildren();
+        setFontSize(props.data?.size ? props.data.size! - 3 : 18);
+        // downloadChildren();
     }, []);
 
     const downloadChildren = () => {
         setTimeout(() => {
-            setChildren([{id: 1, text: 'er', children: []}]);
+            setChildren(props.data.children ? props.data.children! : []);
             setLoading(true);
         }, 5000);
     }
 
     return (
       <div>
-        parent = {props.data!.text} 
-        {props.data && props.data.children?.length && loading && children.map(x => (
-            <div key={x.id}>
-                <ReusableObject data={x}></ReusableObject>
-            </div>
-        ))}
+          {props.data.children?.length ? <details>
+            <summary style={{fontSize: fontSize}}>
+              parent = {props.data!.text} - {props.data.children?.length}
+            </summary>
+            {props.data && props.data.children?.length && props.data.children?.map(x => (
+                <p key={x.id}>
+                    <ReusableObject data={{...x, size: fontSize}}></ReusableObject>
+                </p>
+            ))}
+          </details>
+          :
+          <div>
+            <summary style={{fontSize: fontSize}}>
+              parent = {props.data!.text} - {props.data.children?.length}
+            </summary>
+            {props.data && props.data.children?.length && props.data.children?.map(x => (
+                <p key={x.id}>
+                    <ReusableObject data={{...x, size: fontSize}}></ReusableObject>
+                </p>
+            ))}
+          </div>}
       </div>
     );
 });
