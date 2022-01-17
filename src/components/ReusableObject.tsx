@@ -36,9 +36,9 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               parent = {props.data!.text} - {props.data.children?.length}
             </summary>
             {props.data && props.data.children?.length && props.data.children?.map(x => (
-                <p key={x.id}>
+                <span key={x.id}>
                     <ReusableObject data={{...x, size: fontSize}}></ReusableObject>
-                </p>
+                </span>
             ))}
           </details>
           :
@@ -47,9 +47,9 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               parent = {props.data!.text} - {props.data.children?.length}
             </summary>
             {props.data && props.data.children?.length && props.data.children?.map(x => (
-                <p key={x.id}>
+                <span key={x.id}>
                     <ReusableObject data={{...x, size: fontSize}}></ReusableObject>
-                </p>
+                </span>
             ))}
           </div>}
       </div>

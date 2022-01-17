@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReusableObject, ReusableType } from '../components/ReusableObject';
 import { CreateNewCollection } from './CreateNew';
 
@@ -18,6 +18,12 @@ export function Notepad (props: INotepadProps) {
   
   const [toggleNew, setToggleNew] = useState<boolean>(true);
 
+  const [data, setData] = useState<ReusableType[]>();
+
+  useEffect(() => {
+    setData(existingData);
+  }, [])
+
   return (
     <div>
       <h3>your collections</h3>
@@ -26,7 +32,7 @@ export function Notepad (props: INotepadProps) {
         <CreateNewCollection />
       : 
       <ul>
-        {existingData.map(x => {
+        {data?.map(x => {
           <div key={x.id}>
             <ReusableObject data={x}></ReusableObject>
           </div>
