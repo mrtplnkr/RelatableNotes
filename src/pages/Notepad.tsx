@@ -5,9 +5,6 @@ import { CreateNewCollection } from './CreateNew';
 export interface INotepadProps {
 }
 
-const testData = {id:  2, text: "parent is displayed ok", 
-      children: [{id:  22, text: "must display this too"}]};
-
 const existingData: ReusableType[] = [{id: 1, text: "shopping list", children: [{id: 11, text: "milk"}, 
   {id: 12, text: "bread", children: [{id:112, text: 'white'}, {id: 113, text: 'dark'}]}, {id: 13, text: "tea"}]},
   {id: 2, text: "app dev features", children: [{id: 21, text: "creating new note with children"}]},
@@ -33,12 +30,11 @@ export function Notepad (props: INotepadProps) {
       : 
       <ul>
         {data?.map(x => {
-          <div key={x.id}>
+          return <div key={x.id}>
             <ReusableObject data={x}></ReusableObject>
           </div>
         })}
       </ul>}
-      <ReusableObject data={existingData[0]}></ReusableObject>
     </div>
   );
 }
