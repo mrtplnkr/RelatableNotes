@@ -24,7 +24,6 @@ export function Notepad (props: INotepadProps) {
   return (
     <div>
       <h3>your collections</h3>
-      {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
       {!toggleNew ? 
         <CreateNewCollection />
       : 
@@ -35,6 +34,7 @@ export function Notepad (props: INotepadProps) {
           </div>
         })}
       </ul>}
+      {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
     </div>
   );
 }

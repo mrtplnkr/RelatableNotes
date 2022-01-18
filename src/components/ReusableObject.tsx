@@ -1,4 +1,5 @@
 import * as React from 'react';
+import randomColor from 'randomcolor';
 
 export type ReusableType = {
     id: number,
@@ -30,10 +31,10 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     }
 
     return (
-      <div>
-          {props.data.children?.length ? <details>
+      <>
+          {props.data.children?.length ? <details style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
             <summary style={{fontSize: fontSize}}>
-              parent = {props.data!.text} - {props.data.children?.length}
+              {props.data!.text} - {props.data.children?.length > 1 ? props.data.children?.length : ''}
             </summary>
             {props.data && props.data.children?.length && props.data.children?.map(x => (
                 <span key={x.id}>
@@ -42,16 +43,16 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
             ))}
           </details>
           :
-          <div>
-            <summary style={{fontSize: fontSize}}>
-              parent = {props.data!.text} - {props.data.children?.length}
-            </summary>
+          <span style={{"display": "inlineFlex"}}>
+            <span style={{fontSize: fontSize}}>
+              {props.data!.text},<span> </span>
+            </span>
             {props.data && props.data.children?.length && props.data.children?.map(x => (
                 <span key={x.id}>
                     <ReusableObject data={{...x, size: fontSize}}></ReusableObject>
                 </span>
             ))}
-          </div>}
-      </div>
+          </span>}
+      </>
     );
 });
