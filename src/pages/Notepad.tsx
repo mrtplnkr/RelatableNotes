@@ -5,7 +5,7 @@ import { CreateNewCollection } from './CreateNew';
 export interface INotepadProps {
 }
 
-const existingData: ReusableType[] = [{id: 1, text: "shopping list", children: [{id: 11, text: "milk"}, 
+const starterPackData: ReusableType[] = [{id: 1, text: "shopping list", children: [{id: 11, text: "milk"}, 
   {id: 12, text: "bread", children: [{id:112, text: 'white'}, {id: 113, text: 'dark'}]}, {id: 13, text: "tea"}]},
   {id: 2, text: "app dev features", children: [{id: 21, text: "creating new note with children"}]},
   {id: 3, text: "life priorities", children: [{id: 31, text: "health"}, {id: 32, text: "love"}, {id: 33, text: "peace"}, {id: 34, text: "money?"}]},
@@ -18,23 +18,37 @@ export function Notepad (props: INotepadProps) {
   const [data, setData] = useState<ReusableType[]>();
 
   useEffect(() => {
-    setData(existingData);
-  }, [])
+    setData(starterPackData);
+  }, []);
+
+  const addNote = (id: number, newNote: string) => {
+    console.log("looking for " + id);
+    var node = findNode(data!, id);
+    console.log(node);
+  }
+
+  const findNode = (d: ReusableType[], id: number) => {
+    var search = d?.filter(x => x.id === id);
+    if (!search) {
+      findNode(d.filter(x => x.children), id);
+    }
+    
+  }
 
   return (
     <div>
       <h3>your collections</h3>
+      {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
       {!toggleNew ? 
         <CreateNewCollection />
       : 
       <ul>
         {data?.map(x => {
           return <div key={x.id}>
-            <ReusableObject data={x}></ReusableObject>
+            <ReusableObject addNote={addNote} data={x}></ReusableObject>
           </div>
         })}
       </ul>}
-      {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
     </div>
   );
 }
