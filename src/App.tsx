@@ -5,6 +5,7 @@ import { Preview } from './pages/Preview';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
+// import { NotepadContext } from './data/NotepadContext';
 
 function App() {
   const data: any[] = [{text:'qew'}];
@@ -18,16 +19,18 @@ function App() {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
 
-        <Router>
-        <Routes>
-          <Route path="/" element={<Home />}>
-          </Route>
-          <Route path="notepad" element={<Notepad />}>
-          </Route>
-          <Route path="preview" element={<Preview data={data} />}>
-          </Route>
-        </Routes>
-      </Router>
+        {/* <NotepadContext> */}
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />}>
+              </Route>
+              <Route path="notepad" element={<Notepad />}>
+              </Route>
+              <Route path="preview" element={<Preview data={data} />}>
+              </Route>
+            </Routes>
+          </Router>
+        {/* </NotepadContext> */}
       
         <a
           className="App-link"
