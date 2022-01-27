@@ -43,9 +43,9 @@ export function Notepad (props: INotepadProps) {
         <CreateNewCollection />
       : 
       <ul>
-        {state.allNotes?.map(x => {
+        {state.allNotes.filter(x => x.parentId === null)?.map(x => {
           return <div key={x.id}>
-            <ReusableObject dispatch={dispatch} mainNote={x}></ReusableObject>
+            <ReusableObject dispatch={dispatch} mainNote={x} size={15}></ReusableObject>
           </div>
         })}
       </ul>}

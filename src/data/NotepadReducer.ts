@@ -14,8 +14,8 @@ export const initialState: INotepadState = {
     allNotes: [
         { parentId: null, id: 1, text: "shopping list" },
         { parentId: 1, id: 11, text: "milk" },
-        { parentId: null, id: 12, text: "bread" },
-        { parentId: 12, id:112, text: 'white' },
+        { parentId: 1, id: 12, text: "bread" },
+        { parentId: 12, id: 112, text: 'white' },
         { parentId: 12, id: 113, text: 'dark' },
         { parentId: 1, id: 13, text: "tea" },
         { parentId: null, id: 2, text: "app dev features" },
