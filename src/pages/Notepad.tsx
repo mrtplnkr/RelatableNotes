@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
+import { NotepadContext } from '../App';
 import { ReusableObject, ReusableType } from '../components/ReusableObject';
-import { initialState, NotepadReducer } from '../data/NotepadReducer';
+import { initialState, INote, NotepadReducer } from '../data/NotepadReducer';
 import { CreateNewCollection } from './CreateNew';
 
 export interface INotepadProps {
@@ -14,15 +15,14 @@ export interface INotepadProps {
 
 export function Notepad (props: INotepadProps) {
   
+  const notepadContext = useContext(NotepadContext);
   const [toggleNew, setToggleNew] = useState<boolean>(true);
 
-  const [state, dispatch] = useReducer(NotepadReducer, initialState);
 
   useEffect(() => {
     // setData(starterPackData);
-    console.log('outerstate', state);
     
-  }, [state]);
+  }, [notepadContext?.notepadState]);
 
   // const addNote = (id: number, newNote: string) => {
   //   console.log("looking for " + id);
@@ -45,9 +45,9 @@ export function Notepad (props: INotepadProps) {
         <CreateNewCollection />
       : 
       <ul>
-        {state.allNotes.filter(x => x.parentId === null)?.map(x => {
+        {notepadContext!.notepadState.allNotes.filter(x => x.parentId === null)?.map((x: INote) => {
           return <div key={x.id}>
-            <ReusableObject reloadChildren={() => alert('weqsdasd')} dispatch={dispatch} mainNote={x} size={15}></ReusableObject>
+            <ReusableObject reloadChildren={() => alert('weqsdasd')} dispatch={notepadContext!.notepadDispatch} mainNote={x} size={15}></ReusableObject>
           </div>
         })}
       </ul>}

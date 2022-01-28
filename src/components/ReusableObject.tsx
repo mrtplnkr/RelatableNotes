@@ -1,8 +1,8 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
-import { INotepadState, NotepadReducer, initialState, INote } from '../data/NotepadReducer';
-import { Dispatch } from 'react';
-import { timeout } from 'd3';
+import { INote } from '../data/NotepadReducer';
+import { Dispatch, useContext } from 'react';
+import { NotepadContext } from '../App';
 
 export type ReusableType = {
     id: number,
@@ -22,21 +22,17 @@ export interface IReusableObjectProps {
 
 export const ReusableObject = React.memo(function RecursiveObject(props: IReusableObjectProps) {
     
+    const notepadContext = useContext(NotepadContext);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [children, setChildren] = React.useState<INote[]>([]);
 
-    const [state] = React.useReducer(NotepadReducer, {allNotes: [...initialState.allNotes]});
-
     React.useEffect(() => {
         reloadChildren();
-        console.log('effect', state);
-        
-    }, []);
+        // console.log('qweqwe', notepadContext?.notepadState);
+    }, [notepadContext?.notepadState]);
 
     const reloadChildren = () => {
-        console.log('state.allNotes', state.allNotes);
-        
-        setChildren(state.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
+        setChildren(notepadContext!.notepadState.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
         setLoading(true);
     }
 
