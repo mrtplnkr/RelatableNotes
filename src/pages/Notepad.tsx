@@ -20,7 +20,9 @@ export function Notepad (props: INotepadProps) {
 
   useEffect(() => {
     // setData(starterPackData);
-  }, []);
+    console.log('outerstate', state);
+    
+  }, [state]);
 
   // const addNote = (id: number, newNote: string) => {
   //   console.log("looking for " + id);
@@ -45,7 +47,7 @@ export function Notepad (props: INotepadProps) {
       <ul>
         {state.allNotes.filter(x => x.parentId === null)?.map(x => {
           return <div key={x.id}>
-            <ReusableObject dispatch={dispatch} mainNote={x} size={15}></ReusableObject>
+            <ReusableObject reloadChildren={() => alert('weqsdasd')} dispatch={dispatch} mainNote={x} size={15}></ReusableObject>
           </div>
         })}
       </ul>}

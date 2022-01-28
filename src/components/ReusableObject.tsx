@@ -2,6 +2,7 @@ import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INotepadState, NotepadReducer, initialState, INote } from '../data/NotepadReducer';
 import { Dispatch } from 'react';
+import { timeout } from 'd3';
 
 export type ReusableType = {
     id: number,
@@ -11,8 +12,9 @@ export type ReusableType = {
 }
 
 export interface IReusableObjectProps {
-    mainNote: ReusableType;
+    mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
+    reloadChildren: () => void;
     size?: number;
     // data: ReusableType;
     // addNote: (id: number, newNote: string) => void;
@@ -23,21 +25,19 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     const [loading, setLoading] = React.useState<boolean>(false);
     const [children, setChildren] = React.useState<INote[]>([]);
 
-    const [state, dispatch] = React.useReducer(NotepadReducer, initialState);
+    const [state] = React.useReducer(NotepadReducer, {allNotes: [...initialState.allNotes]});
 
     React.useEffect(() => {
-        console.log(props.mainNote);
-        console.log(state.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
+        reloadChildren();
+        console.log('effect', state);
         
-        downloadChildren();
     }, []);
 
-    const downloadChildren = () => {
-        setTimeout(() => {
-            setChildren(state.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
-            // setChildren(props.data.children ? props.data.children! : []);
-            setLoading(true);
-        }, 500);
+    const reloadChildren = () => {
+        console.log('state.allNotes', state.allNotes);
+        
+        setChildren(state.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
+        setLoading(true);
     }
 
     return (
@@ -45,12 +45,16 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
           {loading ? <>
               {children?.length ? <details style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 <summary style={{fontSize: props.size}}>
-                  {props.mainNote!.text} - {children?.length > 1 ? children?.length : ''}
-                  <button onClick={() => console.log(props.mainNote, 'new parent child')}>+</button>
+                    <div className="dropdown">
+                        <div className="dropbtn">{props.mainNote!.text} - {children?.length > 1 ? children?.length : ''}</div>
+                        <div className="dropdown-content">
+                            <button onClick={() => console.log(props.mainNote, 'new parent child')}>+</button>
+                        </div>
+                    </div>
                 </summary>
                 {props.mainNote && children?.length && children?.map(x => (
                     <span key={x.id}>
-                        <ReusableObject dispatch={props.dispatch} mainNote={x} size={props.size!-3}></ReusableObject>
+                        <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-3}></ReusableObject>
                     </span>
                 ))}
               </details>
@@ -58,7 +62,17 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               <span style={{"display": "inlineFlex"}}>
                 <span style={{fontSize: props.size}}>
                   {props.mainNote.text},<span> </span>
-                  <button onClick={() => props.dispatch({type: 'addNote', payload: {id: 123, parentId: null, text: 'asdsdasfads'}})}>+</button>
+                    <button onClick={() => {
+                        props.dispatch({type: 'addNote', payload: {id: props.mainNote.parentId!, parentId: null, text: 'asdsdasfads'}})
+                        
+                        // props.reloadChildren();
+                    }}>+</button>
+
+                    <button onClick={() => {
+                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}})
+                        
+                        // props.reloadChildren();
+                    }}>-</button>
                 </span>
               </span>}
           </>: <div>loading...</div>}

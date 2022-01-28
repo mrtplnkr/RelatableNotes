@@ -33,11 +33,18 @@ export const initialState: INotepadState = {
 }
 
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
+    console.log(action.type, action.payload);
+    
     switch(action.type) {
         case 'loadChains': //or initial state
             return state;
         case 'addNote': //load parent notes
-            return { ...state, allNotes: [...state.allNotes, action.payload] };
+            console.log('newNote', {...action.payload, id: state.allNotes.length});
+            console.log('allNotes', [...state.allNotes, {...action.payload, id: state.allNotes.length}]);
+        
+            return { ...state, allNotes: [...state.allNotes, {...action.payload, id: state.allNotes.length}] };
+        case 'removeNote': //load parent notes
+            return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
 
         default:
             return state;
