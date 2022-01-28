@@ -1,8 +1,9 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
-import { Dispatch, useContext } from 'react';
+import { Dispatch, MutableRefObject, RefObject, useContext, useRef } from 'react';
 import { NotepadContext } from '../App';
+import { timeout } from 'd3';
 
 export type ReusableType = {
     id: number,
@@ -25,6 +26,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     const notepadContext = useContext(NotepadContext);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [children, setChildren] = React.useState<INote[]>([]);
+    const [showTextbox, setShowTextbox] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         reloadChildren();
@@ -44,7 +46,20 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                     <div className="dropdown">
                         <div className="dropbtn">{props.mainNote!.text} - {children?.length > 1 ? children?.length : ''}</div>
                         <div className="dropdown-content">
-                            <button onClick={() => console.log(props.mainNote, 'new parent child')}>+</button>
+                            {!showTextbox ? 
+                                <button onClick={() => {
+                                    setShowTextbox(!showTextbox);
+                                }}>+</button>
+                            :
+                                <>
+                                    <input type="text" autoFocus onKeyDown={(e: any) => {
+                                        if (e.keyCode == 13) {
+                                            props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                                            setShowTextbox(!showTextbox);
+                                        }
+                                    }} />
+                                </>
+                            }
                         </div>
                     </div>
                 </summary>
