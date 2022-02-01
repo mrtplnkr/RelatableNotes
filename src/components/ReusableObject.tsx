@@ -1,9 +1,9 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
-import { Dispatch, MutableRefObject, RefObject, useContext, useRef } from 'react';
-import { NotepadContext } from '../App';
+import { Dispatch } from 'react';
 import { timeout } from 'd3';
+import { useNotepadContext } from '../data/NotepadContext';
 
 export type ReusableType = {
     id: number,
@@ -23,18 +23,17 @@ export interface IReusableObjectProps {
 
 export const ReusableObject = React.memo(function RecursiveObject(props: IReusableObjectProps) {
     
-    const notepadContext = useContext(NotepadContext);
+    const { notes, dispatchNotes } = useNotepadContext();
     const [loading, setLoading] = React.useState<boolean>(false);
     const [children, setChildren] = React.useState<INote[]>([]);
     const [showTextbox, setShowTextbox] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         reloadChildren();
-        // console.log('qweqwe', notepadContext?.notepadState);
-    }, [notepadContext?.notepadState]);
+    }, [notes]);
 
     const reloadChildren = () => {
-        setChildren(notepadContext!.notepadState.allNotes.filter((x: INote) => x.parentId === props.mainNote.id));
+        setChildren(notes!.filter((x: INote) => x.parentId === props.mainNote.id));
         setLoading(true);
     }
 
@@ -44,12 +43,17 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               {children?.length ? <details style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 <summary style={{fontSize: props.size}}>
                     <div className="dropdown">
-                        <div className="dropbtn">{props.mainNote!.text} - {children?.length > 1 ? children?.length : ''}</div>
+                        <div className="dropbtn">{props.mainNote!.text}{children?.length > 0 ? ` - ${children?.length}` : ''}</div>
                         <div className="dropdown-content">
                             {!showTextbox ? 
-                                <button onClick={() => {
-                                    setShowTextbox(!showTextbox);
-                                }}>+</button>
+                                <>
+                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                        setShowTextbox(!showTextbox);
+                                    }}>+</button>
+                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                                    }}>-</button>
+                                </>
                             :
                                 <>
                                     <input type="text" autoFocus onKeyDown={(e: any) => {
@@ -72,18 +76,30 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               :
               <span style={{"display": "inlineFlex"}}>
                 <span style={{fontSize: props.size}}>
-                  {props.mainNote.text},<span> </span>
-                    <button onClick={() => {
-                        props.dispatch({type: 'addNote', payload: {id: props.mainNote.parentId!, parentId: null, text: 'asdsdasfads'}})
-                        
-                        // props.reloadChildren();
-                    }}>+</button>
-
-                    <button onClick={() => {
-                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}})
-                        
-                        // props.reloadChildren();
-                    }}>-</button>
+                    <div className="dropdown">
+                        <div className="dropbtn" style={{paddingRight:'10px'}}>{props.mainNote!.text}</div>
+                        <div className="dropdown-content">
+                            {!showTextbox ? 
+                                <>
+                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                        setShowTextbox(!showTextbox);
+                                    }}>+</button>
+                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                                    }}>-</button>
+                                </>
+                            :
+                                <>
+                                    <input style={{fontSize: '1.5em', fontWeight: 'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+                                        if (e.keyCode == 13 && e.target.value) {
+                                            props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                                            setShowTextbox(!showTextbox);
+                                        }
+                                    }} />
+                                </>
+                            }
+                        </div>
+                    </div>
                 </span>
               </span>}
           </>: <div>loading...</div>}

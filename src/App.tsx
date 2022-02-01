@@ -5,8 +5,8 @@ import { Preview } from './pages/Preview';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
-import { initialState, INote, INotepadState, NotepadReducer } from './data/NotepadReducer';
-// import { NotepadContext } from './data/NotepadContext';
+import { INote, INotepadState } from './data/NotepadReducer';
+import { NotepadProvider, useNotepadContext } from './data/NotepadContext';
 
 interface INotepadContext {
   notepadState: INotepadState;
@@ -16,7 +16,7 @@ interface INotepadContext {
 export const NotepadContext = React.createContext<INotepadContext | null>(null);
 
 function App() {
-  const [state, dispatch] = useReducer(NotepadReducer, initialState);
+  const { notes, dispatchNotes } = useNotepadContext();
   const data: any[] = [{text:'qew'}];
 
   return (
@@ -28,7 +28,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
 
-        <NotepadContext.Provider value={{notepadState: state, notepadDispatch: dispatch}}>
+        <NotepadProvider>
           <Router>
             <Routes>
               <Route path="/" element={<Home />}>
@@ -39,7 +39,7 @@ function App() {
               </Route>
             </Routes>
           </Router>
-        </NotepadContext.Provider>
+        </NotepadProvider>
       
         <a
           className="App-link"
