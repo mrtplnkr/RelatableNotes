@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext, useReducer } from 'react';
+import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
 import { initialState, INote, NotepadReducer } from './NotepadReducer';
 
 interface INotepadContext {
@@ -13,7 +13,15 @@ export function useNotepadContext() {
 }
 
 export const NotepadProvider = (children: any) => {
-    const [notes, dispatch] = useReducer(NotepadReducer, initialState);
+    const [notes, dispatch] = useReducer(NotepadReducer, [], () => {
+        const localData = localStorage.getItem("Notes");
+        return localData ? JSON.parse(localData) : initialState
+    });
+
+    useEffect(() => {
+        if (notes)
+            localStorage.setItem("Notes", JSON.stringify(notes));
+    }, [notes])
     
     return (
         <NotepadContext.Provider value={{notes: notes.allNotes, dispatchNotes: dispatch}}>
