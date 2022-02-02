@@ -33,7 +33,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     }, [notes]);
 
     const reloadChildren = () => {
-        setChildren(notes!.filter((x: INote) => x.parentId === props.mainNote.id));
+        setChildren(notes.filter((x: INote) => x.parentId === props.mainNote.id));
         setLoading(true);
     }
 
