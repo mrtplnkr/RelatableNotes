@@ -21,7 +21,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                 <button style={{fontWeight: 'bold', marginRight: '10px'}} onClick={() => {
                     setShowTextbox(!showTextbox);
                 }}><FontAwesomeIcon icon={faPlus} /></button>
-                {!whileUpdating ? <span style={{flex:'1'}} onTouchStart={() => {setWhileUpdating(true)}}>{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</span>
+                {!whileUpdating ? <span style={{flex:'1'}} onTouchStart={() => {setWhileUpdating(true)}}>{props.mainNote!.text}</span>
                 :
                 <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {

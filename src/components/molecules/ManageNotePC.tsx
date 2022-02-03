@@ -16,7 +16,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
   return (
     <div className="dropdown">
       
-      {!whileUpdating ? <div className="dropbtn">{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</div>
+      {!whileUpdating ? <div className="dropbtn">{props.mainNote!.text}</div>
       :
       <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
           if (e.keyCode === 13) {
