@@ -7,6 +7,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
+import { compareLatest } from '../pages/Notepad';
 
 export type ReusableType = {
     id: number,
@@ -51,7 +52,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                         <ManageNoteMobile mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
                     </MobileView>
                 </summary>
-                {props.mainNote && children?.length && children?.map(x => (
+                {props.mainNote && children?.length && children.sort(compareLatest).map(x => (
                     <li style={{padding:'5px'}} key={x.id}>
                         <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
                     </li>
