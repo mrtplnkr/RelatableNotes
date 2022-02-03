@@ -1,3 +1,5 @@
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
 
@@ -9,19 +11,31 @@ export interface IManageNotePCProps {
 
 export function ManageNotePC (props: IManageNotePCProps) {
   const [showTextbox, setShowTextbox] = useState<boolean>(false);
+  const [whileUpdating, setWhileUpdating] = useState<boolean>(false);
 
   return (
     <div className="dropdown">
-      <div className="dropbtn">{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</div>
+      
+      {!whileUpdating ? <div className="dropbtn">{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</div>
+      :
+      <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
+          if (e.keyCode === 13) {
+              props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+              setWhileUpdating(false);
+          }
+      }} />}
       <div className="dropdown-content">
           {!showTextbox ? 
               <>
                   <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                       setShowTextbox(!showTextbox);
-                  }}>+</button>
+                  }}><FontAwesomeIcon icon={faPlus} /></button>
+                  <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                      setWhileUpdating(true);
+                  }}><FontAwesomeIcon icon={faEdit} /></button>
                   <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                       props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
-                  }}>-</button>
+                  }}><FontAwesomeIcon icon={faTrash} /></button>
               </>
           :
               <>

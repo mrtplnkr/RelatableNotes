@@ -1,6 +1,7 @@
-import { timeout } from 'd3';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
+import { faPlus, faTrash, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
@@ -11,27 +12,26 @@ export interface IManageNoteMobileProps {
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
     const [showTextbox, setShowTextbox] = useState<boolean>(false);
     const [whileUpdating, setWhileUpdating] = useState<boolean>(false);
-    const [updatedValue, setUpdatedValue] = useState<string>('');
 
     return (
     <div className="">
-      {<div className="">
+      {<div style={{display:'flex'}}>
           {!showTextbox ? 
               <>
-                <button style={{fontWeight: 'bold', paddingRight: '10px'}} onClick={() => {
+                <button style={{fontWeight: 'bold', marginRight: '10px'}} onClick={() => {
                     setShowTextbox(!showTextbox);
-                }}>+</button>
-                {!whileUpdating ? <span className="" onTouchStart={() => {setWhileUpdating(true)}}>{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</span>
+                }}><FontAwesomeIcon icon={faPlus} /></button>
+                {!whileUpdating ? <span style={{flex:'1'}} onTouchStart={() => {setWhileUpdating(true)}}>{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</span>
                 :
-                <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onKeyDown={(e: any) => {
+                <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
                         setWhileUpdating(false);
                     }
                 }} />}
-                <button style={{fontWeight: 'bold', paddingLeft: '10px'}} onClick={() => {
+                <button style={{fontWeight: 'bold', marginLeft: '10px'}} onClick={() => {
                     props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
-                }}>-</button>
+                }}><FontAwesomeIcon icon={faTrash} /></button>
               </>
           :
               <>
@@ -41,7 +41,9 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                           setShowTextbox(!showTextbox);
                       }
                   }} />
-                  <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
+                  <button onClick={() => setShowTextbox(!showTextbox)}>
+                    <FontAwesomeIcon icon={faDoorClosed} />
+                  </button>
               </>
           }
       </div>}

@@ -52,7 +52,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                     </MobileView>
                 </summary>
                 {props.mainNote && children?.length && children?.map(x => (
-                    <li key={x.id}>
+                    <li style={{padding:'5px'}} key={x.id}>
                         <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
                     </li>
                 ))}

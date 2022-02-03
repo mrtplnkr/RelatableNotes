@@ -20,6 +20,9 @@ details summary > * {
   display: inline;
 }
 
+ul {
+  padding-left: 0;
+}
 
 .dropbtn {
   border: none;
