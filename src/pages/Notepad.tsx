@@ -37,7 +37,7 @@ export function Notepad (props: INotepadProps) {
       <ul>
         {notes.filter(x => x.parentId === null)?.map((x: INote) => {
           return <div key={x.id}>
-            <ReusableObject reloadChildren={() => saveState()} dispatch={dispatchNotes} mainNote={x} size={15}></ReusableObject>
+            <ReusableObject reloadChildren={() => saveState()} dispatch={dispatchNotes} mainNote={x} size={18}></ReusableObject>
           </div>
         })}
       </ul>}

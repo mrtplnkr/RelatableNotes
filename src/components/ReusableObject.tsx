@@ -57,51 +57,54 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                             :
                                 <>
                                     <input type="text" autoFocus onKeyDown={(e: any) => {
-                                        if (e.keyCode == 13) {
+                                        if (e.keyCode === 13) {
                                             props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
                                             setShowTextbox(!showTextbox);
                                         }
                                     }} />
+                                    {/* <button onClick={() => setShowTextbox(!showTextbox)}>x</button> */}
                                 </>
                             }
                         </div>
                     </div>
                 </summary>
                 {props.mainNote && children?.length && children?.map(x => (
-                    <span key={x.id}>
-                        <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-3}></ReusableObject>
-                    </span>
+                    <li key={x.id}>
+                        <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
+                    </li>
                 ))}
               </details>
               :
-              <span style={{"display": "inlineFlex"}}>
+              <div>
                 <span style={{fontSize: props.size}}>
                     <div className="dropdown">
-                        <div className="dropbtn" style={{paddingRight:'10px'}}>{props.mainNote!.text}</div>
+                        <div className="dropbtn" style={{paddingBottom:'5px'}}>{props.mainNote!.text}</div>
                         <div className="dropdown-content">
-                            {!showTextbox ? 
-                                <>
-                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                                        setShowTextbox(!showTextbox);
-                                    }}>+</button>
-                                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
-                                    }}>-</button>
-                                </>
-                            :
-                                <>
-                                    <input style={{fontSize: '1.5em', fontWeight: 'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
-                                        if (e.keyCode == 13 && e.target.value) {
-                                            props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                            <div>
+                                {!showTextbox ? 
+                                    <>
+                                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                                             setShowTextbox(!showTextbox);
-                                        }
-                                    }} />
-                                </>
-                            }
+                                        }}>+</button>
+                                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                            props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                                        }}>-</button>
+                                    </>
+                                :
+                                    <>
+                                        <input style={{fontSize: '1.5em', fontWeight: 'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+                                            if (e.keyCode === 13 && e.target.value) {
+                                                props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                                                setShowTextbox(!showTextbox);
+                                            }
+                                        }} />
+                                    </>
+                                }
+                            </div>
                         </div>
                     </div>
                 </span>
-              </span>}
+              </div>}
           </>: <div>loading...</div>}
       </>
     );

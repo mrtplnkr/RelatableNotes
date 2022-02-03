@@ -12,6 +12,13 @@ code {
     monospace;
 }
 
+details summary { 
+  cursor: n-resize;
+}
+
+details summary > * {
+  display: inline;
+}
 
 
 .dropbtn {
