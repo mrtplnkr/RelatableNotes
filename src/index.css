@@ -31,6 +31,7 @@ details summary > * {
 }
 
 .dropdown-content {
+  text-align:left;
   display: none;
   min-width: 9em;
   position: absolute;
