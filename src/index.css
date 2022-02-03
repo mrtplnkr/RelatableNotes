@@ -13,7 +13,7 @@ code {
 }
 
 details summary { 
-  cursor: se-resize;
+  cursor: ne-resize;
 }
 
 details summary > * {

@@ -18,11 +18,13 @@ export function ManageNotePC (props: IManageNotePCProps) {
       
       {!whileUpdating ? <div className="dropbtn">{props.mainNote!.text}</div>
       :
-      <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
-          if (e.keyCode === 13) {
-              props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-              setWhileUpdating(false);
-          }
+      <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
+        if (e.keyCode === 13) {
+            props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+            setWhileUpdating(false);
+        } else if (e.keyCode === 27) {
+            setWhileUpdating(false);
+        }
       }} />}
       <div className="dropdown-content">
           {!showTextbox ? 
@@ -39,13 +41,15 @@ export function ManageNotePC (props: IManageNotePCProps) {
               </>
           :
               <>
-                  <input style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
-                      if (e.keyCode === 13) {
-                          props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-                          setShowTextbox(!showTextbox);
-                      }
-                  }} />
-                  <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
+                <input style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+                if (e.keyCode === 13) {
+                    props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                    setShowTextbox(!showTextbox);
+                } else if (e.keyCode === 27) {
+                    setShowTextbox(false);
+                }
+                }} />
+                <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
               </>
           }
       </div>
