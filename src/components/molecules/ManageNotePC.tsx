@@ -40,8 +40,8 @@ export function ManageNotePC (props: IManageNotePCProps) {
                   }}><FontAwesomeIcon icon={faTrash} /></button>
               </>
           :
-              <>
-                <input style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+              <div style={{display: 'flex'}}>
+                <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                 if (e.keyCode === 13) {
                     props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
                     setShowTextbox(!showTextbox);
@@ -50,7 +50,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 }
                 }} />
                 <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
-              </>
+              </div>
           }
       </div>
   </div>

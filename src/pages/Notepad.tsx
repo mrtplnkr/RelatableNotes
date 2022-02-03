@@ -35,7 +35,7 @@ export function Notepad (props: INotepadProps) {
     <div>
       <h3>your collections {version}</h3>
         <>
-          <input placeholder={'add new top level note'} style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+          <input placeholder={'add new top level note'} style={{fontWeight:'bold'}} type="text" onKeyDown={(e: any) => {
               if (e.keyCode === 13) {
                   dispatchNotes({type: 'addNote', payload: {id: 1, parentId: null, text: e.target.value }})
               }

@@ -29,8 +29,6 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                                         if (e.keyCode === 13) {
                                             props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
                                             setWhileAdding(!whileAdding);
-                                        } else if (e.keyCode === 27) {
-                                            setWhileAdding(false);
                                         }
                                     }} />
                                     <button onClick={() => setWhileAdding(false)}>
@@ -45,8 +43,6 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                 <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-                        setWhileUpdating(false);
-                    } else if (e.keyCode === 27) {
                         setWhileUpdating(false);
                     }
                 }} />}
