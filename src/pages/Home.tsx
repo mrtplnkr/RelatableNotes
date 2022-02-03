@@ -13,7 +13,7 @@ export default class Home extends React.Component<IHomeProps> {
           <Link to="notepad">create your notes here</Link>
         </p>
         <p>
-          <Link to="preview">get visuals here</Link>
+          <Link to="preview">get visuals (coming soon)</Link>
         </p>
         <p>This is relatable notepad, create limitless notes that can be joint in a herarchical structure..</p>
         <p>Then display, merge with other notes and share them, fast..</p>

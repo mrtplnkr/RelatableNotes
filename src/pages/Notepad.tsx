@@ -3,8 +3,10 @@ import { NotepadContext } from '../App';
 import { ReusableObject, ReusableType } from '../components/ReusableObject';
 import { useNotepadContext } from '../data/NotepadContext';
 import { initialState, INote, NotepadReducer } from '../data/NotepadReducer';
-import { CreateNewCollection } from './CreateNew';
 import { version } from '../../package.json';
+import { dispatch } from 'd3';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }
@@ -28,20 +30,33 @@ export function Notepad (props: INotepadProps) {
     console.log('can do saving?', dispatchNotes);
   }
 
+  const compareLatest = (a: INote, b: INote) => {
+    if (a.id < b.id) {
+        return 1;
+    } else {
+        return -1;
+    }
+  };
+
   return (
     <div>
       <h3>your collections {version}</h3>
-      {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
-      {!toggleNew ? 
-        <CreateNewCollection />
-      : 
+        <>
+          <input placeholder={'add new top level note'} style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
+              if (e.keyCode === 13) {
+                  dispatchNotes({type: 'addNote', payload: {id: 1, parentId: null, text: e.target.value }})
+                  setToggleNew(false);
+              }
+          }} />
+      </>
+      
       <ul>
-        {notes.filter(x => x.parentId === null)?.map((x: INote) => {
+        {notes.filter(x => x.parentId === null).sort(compareLatest).map((x: INote) => {
           return <div key={x.id}>
             <ReusableObject reloadChildren={() => saveState()} dispatch={dispatchNotes} mainNote={x} size={18}></ReusableObject>
           </div>
         })}
-      </ul>}
+      </ul>
     </div>
   );
 }
