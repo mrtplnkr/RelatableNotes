@@ -4,6 +4,7 @@ import { ReusableObject, ReusableType } from '../components/ReusableObject';
 import { useNotepadContext } from '../data/NotepadContext';
 import { initialState, INote, NotepadReducer } from '../data/NotepadReducer';
 import { CreateNewCollection } from './CreateNew';
+import { version } from '../../package.json';
 
 export interface INotepadProps {
 }
@@ -29,7 +30,7 @@ export function Notepad (props: INotepadProps) {
 
   return (
     <div>
-      <h3>your collections</h3>
+      <h3>your collections {version}</h3>
       {toggleNew ? <button onClick={() => setToggleNew(!toggleNew)}>Create new</button> : <button onClick={() => setToggleNew(!toggleNew)}>Show my collections</button>}
       {!toggleNew ? 
         <CreateNewCollection />
