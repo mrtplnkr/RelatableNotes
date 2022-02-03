@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
-    children: INote[];
     dispatch: Dispatch<{ type: string; payload: INote }>;
 }
 

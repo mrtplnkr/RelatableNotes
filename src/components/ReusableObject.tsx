@@ -49,13 +49,13 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                         <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNoteMobile mainNote={props.mainNote} dispatch={props.dispatch} />
                     </MobileView>
                 </summary>
                 {props.mainNote && children?.length && children.sort(compareLatest).map(x => (
-                    <li style={{padding:'5px'}} key={x.id}>
+                    <div style={{padding:'5px'}} key={x.id}>
                         <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
-                    </li>
+                    </div>
                 ))}
               </details>
               :
@@ -65,7 +65,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                         <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNoteMobile mainNote={props.mainNote} dispatch={props.dispatch} />
                     </MobileView>
                 </span>
               </div>}
