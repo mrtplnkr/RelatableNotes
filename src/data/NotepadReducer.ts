@@ -39,13 +39,12 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'loadChains': //or initial state
             return state;
         case 'addNote': //load parent notes
-            console.log('newNote', {...action.payload, id: state.allNotes.length});
-            console.log('allNotes', [...state.allNotes, {...action.payload, id: state.allNotes.length}]);
-        
             return { ...state, allNotes: [...state.allNotes, {...action.payload, id: state.allNotes.length}] };
         case 'removeNote': //load parent notes
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
-
+        case 'updateNote':
+            return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
+                {...content, text: action.payload.text} : content )};
         default:
             return state;
     }
