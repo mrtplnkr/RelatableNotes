@@ -5,6 +5,8 @@ import { Dispatch } from 'react';
 import { timeout } from 'd3';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
+import { BrowserView, MobileView } from 'react-device-detect';
+import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 
 export type ReusableType = {
     id: number,
@@ -42,7 +44,12 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
           {loading ? <>
               {children?.length ? <details style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 <summary style={{fontSize: props.size}}>
-                    <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    <BrowserView>
+                        <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    </BrowserView>
+                    <MobileView>
+                        <ManageNoteMobile mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    </MobileView>
                 </summary>
                 {props.mainNote && children?.length && children?.map(x => (
                     <li key={x.id}>
@@ -53,7 +60,12 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               :
               <div>
                 <span style={{fontSize: props.size}}>
-                    <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    <BrowserView>
+                        <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    </BrowserView>
+                    <MobileView>
+                        <ManageNoteMobile mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                    </MobileView>
                 </span>
               </div>}
           </>: <div>loading...</div>}

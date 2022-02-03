@@ -12,7 +12,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-      <div className="dropbtn">{props.mainNote!.text}{props.children?.length > 0 ? ` - ${props.children?.length}` : ''}</div>
+      <div className="dropbtn">{props.mainNote!.text}{props.children?.length > 1 ? ` - ${props.children?.length}` : ''}</div>
       <div className="dropdown-content">
           {!showTextbox ? 
               <>
