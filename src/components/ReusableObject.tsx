@@ -1,7 +1,7 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
-import { Dispatch } from 'react';
+import { Dispatch, useState } from 'react';
 import { timeout } from 'd3';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
@@ -27,9 +27,10 @@ export interface IReusableObjectProps {
 
 export const ReusableObject = React.memo(function RecursiveObject(props: IReusableObjectProps) {
     
-    const { notes, dispatchNotes } = useNotepadContext();
-    const [loading, setLoading] = React.useState<boolean>(false);
-    const [children, setChildren] = React.useState<INote[]>([]);
+    const { notes } = useNotepadContext();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [children, setChildren] = useState<INote[]>([]);
+    const [childAdded, setChildAdded] = useState(false);
 
     React.useEffect(() => {
         reloadChildren();
@@ -43,13 +44,13 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     return (
       <>
           {loading ? <>
-              {children?.length ? <details style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
-                <summary style={{fontSize: props.size}}>
+              {children?.length ? <details open={childAdded ? true : false} style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
+                <summary style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()} >
                     <BrowserView>
-                        <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile mainNote={props.mainNote} dispatch={props.dispatch} />
+                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} dispatch={props.dispatch} />
                     </MobileView>
                 </summary>
                 {props.mainNote && children?.length && children.sort(compareLatest).map(x => (
@@ -62,10 +63,10 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
-                        <ManageNotePC mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile mainNote={props.mainNote} dispatch={props.dispatch} />
+                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} dispatch={props.dispatch} />
                     </MobileView>
                 </span>
               </div>}

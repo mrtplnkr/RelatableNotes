@@ -2,7 +2,7 @@ import React, { Dispatch, useReducer } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Preview } from './pages/Preview';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
 import { INote, INotepadState } from './data/NotepadReducer';
@@ -16,7 +16,6 @@ interface INotepadContext {
 export const NotepadContext = React.createContext<INotepadContext | null>(null);
 
 function App() {
-  const { notes, dispatchNotes } = useNotepadContext();
   const data: any[] = [{text:'qew'}];
 
   return (
@@ -24,12 +23,9 @@ function App() {
       
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
 
         <NotepadProvider>
-          <Router>
+          <HashRouter>
             <Routes>
               <Route path="/" element={<Home />}>
               </Route>
@@ -38,7 +34,7 @@ function App() {
               <Route path="preview" element={<Preview data={data} />}>
               </Route>
             </Routes>
-          </Router>
+          </HashRouter>
         </NotepadProvider>
       
         <a

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export interface IManageNoteMobileProps {
     mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
+    setChildAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
@@ -29,6 +30,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                                         if (e.keyCode === 13) {
                                             props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
                                             setWhileAdding(!whileAdding);
+                                            props.setChildAdded(true);
                                         }
                                     }} />
                                     <button onClick={() => setWhileAdding(false)}>
