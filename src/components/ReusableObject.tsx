@@ -47,10 +47,10 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               {children?.length ? <details open={childAdded ? true : false} style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 <summary style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()} >
                     <BrowserView>
-                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} dispatch={props.dispatch} />
+                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} dispatch={props.dispatch} hasChildren={children.length > 0} />
                     </MobileView>
                 </summary>
                 {props.mainNote && children?.length && children.sort(compareLatest).map(x => (
@@ -63,10 +63,10 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
-                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} children={children} dispatch={props.dispatch} />
+                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} dispatch={props.dispatch} />
+                        <ManageNoteMobile setChildAdded={setChildAdded} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
                     </MobileView>
                 </span>
               </div>}

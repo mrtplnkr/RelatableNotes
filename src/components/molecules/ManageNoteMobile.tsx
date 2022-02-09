@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
+    hasChildren: boolean;
     dispatch: Dispatch<{ type: string; payload: INote }>;
     setChildAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -49,7 +50,11 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                     }
                 }} />}
                 <button style={{fontWeight: 'bold', marginLeft: '10px'}} onClick={() => {
-                    props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                    if (props.hasChildren) {
+                        alert('Remove children first');
+                      } else {
+                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                      }
                 }}><FontAwesomeIcon icon={faTrash} /></button>
             </div>
         </div>}

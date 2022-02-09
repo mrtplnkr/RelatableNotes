@@ -5,7 +5,7 @@ import { INote } from '../../data/NotepadReducer';
 
 export interface IManageNotePCProps {
   mainNote: INote;
-  children: INote[];
+  hasChildren: boolean;
   dispatch: Dispatch<{ type: string; payload: INote }>;
   setChildAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -37,7 +37,11 @@ export function ManageNotePC (props: IManageNotePCProps) {
                       setWhileUpdating(true);
                   }}><FontAwesomeIcon icon={faEdit} /></button>
                   <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                      props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+                      if (props.hasChildren) {
+                        alert('Remove children first');
+                      } else {
+                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: ''}});
+                      }
                   }}><FontAwesomeIcon icon={faTrash} /></button>
               </>
           :
