@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as d3 from 'd3';
 import { Graph } from "react-d3-graph";
+import { useState } from 'react';
+import { useNotepadContext } from '../data/NotepadContext';
 
 export interface IPreviewProps {
   data: any[]
@@ -9,7 +11,7 @@ export interface IPreviewProps {
 export function Preview (props: IPreviewProps) {
 
   // graph payload (with minimalist structure)
-  const data = {
+  const [data, setData] = useState({
     nodes: [
       { id: "Harry", url: '123' }, 
       { id: "Sally", url: '234' }, 
@@ -18,7 +20,7 @@ export function Preview (props: IPreviewProps) {
       { source: "Harry", target: "Sally" },
       { source: "Harry", target: "Alice" },
     ],
-  };
+  });
 
   // the graph configuration, just override the ones you need
   const myConfig = {
@@ -29,6 +31,7 @@ export function Preview (props: IPreviewProps) {
       highlightStrokeColor: "blue",
     },
     link: {
+      color: 'white',
       highlightColor: "lightblue",
     },
   };
@@ -42,14 +45,46 @@ export function Preview (props: IPreviewProps) {
     console.log(`addtional functionality for links between nodes go here ${source} and ${target}`);
   };
 
+  const { notes, dispatchNotes} = useNotepadContext();
+
+  React.useEffect(() => {
+    console.log({
+      nodes: notes.map(x => { return {
+        id: x.text.toString(),
+        url: x.text
+      }}),
+      links: notes.filter(x => x.parentId !== null).map(x => { return {
+        source: x.text.toString(),
+        target: notes.find(a => a.id === x.parentId)!.text
+      }})
+    });
+    // var links: [{source: string, target: string}] = 
+    // notes.filter(x => x.parentId !== null).forEach(x => 
+    //   links.push({target: x.text, source: notes.find(a => a.parentId === x.id)!.text}))
+    setData({
+      nodes: notes.map(x => { return {
+        id: x.text.toString(),
+        url: x.text
+      }}),
+      links: notes.filter(x => x.parentId !== null).map(x => { return {
+        source: x.text.toString(),
+        target: notes.find(a => a.id === x.parentId)!.text
+      }})
+    });
+    // .attr('fill', 'white');
+  }, [])
+
+  console.log(data);
+  
+
   return (
     <div>
-      {props.data && props.data.map((e) => {
-        return <div>
+      {props.data && props.data.map((e, index) => {
+        return <div key={index}>
           lala {e.text}
           <Graph
             onNodePositionChange={(e)=> console.log(e)}
-            id="graph-id" // id is mandatory
+            id="noteGraph" // id is mandatory
             data={data}
             config={myConfig}
             onClickNode={onClickNode}
@@ -57,6 +92,8 @@ export function Preview (props: IPreviewProps) {
           />
         </div>
       })}
+
+
     </div>
   );
 }

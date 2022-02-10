@@ -33,8 +33,6 @@ export const initialState: INotepadState = {
 }
 
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
-    console.log(action.type, action.payload);
-    
     switch(action.type) {
         case 'loadChains': //or initial state
             return state;

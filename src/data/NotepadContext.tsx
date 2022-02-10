@@ -15,7 +15,7 @@ export function useNotepadContext() {
 export const NotepadProvider = (children: any) => {
     const [notes, dispatch] = useReducer(NotepadReducer, [], () => {
         const localData = localStorage.getItem("Notes");
-        return localData ? JSON.parse(localData) : initialState
+        return localData && localData.length > 0 ? JSON.parse(localData) : initialState
     });
 
     useEffect(() => {
