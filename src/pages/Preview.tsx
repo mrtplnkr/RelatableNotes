@@ -48,16 +48,6 @@ export function Preview (props: IPreviewProps) {
   const { notes, dispatchNotes} = useNotepadContext();
 
   React.useEffect(() => {
-    console.log({
-      nodes: notes.map(x => { return {
-        id: x.text.toString(),
-        url: x.text
-      }}),
-      links: notes.filter(x => x.parentId !== null).map(x => { return {
-        source: x.text.toString(),
-        target: notes.find(a => a.id === x.parentId)!.text
-      }})
-    });
     setData({
       nodes: notes.map(x => { return {
         id: x.text.toString(),
@@ -70,23 +60,58 @@ export function Preview (props: IPreviewProps) {
     });
   }, [])
 
+  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).map(x => x.text));
+
+  const filterData = (filtered: string[]) => {
+    const parentIds = notes.filter(x => filtered.includes(x.text)).map(q => q.id);
+    const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
+    console.log('parentIds', parentIds, notes.filter(x => x.parentId !== null
+      && parentIds.includes(x.id)));
+    
+    setData({//text is not id / not unique to track parent by text is hard
+      nodes: notes.filter(x => filtered.includes(x.text) 
+      || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
+        id: x.text.toString(),
+        url: x.text
+      }}),
+      links: notes.filter(x => x.parentId !== null
+        && parentIds.includes(x.parentId)).map(x => { return {
+        source: x.text.toString(),
+        target: notes.find(a => a.id === x.parentId)!.text
+      }})
+    })
+  }
+
   return (
     <div>
-      {props.data && props.data.map((e, index) => {
-        return <div key={index}>
-          lala {e.text}
-          <Graph
-            onNodePositionChange={(e)=> console.log(e)}
-            id="noteGraph" // id is mandatory
-            data={data}
-            config={myConfig}
-            onClickNode={onClickNode}
-            onClickLink={onClickLink}
-          />
-        </div>
-      })}
-
-
+      <>
+        <details>
+          <summary>
+            Note Relationships
+          </summary>
+          {notes && notes.filter(x => x.parentId === null).map((e, index) => {
+            return <div key={index}>
+              <label style={{fontSize: '0.5em'}}>
+                {e.text}
+                <input value={e.text} type="checkbox" defaultChecked={filter.includes(e.text)} 
+                  onChange={(chk) => {
+                    setFilter(filter.includes(chk.target.value) ? filter.filter(f => f !== e.text) : filter.concat([chk.target.value]))
+                    filterData(filter.includes(chk.target.value) ? filter.filter(f => f !== e.text) : filter.concat([chk.target.value]));
+                  }} />
+              </label>
+            </div>
+          })}
+        </details>
+        
+        <Graph
+          onNodePositionChange={(e)=> console.log(e)}
+          id="noteGraph" // id is mandatory
+          data={data}
+          config={myConfig}
+          onClickNode={onClickNode}
+          onClickLink={onClickLink}
+        />
+      </>
     </div>
   );
 }
