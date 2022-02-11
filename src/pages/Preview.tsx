@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { Graph } from "react-d3-graph";
 import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
+import { Link } from 'react-router-dom';
 
 export interface IPreviewProps {
   data: any[]
@@ -112,6 +113,10 @@ export function Preview (props: IPreviewProps) {
           onClickLink={onClickLink}
         />
       </>
+      
+      <p>
+        <Link to="/notepad">Notepad</Link>
+      </p>
     </div>
   );
 }

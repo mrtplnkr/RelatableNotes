@@ -1,12 +1,13 @@
-import React, { Dispatch, useReducer } from 'react';
+import React, { Dispatch } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Preview } from './pages/Preview';
-import { BrowserRouter as Router, HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
 import { INote, INotepadState } from './data/NotepadReducer';
-import { NotepadProvider, useNotepadContext } from './data/NotepadContext';
+import { NotepadProvider } from './data/NotepadContext';
+import { Link } from 'react-router-dom';
 
 interface INotepadContext {
   notepadState: INotepadState;
@@ -22,30 +23,25 @@ function App() {
     <div className="App">
       
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <NotepadProvider>
-          <HashRouter>
-            <Routes>
-              <Route path="/" element={<Home />}>
-              </Route>
-              <Route path="notepad" element={<Notepad />}>
-              </Route>
-              <Route path="preview" element={<Preview data={data} />}>
-              </Route>
-            </Routes>
-          </HashRouter>
-        </NotepadProvider>
-      
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+        <a href="/">
+          <img src={logo} className="App-logo" alt="logo" />
         </a>
+      
+      <NotepadProvider>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<Home />}>
+            </Route>
+            <Route path="notepad" element={<Notepad />}>
+            </Route>
+            <Route path="preview" element={<Preview data={data} />}>
+            </Route>
+          </Routes>
+        </HashRouter>
+      </NotepadProvider>
+      
       </header>
+
     </div>
   );
 }

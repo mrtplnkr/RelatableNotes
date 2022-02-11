@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { version } from '../../package.json';
 
 export interface IHomeProps {
 }
@@ -8,14 +9,15 @@ export default class Home extends React.Component<IHomeProps> {
   public render() {
     return (
       <div>
-        <h1>Home page</h1>
+        <h1>Relatable Notes</h1>
+        <p>{version}</p>
         <p>
-          <Link to="notepad">create your notes here</Link>
+          <Link to="notepad">create your notes</Link>
         </p>
         <p>
-          <Link to="preview">get visuals (coming soon)</Link>
+          <Link to="preview">get visuals</Link>
         </p>
-        <p>This is relatable notepad, create limitless notes that can be joint in a herarchical structure..</p>
+        <p>This is my relatable notepad project, create limitless notes that can be joint in a herarchical structure..</p>
         <p>Then display, merge with other notes and share them, fast..</p>
       </div>
     );

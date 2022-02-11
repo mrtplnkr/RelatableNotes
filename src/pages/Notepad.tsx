@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
 import { useNotepadContext } from '../data/NotepadContext';
 import { INote } from '../data/NotepadReducer';
-import { version } from '../../package.json';
+import { Link } from 'react-router-dom';
 
 export interface INotepadProps {
 }
@@ -29,7 +29,7 @@ export function Notepad (props: INotepadProps) {
 
   return (
     <div>
-      <h3>your collections {version}</h3>
+      <h3>Your Collections</h3>
         <>
           <input placeholder={'add new top level note'} style={{fontWeight:'bold'}} type="text" onKeyDown={(e: any) => {
               if (e.keyCode === 13) {
@@ -45,6 +45,10 @@ export function Notepad (props: INotepadProps) {
           </div>
         })}
       </ul>
+
+      <p>
+        <Link to="/preview">get visuals</Link>
+      </p>
     </div>
   );
 }
