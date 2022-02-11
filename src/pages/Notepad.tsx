@@ -1,12 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import { NotepadContext } from '../App';
-import { ReusableObject, ReusableType } from '../components/ReusableObject';
+import { useEffect } from 'react';
+import { ReusableObject } from '../components/ReusableObject';
 import { useNotepadContext } from '../data/NotepadContext';
-import { initialState, INote, NotepadReducer } from '../data/NotepadReducer';
+import { INote } from '../data/NotepadReducer';
 import { version } from '../../package.json';
-import { dispatch } from 'd3';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }

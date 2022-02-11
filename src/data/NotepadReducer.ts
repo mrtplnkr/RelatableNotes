@@ -1,4 +1,3 @@
-import { ReusableType } from "../components/ReusableObject";
 
 export interface INote {
     parentId: number | null,

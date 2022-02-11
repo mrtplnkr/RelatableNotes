@@ -29,9 +29,10 @@ export function Preview (props: IPreviewProps) {
       color: "lightgreen",
       size: 120,
       highlightStrokeColor: "blue",
+      fontColor: 'white'
     },
     link: {
-      color: 'white',
+      color: 'blue',
       highlightColor: "lightblue",
     },
   };
@@ -58,9 +59,6 @@ export function Preview (props: IPreviewProps) {
         target: notes.find(a => a.id === x.parentId)!.text
       }})
     });
-    // var links: [{source: string, target: string}] = 
-    // notes.filter(x => x.parentId !== null).forEach(x => 
-    //   links.push({target: x.text, source: notes.find(a => a.parentId === x.id)!.text}))
     setData({
       nodes: notes.map(x => { return {
         id: x.text.toString(),
