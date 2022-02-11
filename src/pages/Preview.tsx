@@ -38,8 +38,7 @@ export function Preview (props: IPreviewProps) {
   };
 
   const onClickNode = function(nodeId: string) {
-    const linkNode = data.nodes.find(x => x.id === nodeId);
-    window.open(`${linkNode?.url}`);
+    window.open(`https://google.com/search?q=${nodeId}`);
   };
 
   const onClickLink = function(source: string, target: string) {
@@ -69,11 +68,7 @@ export function Preview (props: IPreviewProps) {
         target: notes.find(a => a.id === x.parentId)!.text
       }})
     });
-    // .attr('fill', 'white');
   }, [])
-
-  console.log(data);
-  
 
   return (
     <div>
