@@ -9,10 +9,23 @@ export interface IPreviewProps {
   data: any[]
 }
 
+interface INode {
+  id: string;
+  url: string;
+}
+interface ILink {
+  source: string;
+  target: string;
+}
+interface IGraphData {
+  nodes: INode[];
+  links: ILink[];
+}
+
 export function Preview (props: IPreviewProps) {
 
   // graph payload (with minimalist structure)
-  const [data, setData] = useState({
+  const [data, setData] = useState<IGraphData>({
     nodes: [
       { id: "Harry", url: '123' }, 
       { id: "Sally", url: '234' }, 
@@ -49,16 +62,7 @@ export function Preview (props: IPreviewProps) {
   const { notes, dispatchNotes} = useNotepadContext();
 
   React.useEffect(() => {
-    setData({
-      nodes: notes.map(x => { return {
-        id: x.text.toString(),
-        url: x.text
-      }}),
-      links: notes.filter(x => x.parentId !== null).map(x => { return {
-        source: x.text.toString(),
-        target: notes.find(a => a.id === x.parentId)!.text
-      }})
-    });
+    filterData(filter);
   }, [])
 
   const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).map(x => x.text));
