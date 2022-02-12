@@ -4,6 +4,7 @@ import { Graph } from "react-d3-graph";
 import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
+import { compareLatest } from './Notepad';
 
 export interface IPreviewProps {
   data: any[]
@@ -81,7 +82,7 @@ export function Preview (props: IPreviewProps) {
     }
   }, [data, childrenIds])
 
-  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null)[0].text);
+  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).sort(compareLatest)[0].text);
 
   const filterData = (filtered: string) => {
     const parentIds = notes.filter(x => filtered === x.text).map(q => q.id);
@@ -109,7 +110,7 @@ export function Preview (props: IPreviewProps) {
           <summary>
             Note Relationships
           </summary>
-          {notes && notes.filter(x => x.parentId === null).map((e, index) => {
+          {notes && notes.filter(x => x.parentId === null).sort(compareLatest).map((e, index) => {
             return <div key={index}>
               <label style={{fontSize: '0.5em'}}>
                 {e.text}
