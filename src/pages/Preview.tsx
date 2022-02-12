@@ -25,16 +25,8 @@ interface IGraphData {
 export function Preview (props: IPreviewProps) {
 
   // graph payload (with minimalist structure)
-  const [data, setData] = useState<IGraphData>({
-    nodes: [
-      { id: "Harry", url: '123' }, 
-      { id: "Sally", url: '234' }, 
-      { id: "Alice", url: '345' }],
-    links: [
-      { source: "Harry", target: "Sally" },
-      { source: "Harry", target: "Alice" },
-    ],
-  });
+  const [data, setData] = useState<IGraphData>();
+  const [childrenIds, setChildrenIds] = useState<number[]>();
 
   // the graph configuration, just override the ones you need
   const myConfig = {
@@ -65,16 +57,40 @@ export function Preview (props: IPreviewProps) {
     filterData(filter);
   }, [])
 
-  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).map(x => x.text));
+  React.useEffect(() => {
+    if (childrenIds?.length && data?.nodes) {
+      const childrenBeingAdded = notes.filter(x => childrenIds.includes(x.parentId!));
+      
+      if (childrenBeingAdded.length) {
+        //append
+        setData({
+          nodes: data!.nodes.concat(childrenBeingAdded.map(x => { return {
+            id: x.text.toString(),
+            url: x.text
+          }})),
+          links: data!.links
+          .concat(childrenBeingAdded.map(x => { return {
+            source: x.text.toString(),
+            target: notes.find(a => a.id === x.parentId)!.text
+          }}))
+        })
 
-  const filterData = (filtered: string[]) => {
-    const parentIds = notes.filter(x => filtered.includes(x.text)).map(q => q.id);
-    const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
-    console.log('parentIds', parentIds, notes.filter(x => x.parentId !== null
-      && parentIds.includes(x.id)));
+        setChildrenIds(notes.some(x => childrenBeingAdded.map(a => a.id).includes(x.parentId!)) ? childrenBeingAdded.map(a => a.id) : []);
+      }
+     
+    }
+  }, [data, childrenIds])
+
+  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null)[0].text);
+
+  const filterData = (filtered: string) => {
+    console.log('filterData', filtered);
     
-    setData({//text is not id / not unique to track parent by text is hard
-      nodes: notes.filter(x => filtered.includes(x.text) 
+    const parentIds = notes.filter(x => filtered === x.text).map(q => q.id);
+    const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
+    //first set
+    setData({
+      nodes: notes.filter(x => filtered === x.text 
       || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
         id: x.text.toString(),
         url: x.text
@@ -84,7 +100,8 @@ export function Preview (props: IPreviewProps) {
         source: x.text.toString(),
         target: notes.find(a => a.id === x.parentId)!.text
       }})
-    })
+    });
+    setChildrenIds(childrenIds);
   }
 
   return (
@@ -98,24 +115,24 @@ export function Preview (props: IPreviewProps) {
             return <div key={index}>
               <label style={{fontSize: '0.5em'}}>
                 {e.text}
-                <input value={e.text} type="checkbox" defaultChecked={filter.includes(e.text)} 
+                <input value={e.text} type="radio" name="parents" 
                   onChange={(chk) => {
-                    setFilter(filter.includes(chk.target.value) ? filter.filter(f => f !== e.text) : filter.concat([chk.target.value]))
-                    filterData(filter.includes(chk.target.value) ? filter.filter(f => f !== e.text) : filter.concat([chk.target.value]));
+                    setFilter(chk.target.value)
+                    filterData(chk.target.value);
                   }} />
               </label>
             </div>
           })}
         </details>
         
-        <Graph
+        {data?.nodes.length && <Graph
           onNodePositionChange={(e)=> console.log(e)}
           id="noteGraph" // id is mandatory
           data={data}
           config={myConfig}
           onClickNode={onClickNode}
           onClickLink={onClickLink}
-        />
+        />}
       </>
       
       <p>

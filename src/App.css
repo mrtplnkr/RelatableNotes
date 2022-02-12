@@ -24,6 +24,10 @@
   color: white;
 }
 
+input[type="radio"] {
+  cursor: pointer;
+}
+
 .App-link {
   color: #61dafb;
 }
