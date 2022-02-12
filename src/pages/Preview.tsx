@@ -80,7 +80,7 @@ export function Preview (props: IPreviewProps) {
       }
      
     }
-  }, [data, childrenIds])
+  }, [notes, data, childrenIds])
 
   const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).sort(compareLatest)[0].text);
 
@@ -92,7 +92,8 @@ export function Preview (props: IPreviewProps) {
       nodes: notes.filter(x => filtered === x.text 
       || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
         id: x.text.toString(),
-        url: x.text
+        url: x.text,
+        color: x.parentId === null ? 'blue' : 'red',
       }}),
       links: notes.filter(x => x.parentId !== null
         && parentIds.includes(x.parentId)).map(x => { return {
@@ -114,7 +115,7 @@ export function Preview (props: IPreviewProps) {
             return <div key={index}>
               <label style={{fontSize: '0.5em'}}>
                 {e.text}
-                <input value={e.text} type="radio" name="parents" 
+                <input value={e.text} type="radio" name="parents" defaultChecked={index === 0}
                   onChange={(chk) => {
                     setFilter(chk.target.value)
                     filterData(chk.target.value);
