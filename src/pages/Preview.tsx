@@ -84,8 +84,6 @@ export function Preview (props: IPreviewProps) {
   const [filter, setFilter] = useState(notes.filter(x => x.parentId === null)[0].text);
 
   const filterData = (filtered: string) => {
-    console.log('filterData', filtered);
-    
     const parentIds = notes.filter(x => filtered === x.text).map(q => q.id);
     const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
     //first set
