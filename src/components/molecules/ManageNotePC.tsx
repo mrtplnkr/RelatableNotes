@@ -1,4 +1,4 @@
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleDown, faChevronCircleUp, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
@@ -7,7 +7,9 @@ export interface IManageNotePCProps {
   mainNote: INote;
   hasChildren: boolean;
   dispatch: Dispatch<{ type: string; payload: INote }>;
-  setChildAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  showChildren: boolean;
+  setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function ManageNotePC (props: IManageNotePCProps) {
@@ -17,7 +19,12 @@ export function ManageNotePC (props: IManageNotePCProps) {
   return (
     <div className="dropdown">
       
-      {!whileUpdating ? <div className="dropbtn">{props.mainNote!.text}</div>
+      {!whileUpdating ? <div onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')} style={{display: 'flex', cursor: 'n-resize'}} className="dropbtn">
+        <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+        <div>
+              {props.hasChildren ? <FontAwesomeIcon icon={faChevronCircleUp} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faChevronCircleDown} />}
+        </div>
+      </div>
       :
       <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
         if (e.keyCode === 13) {
@@ -49,7 +56,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-                        props.setChildAdded(true);
+                        props.setShowOptions(true);
                         setShowTextbox(false);
                     } else if (e.keyCode === 27) {
                         setShowTextbox(false);

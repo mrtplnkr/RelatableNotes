@@ -1,64 +1,60 @@
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { faPlus, faTrash, faDoorClosed, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleDown, faChevronCircleUp, faCropAlt, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ShowHideInput } from '../organisms/ShowHideInput';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
     hasChildren: boolean;
     dispatch: Dispatch<{ type: string; payload: INote }>;
-    setChildAdded: React.Dispatch<React.SetStateAction<boolean>>;
+    showChildren: boolean;
+    setShowChildren: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
-    const [whileAdding, setWhileAdding] = useState<boolean>(false);
+    const [showTextbox, setShowTextbox] = useState<boolean>(false);
     const [whileUpdating, setWhileUpdating] = useState<boolean>(false);
+    const [showOptions, setShowOptions] = useState(false);
 
     return (
-    <div className="">
-        {<div>
-            <div style={{display:'flex'}}>
-                <button style={{fontWeight: 'bold', marginRight: '10px'}} onClick={() => {
-                    setWhileAdding(!whileAdding);
-                }}><FontAwesomeIcon icon={faPlus} /></button>
-                {!whileUpdating ? <>
-                    <div style={{flex: '1'}}>
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                            <div style={{flex:'1'}} onTouchStart={() => {setWhileUpdating(true)}}>{props.mainNote!.text}</div>
-                            {whileAdding && <>
-                                <div>
-                                    <input style={{fontWeight:'bold'}} type="text" autoFocus onKeyDown={(e: any) => {
-                                        if (e.keyCode === 13) {
-                                            props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-                                            setWhileAdding(!whileAdding);
-                                            props.setChildAdded(true);
-                                        }
-                                    }} />
-                                    <button onClick={() => setWhileAdding(false)}>
-                                        <FontAwesomeIcon icon={faWindowClose} />
-                                    </button>
-                                </div>
-                            </>}
-                        </div>
-                    </div>
-                </>
-                :
-                <input defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setWhileUpdating(false)} onKeyDown={(e: any) => {
-                    if (e.keyCode === 13) {
-                        props.dispatch({type: 'updateNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
-                        setWhileUpdating(false);
-                    }
-                }} />}
-                <button style={{fontWeight: 'bold', marginLeft: '10px'}} onClick={() => {
-                    if (props.hasChildren) {
-                        alert('Remove children first');
-                      } else {
-                        props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: 'asdsdasfads'}});
+    <>
+        <div className="">
+            <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={showOptions} setShowOptions={setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
+            {!showTextbox ? 
+               <div style={{margin: '10px 0'}}>
+                    {showOptions && <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                            setShowTextbox(!showTextbox);
+                        }}><FontAwesomeIcon icon={faPlus} /></button>
+                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                            setWhileUpdating(true);
+                        }}><FontAwesomeIcon icon={faEdit} /></button>
+                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                            if (props.hasChildren) {
+                              alert('Remove children first');
+                            } else {
+                              props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: ''}});
+                            }
+                        }}><FontAwesomeIcon icon={faTrash} /></button>
+                    </div>}
+               </div>
+            :
+                <div style={{display: 'flex'}}>
+                  <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
+                      if (e.keyCode === 13) {
+                          props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                          setShowOptions(true);
+                          setShowTextbox(false);
+                      } else if (e.keyCode === 27) {
+                          setShowTextbox(false);
                       }
-                }}><FontAwesomeIcon icon={faTrash} /></button>
-            </div>
-        </div>}
-  </div>
+                  }} />
+                  <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
+                </div>
+            }
+        </div>
+    </>
   );
 }
 

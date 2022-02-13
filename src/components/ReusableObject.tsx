@@ -8,6 +8,9 @@ import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
+import { ShowHideInput } from './organisms/ShowHideInput';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompressArrowsAlt, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 
 export type ReusableType = {
     id: number,
@@ -30,7 +33,8 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     const { notes } = useNotepadContext();
     const [loading, setLoading] = useState<boolean>(false);
     const [children, setChildren] = useState<INote[]>([]);
-    const [childAdded, setChildAdded] = useState(false);
+    const [childAdded, setShowOptions] = useState(false);
+    const [showChildren, setShowChildren] = useState(false);
 
     React.useEffect(() => {
         reloadChildren();
@@ -40,26 +44,34 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
         setChildren(notes.filter((x: INote) => x.parentId === props.mainNote.id));
         setLoading(true);
     }
-
+    
     return (
       <>
           {loading ? <>
-              {children?.length ? <details open={childAdded ? true : false} style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
-                <summary style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()} >
-                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
-                    
-                </summary>
-                {props.mainNote && children?.length && children.sort(compareLatest).map(x => (
+              {children?.length ? <div style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
+                {<div style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()} >
+                    <BrowserView>
+                        <ManageNotePC {...{showChildren, setShowChildren}} setShowOptions={setShowOptions} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                    </BrowserView>
+                </div>}
+                <MobileView>
+                    <ManageNoteMobile showChildren={showChildren} setShowChildren={setShowChildren} mainNote={props.mainNote} dispatch={props.dispatch} hasChildren={children.length > 0} />
+                </MobileView>
+                {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map(x => (
                     <div style={{padding:'5px'}} key={x.id}>
                         <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
                     </div>
                 ))}
-              </details>
+              </div>
               :
               <div>
                 <span style={{fontSize: props.size}}>
-                        <ManageNotePC setChildAdded={setChildAdded} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
-                    
+                    <BrowserView>
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions}} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                    </BrowserView>
+                    <MobileView>
+                        <ManageNoteMobile showChildren={showChildren} setShowChildren={setShowChildren} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                    </MobileView>
                 </span>
               </div>}
           </>: <div>loading...</div>}
