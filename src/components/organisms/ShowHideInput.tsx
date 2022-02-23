@@ -25,8 +25,12 @@ export function ShowHideInput (props: IShowHideInputProps) {
             </div>
 
             <div style={{margin: '0 10px'}}>
-                {!props.whileUpdating ? <div className="dropbtn" onClick={() => props.setWhileUpdating(!props.whileUpdating)}>{props.mainNote!.text}
-                </div>
+                {!props.whileUpdating ? <div className="dropbtn">
+                {props.mainNote!.url ? 
+                    <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
+                    :
+                    <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+                }</div>
                 :
                 <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold', textAlign: 'center'}} type="text" onBlur={() => props.setWhileUpdating(false)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {

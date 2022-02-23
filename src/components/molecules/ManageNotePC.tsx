@@ -23,10 +23,14 @@ export function ManageNotePC (props: IManageNotePCProps) {
   return (
     <div className="dropdown">
       
-      {!updatingText ? <div style={{display: 'flex', cursor: 'n-resize'}} className="dropbtn">
-        {props.mainNote!.url ? <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> : <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>}
+      {!updatingText ? <div style={{display: 'flex'}} className="dropbtn">
+        {props.mainNote!.url ? 
+          <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
+        :
+          <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+        }
         
-        <div onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
+        <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
               {props.hasChildren ? <FontAwesomeIcon icon={faChevronCircleUp} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faChevronCircleDown} />}
         </div>
       </div>
