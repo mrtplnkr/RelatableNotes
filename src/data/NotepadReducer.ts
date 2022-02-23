@@ -2,7 +2,8 @@
 export interface INote {
     parentId: number | null,
     id: number,
-    text: string
+    text: string,
+    url?: string
 }
 
 export interface INotepadState {
@@ -54,7 +55,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
         case 'updateNote':
             return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
-                {...content, text: action.payload.text} : content )};
+                {...action.payload} : content )};
         default:
             return state;
     }
