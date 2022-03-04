@@ -21,6 +21,14 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     return (
     <>
         <div className="">
+            <div>
+                <FontAwesomeIcon icon={faChevronCircleUp} onClick={() => {
+                    props.dispatch({type: 'moveUp', payload: props.mainNote})
+                }} />
+                <FontAwesomeIcon icon={faChevronCircleDown} onClick={() => {
+                    props.dispatch({type: 'moveDown', payload: props.mainNote})
+                }} />
+            </div>
             <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={showOptions} setShowOptions={setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
             {!showTextbox ? 
                 <div style={{margin: '10px 0'}}>
@@ -39,7 +47,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             if (props.hasChildren) {
                               alert('Remove children first');
                             } else {
-                              props.dispatch({type: 'removeNote', payload: {id: props.mainNote.id, parentId: null, text: ''}});
+                              props.dispatch({type: 'removeNote', payload: {...props.mainNote, parentId: null, text: ''}});
                             }
                         }}><FontAwesomeIcon icon={faTrash} /></button>
                     </div>
@@ -61,7 +69,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                 <div style={{display: 'flex'}}>
                   <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                       if (e.keyCode === 13) {
-                          props.dispatch({type: 'addNote', payload: {id: props.mainNote.id!, parentId: props.mainNote.id!, text: e.target.value }})
+                          props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
                           setShowOptions(true);
                           setShowTextbox(false);
                       } else if (e.keyCode === 27) {

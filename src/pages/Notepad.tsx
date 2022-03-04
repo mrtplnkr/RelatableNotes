@@ -8,7 +8,7 @@ export interface INotepadProps {
 }
 
 export const compareLatest = (a: INote, b: INote) => {
-  if (a.id < b.id) {
+  if (a.order < b.order) {
       return 1;
   } else {
       return -1;
@@ -33,7 +33,7 @@ export function Notepad (props: INotepadProps) {
         <>
           <input placeholder={'add new top level note'} style={{fontWeight:'bold'}} type="text" onKeyDown={(e: any) => {
               if (e.keyCode === 13) {
-                  dispatchNotes({type: 'addNote', payload: {id: 1, parentId: null, text: e.target.value }})
+                  dispatchNotes({type: 'addNote', payload: {id: 1, parentId: null, text: e.target.value, order: 0 }})
               }
           }} />
       </>
