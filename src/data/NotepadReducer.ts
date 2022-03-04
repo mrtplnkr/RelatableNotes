@@ -61,11 +61,11 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'moveUp':
             return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
                 content.id === action.payload.id ? {...content, order: content.order+1} : 
-                (action.payload.order+1) === content.order ? {...content, order: content.order-1} : content )};
+                (action.payload.parentId === content.parentId && (action.payload.order+1) === content.order) ? {...content, order: content.order-1} : content )};
         case 'moveDown':
             return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
                 content.id === action.payload.id ? {...content, order: content.order-1} :
-                (action.payload.order-1) === content.order ? {...content, order: content.order+1} : content )};
+                (action.payload.parentId === content.parentId && (action.payload.order-1)) === content.order ? {...content, order: content.order+1} : content )};
         default:
             return state;
     }
