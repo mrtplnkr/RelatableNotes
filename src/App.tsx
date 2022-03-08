@@ -7,7 +7,6 @@ import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
 import { INote, INotepadState } from './data/NotepadReducer';
 import { NotepadProvider } from './data/NotepadContext';
-import { Link } from 'react-router-dom';
 
 interface INotepadContext {
   notepadState: INotepadState;

@@ -2,15 +2,11 @@ import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
 import { Dispatch, useState } from 'react';
-import { timeout } from 'd3';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
-import { ShowHideInput } from './organisms/ShowHideInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompressArrowsAlt, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 
 export type ReusableType = {
     id: number,
@@ -38,7 +34,8 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
 
     React.useEffect(() => {
         reloadChildren();
-    }, [notes]);
+        console.log(childAdded);
+    });
 
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === props.mainNote.id));

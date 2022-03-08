@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as d3 from 'd3';
 import { Graph } from "react-d3-graph";
 import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
@@ -52,11 +51,11 @@ export function Preview (props: IPreviewProps) {
     console.log(`addtional functionality for links between nodes go here ${source} and ${target}`);
   };
 
-  const { notes, dispatchNotes} = useNotepadContext();
+  const { notes } = useNotepadContext();
 
   React.useEffect(() => {
     filterData(filter);
-  }, [])
+  })
 
   React.useEffect(() => {
     if (childrenIds?.length && data?.nodes) {

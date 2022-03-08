@@ -1,6 +1,6 @@
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { faChevronCircleDown, faChevronCircleUp, faCropAlt, faEdit, faLink, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleDown, faChevronCircleUp, faEdit, faLink, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHideInput } from '../organisms/ShowHideInput';
 
