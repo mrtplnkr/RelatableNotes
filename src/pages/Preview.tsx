@@ -55,7 +55,7 @@ export function Preview (props: IPreviewProps) {
 
   React.useEffect(() => {
     filterData(filter);
-  })
+  }, [notes])
 
   React.useEffect(() => {
     if (childrenIds?.length && data?.nodes) {

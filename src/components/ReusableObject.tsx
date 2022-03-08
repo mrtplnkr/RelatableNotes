@@ -35,7 +35,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     React.useEffect(() => {
         reloadChildren();
         console.log(childAdded);
-    });
+    }, [notes]);
 
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === props.mainNote.id));
