@@ -1,4 +1,4 @@
-import { faChevronCircleDown, faChevronCircleUp, faCompressArrowsAlt, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCompressArrowsAlt, faExpandArrowsAlt, faFolderMinus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
@@ -20,12 +20,8 @@ export function ShowHideInput (props: IShowHideInputProps) {
     return (
         <>
         <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'end'}}>
-            <div onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
-                {props.showChildren ? <FontAwesomeIcon icon={faChevronCircleUp} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faChevronCircleDown} />}
-            </div>
-
-            <div style={{margin: '0 10px'}}>
-                {!props.whileUpdating ? <div className="dropbtn">
+            <div style={{margin: '0 0.5em', flex: 1}}>
+                {!props.whileUpdating ? <div style={{textAlign: 'left'}} className="dropbtn">
                 {props.mainNote!.url ? 
                     <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
                     :
@@ -41,7 +37,9 @@ export function ShowHideInput (props: IShowHideInputProps) {
                     }
                 }} />}
             </div>
-
+            <div style={{marginRight: '1em'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
+                {props.showChildren ? <FontAwesomeIcon icon={faFolderMinus} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderOpen} />}
+            </div>
             <div onClick={() => props.setShowOptions(!props.showOptions)}>
                 {props.showOptions ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>

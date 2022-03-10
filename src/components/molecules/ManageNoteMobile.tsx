@@ -22,7 +22,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     <>
         <div className="">
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{display: 'flex', flexDirection: 'column', marginRight: '1em'}}>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
                     <FontAwesomeIcon icon={faSortUp} onClick={() => {
                         props.dispatch({type: 'moveUp', payload: props.mainNote}) 
                     }} />
