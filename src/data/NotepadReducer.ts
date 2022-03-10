@@ -33,7 +33,7 @@ export const initialState: INotepadState = {
         { parentId: 1, id: 11, text: "spread lies", order: 1 },
         { parentId: 1, id: 12, text: "rush vaccination", order: 2},
         { parentId: 1, id: 13, text: "discredit resistance", order: 3},
-        {"id":414,"parentId":null,"text":"Car", order: 4},
+        {"id":414,"parentId":null,"text":"Car", order: 4, url: 'https://audi.com'},
         {"id":415,"parentId":414,"text":"wheels", order: 1},
         {"id":416,"parentId":414,"text":"steering", order: 2},
         {"id":417,"parentId":414,"text":"engine", order: 3},
