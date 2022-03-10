@@ -25,8 +25,6 @@ export function ShowHideInput (props: IShowHideInputProps) {
             </div>
 
             <div style={{margin: '0 10px'}}>
-                {props.mainNote.order}
-
                 {!props.whileUpdating ? <div className="dropbtn">
                 {props.mainNote!.url ? 
                     <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 

@@ -70,7 +70,8 @@ export function ManageNotePC (props: IManageNotePCProps) {
           :
             <div style={{display: 'flex'}}>
               <>{showTextbox === 2 ? <>
-                  <input defaultValue={props.mainNote.url} autoFocus style={{fontWeight:'bold'}} type="text" onBlur={() => setShowTextbox(0)} onKeyDown={(e: any) => {
+                  <input defaultValue={!props.mainNote.url ? 'https://' : props.mainNote.url} autoFocus style={{fontWeight:'bold'}} 
+                      type="text" onBlur={() => setShowTextbox(0)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                       props.dispatch({type: 'updateNote', payload: {...props.mainNote, url: e.target.value }})
                       setShowTextbox(0);
