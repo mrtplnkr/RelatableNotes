@@ -1,4 +1,4 @@
-import { faChevronCircleDown, faChevronCircleUp, faEdit, faLink, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faFolderMinus, faFolderOpen, faLink, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
@@ -31,7 +31,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
         }
         
         <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
-              {props.hasChildren ? <FontAwesomeIcon icon={faChevronCircleUp} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faChevronCircleDown} />}
+              {props.hasChildren && !props.showChildren ? <FontAwesomeIcon icon={faFolderOpen} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
         </div>
       </div>
       :
@@ -83,7 +83,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 :
                 <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                   if (e.keyCode === 13) {
-                    props.dispatch({type: 'addNote', payload: {...props.mainNote, text: e.target.value }})
+                    props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
                     props.setShowOptions(true);
                     setShowTextbox(0);
                   } else if (e.keyCode === 27) {

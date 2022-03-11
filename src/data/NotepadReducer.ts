@@ -40,7 +40,9 @@ export const initialState: INotepadState = {
         {"id":418,"parentId":414,"text":"headlights", order: 4},
         {"id":419,"parentId":417,"text":"cylinders", order: 0},
         {"id":420,"parentId":417,"text":"ignition", order: 1},
-        {"id":421,"parentId":417,"text":"fuel pump", order: 2}
+        {"id":421,"parentId":420,"text":"spark plugs", order: 1},
+        {"id":422,"parentId":420,"text":"coilpack", order: 2},
+        {"id":423,"parentId":417,"text":"fuel pump", order: 2}
     ],
 }
 
