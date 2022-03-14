@@ -1,6 +1,6 @@
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { faEdit, faLink, faPlus, faSortDown, faSortUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCut, faEdit, faLink, faPaste, faPlus, faSortDown, faSortUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHideInput } from '../organisms/ShowHideInput';
 
@@ -10,6 +10,7 @@ export interface IManageNoteMobileProps {
     dispatch: Dispatch<{ type: string; payload: INote }>;
     showChildren: boolean;
     setShowChildren: Dispatch<React.SetStateAction<boolean>>;
+    isCut: boolean;
 }
 
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
@@ -47,6 +48,12 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             setShowOptions(false);
                             setAddLink(true);
                         }}><FontAwesomeIcon icon={faLink} /></button>
+                        {!props.isCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                            props.dispatch({type: 'cutNote', payload: props.mainNote});
+                        }}><FontAwesomeIcon icon={faCut} /></button> :
+                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                            props.dispatch({type: 'pasteNote', payload: props.mainNote});
+                        }}><FontAwesomeIcon icon={faPaste} /></button>}
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             if (props.hasChildren) {
                               alert('Remove children first');

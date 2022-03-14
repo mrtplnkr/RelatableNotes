@@ -52,7 +52,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                     </BrowserView>
                 </div>}
                 <MobileView>
-                    <ManageNoteMobile showChildren={showChildren} setShowChildren={setShowChildren} mainNote={props.mainNote} dispatch={props.dispatch} hasChildren={children.length > 0} />
+                    <ManageNoteMobile {...{showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
                 </MobileView>
                 {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map(x => (
                     <div style={{padding:'5px'}} key={x.id}>
@@ -67,7 +67,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                         <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile showChildren={showChildren} setShowChildren={setShowChildren} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                        <ManageNoteMobile {...{showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
                     </MobileView>
                 </span>
               </div>}
