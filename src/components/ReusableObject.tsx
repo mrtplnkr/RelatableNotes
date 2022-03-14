@@ -48,7 +48,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               {children?.length ? <div style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 {<div style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()} >
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren}} setShowOptions={setShowOptions} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                        <ManageNotePC {...{showChildren, setShowChildren, beingTransfered: notes.filter(a => a.cut).length > 0}} setShowOptions={setShowOptions} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
                     </BrowserView>
                 </div>}
                 <MobileView>
@@ -64,7 +64,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions}} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, beingTransfered: notes.filter(a => a.cut).length > 0}} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />
                     </BrowserView>
                     <MobileView>
                         <ManageNoteMobile showChildren={showChildren} setShowChildren={setShowChildren} mainNote={props.mainNote} hasChildren={children.length > 0} dispatch={props.dispatch} />

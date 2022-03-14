@@ -5,7 +5,8 @@ export interface INote {
     id: number,
     text: string,
     url?: string,
-    order: number
+    order: number,
+    cut?: boolean
 }
 
 export interface INotepadState {
@@ -50,6 +51,12 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
     switch(action.type) {
         case 'loadChains': //or initial state
             return state;
+        case 'cutNote':
+            return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
+                {...action.payload, cut: true} : content )};
+        case 'pasteNote':
+            return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
+                {...content, cut: false, parentId: action.payload.id} : content )};
         case 'addNote': //load parent notes
             const ids = state.allNotes.map(object => {
                 return object.id;

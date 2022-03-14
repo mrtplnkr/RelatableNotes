@@ -1,4 +1,4 @@
-import { faEdit, faFolderMinus, faFolderOpen, faLink, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCut, faEdit, faFolderMinus, faFolderOpen, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
@@ -10,6 +10,7 @@ export interface IManageNotePCProps {
   setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
   showChildren: boolean;
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
+  beingTransfered: boolean;
 }
 
 enum Property {
@@ -59,6 +60,12 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     setShowTextbox(2);
                 }}><FontAwesomeIcon icon={faLink} /></button>
+                {!props.beingTransfered ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                    props.dispatch({type: 'cutNote', payload: props.mainNote});
+                }}><FontAwesomeIcon icon={faCut} /></button> :
+                <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                    props.dispatch({type: 'pasteNote', payload: props.mainNote});
+                }}><FontAwesomeIcon icon={faPaste} /></button>}
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     if (props.hasChildren) {
                       alert('Remove children first');
