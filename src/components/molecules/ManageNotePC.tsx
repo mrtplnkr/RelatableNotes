@@ -10,7 +10,7 @@ export interface IManageNotePCProps {
   setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
   showChildren: boolean;
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
-  beingTransfered: boolean;
+  isCut: boolean;
 }
 
 enum Property {
@@ -60,7 +60,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     setShowTextbox(2);
                 }}><FontAwesomeIcon icon={faLink} /></button>
-                {!props.beingTransfered ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                {!props.isCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     props.dispatch({type: 'cutNote', payload: props.mainNote});
                 }}><FontAwesomeIcon icon={faCut} /></button> :
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
