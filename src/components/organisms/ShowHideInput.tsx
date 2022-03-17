@@ -21,7 +21,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
         <>
         <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'end'}}>
             <div style={{margin: '0 0.5em', flex: 1}}>
-                {!props.whileUpdating ? <div style={{textAlign: 'left'}} className="dropbtn">
+                {!props.whileUpdating ? <div className="dropbtn">
                 {props.mainNote!.url ? 
                     <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
                     :
