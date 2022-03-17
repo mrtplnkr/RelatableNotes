@@ -7,7 +7,6 @@ import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 export type ReusableType = {
     id: number,
@@ -21,8 +20,6 @@ export interface IReusableObjectProps {
     dispatch: Dispatch<{ type: string; payload: INote }>;
     reloadChildren: () => void;
     size?: number;
-    // data: ReusableType;
-    // addNote: (id: number, newNote: string) => void;
 }
 
 export const ReusableObject = React.memo(function RecursiveObject(props: IReusableObjectProps) {
@@ -55,32 +52,16 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                 <MobileView>
                     <ManageNoteMobile {...{showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
                 </MobileView>
-                <DragDropContext onDragEnd={(e) => console.log('end', e)}>
-                    <Droppable droppableId={props.mainNote.id.toString()}>
-                        {(provided) => {
-                            return (
-                            <ul {...provided.droppableProps} ref={provided.innerRef}>
-                                {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map((x, index) => { 
-                                    return (
-                                        <Draggable key={x.id} draggableId={x.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} style={{padding:'5px'}} key={x.id}>
-                                                    <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    )
-                                })}
-                                <div style={{border: '1px solid red'}}>
-                                    {provided.placeholder}
-                                </div>
-                            </ul> )}}
-                    </Droppable>
-                </DragDropContext>
-                
-              </div>
-              :
-              <div>
+                {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map((x, index) => { 
+                    return (
+                        <div style={{padding:'5px'}} key={x.id}>
+                            <ReusableObject reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
+                        </div>
+                    )
+                })}
+            </div>
+            :
+            <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
                         <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
