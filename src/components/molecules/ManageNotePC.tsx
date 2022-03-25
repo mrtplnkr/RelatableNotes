@@ -93,6 +93,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                     props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
                     props.setShowOptions(true);
                     setShowTextbox(0);
+                    props.setShowChildren(true);
                   } else if (e.keyCode === 27) {
                     setShowTextbox(0);
                   }

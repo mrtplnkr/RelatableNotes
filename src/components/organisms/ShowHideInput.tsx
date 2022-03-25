@@ -32,6 +32,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
                         props.setWhileUpdating(false);
+                        props.setShowOptions(false);
                     } else if (e.keyCode === 27) {
                         props.setWhileUpdating(false);
                     }

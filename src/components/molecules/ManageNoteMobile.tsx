@@ -67,11 +67,11 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         <input defaultValue={props.mainNote.url} style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                             if (e.keyCode === 13) {
                                 props.dispatch({type: 'updateNote', payload: {...props.mainNote, url: e.target.value }})
-                                setShowOptions(true);
+                                setShowOptions(false);
                                 setAddLink(false);
                             } else if (e.keyCode === 27) {
                                 setAddLink(false);
-                                setShowOptions(true);
+                                setShowOptions(false);
                             }
                         }} />
                     }</>
@@ -82,7 +82,9 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                       if (e.keyCode === 13) {
                           props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
                           setShowOptions(true);
+                          props.setShowChildren(true);
                           setShowTextbox(false);
+                          console.log('addNote called', showOptions, addLink);
                       } else if (e.keyCode === 27) {
                           setShowTextbox(false);
                       }
