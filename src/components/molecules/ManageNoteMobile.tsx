@@ -1,4 +1,4 @@
-import { useState, Dispatch } from 'react';
+import React, { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
 import { faCut, faEdit, faLink, faPaste, faPlus, faSortDown, faSortUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ export interface IManageNoteMobileProps {
     hasChildren: boolean;
     dispatch: Dispatch<{ type: string; payload: INote }>;
     showChildren: boolean;
+    showOptions: number;
+    setShowOptions: Dispatch<React.SetStateAction<number>>;
     setShowChildren: Dispatch<React.SetStateAction<boolean>>;
     isCut: boolean;
 }
@@ -16,7 +18,6 @@ export interface IManageNoteMobileProps {
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
     const [showTextbox, setShowTextbox] = useState<boolean>(false);
     const [whileUpdating, setWhileUpdating] = useState<boolean>(false);
-    const [showOptions, setShowOptions] = useState(false);
     const [addLink, setAddLink] = useState(false);
 
     return (
@@ -32,12 +33,12 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                     }} />
                 </div>
                 <div style={{flex: '1'}}>
-                    <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={showOptions} setShowOptions={setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
+                    <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
                 </div>
             </div>
             {!showTextbox ? 
                 <div style={{margin: '10px 0'}}>
-                    {showOptions ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    {props.showOptions === props.mainNote!.id ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             setShowTextbox(!showTextbox);
                         }}><FontAwesomeIcon icon={faPlus} /></button>
@@ -45,7 +46,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             setWhileUpdating(true);
                         }}><FontAwesomeIcon icon={faEdit} /></button>
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                            setShowOptions(false);
+                            props.setShowOptions(0);
                             setAddLink(true);
                         }}><FontAwesomeIcon icon={faLink} /></button>
                         {!props.isCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
@@ -67,11 +68,11 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         <input defaultValue={props.mainNote.url} style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                             if (e.keyCode === 13) {
                                 props.dispatch({type: 'updateNote', payload: {...props.mainNote, url: e.target.value }})
-                                setShowOptions(false);
+                                props.setShowOptions(0);
                                 setAddLink(false);
                             } else if (e.keyCode === 27) {
                                 setAddLink(false);
-                                setShowOptions(false);
+                                props.setShowOptions(0);
                             }
                         }} />
                     }</>
@@ -81,10 +82,10 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                   <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                       if (e.keyCode === 13) {
                           props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
-                          setShowOptions(true);
+                          props.setShowOptions(0);
                           props.setShowChildren(true);
                           setShowTextbox(false);
-                          console.log('addNote called', showOptions, addLink);
+                          console.log('addNote called', props.showOptions, addLink);
                       } else if (e.keyCode === 27) {
                           setShowTextbox(false);
                       }

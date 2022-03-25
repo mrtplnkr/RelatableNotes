@@ -7,7 +7,7 @@ export interface IManageNotePCProps {
   mainNote: INote;
   hasChildren: boolean;
   dispatch: Dispatch<{ type: string; payload: INote }>;
-  setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowOptions: React.Dispatch<React.SetStateAction<number>>;
   showChildren: boolean;
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
   isCut: boolean;
@@ -91,7 +91,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                   if (e.keyCode === 13) {
                     props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
-                    props.setShowOptions(true);
+                    props.setShowOptions(props.mainNote!.id);
                     setShowTextbox(0);
                     props.setShowChildren(true);
                   } else if (e.keyCode === 27) {

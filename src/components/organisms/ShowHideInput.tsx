@@ -7,8 +7,8 @@ import { INote } from '../../data/NotepadReducer';
 export interface IShowHideInputProps {
     whileUpdating: boolean;
     setWhileUpdating: Dispatch<React.SetStateAction<boolean>>;
-    showOptions: boolean;
-    setShowOptions: Dispatch<React.SetStateAction<boolean>>;
+    showOptions: number;
+    setShowOptions: Dispatch<React.SetStateAction<number>>;
     mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
     hasChildren: boolean;
@@ -32,7 +32,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
                         props.setWhileUpdating(false);
-                        props.setShowOptions(false);
+                        props.setShowOptions(0);
                     } else if (e.keyCode === 27) {
                         props.setWhileUpdating(false);
                     }
@@ -41,7 +41,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
             <div style={{marginRight: '1em'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
                 {props.showChildren ? <FontAwesomeIcon icon={faFolderMinus} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderOpen} />}
             </div>
-            <div onClick={() => props.setShowOptions(!props.showOptions)}>
+            <div onClick={() => props.setShowOptions(props.mainNote!.id)}>
                 {props.showOptions ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>
         </div>

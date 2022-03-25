@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
 import { useNotepadContext } from '../data/NotepadContext';
 import { INote } from '../data/NotepadReducer';
@@ -18,6 +18,7 @@ export const compareLatest = (a: INote, b: INote) => {
 export function Notepad (props: INotepadProps) {
   
   const { notes, dispatchNotes} = useNotepadContext();
+  const [showOptions, setShowOptions] = useState<number>(0);
 
   useEffect(() => {
     // setData(starterPackData);
@@ -41,7 +42,7 @@ export function Notepad (props: INotepadProps) {
       <ul>
         {notes.filter(x => x.parentId === null).sort(compareLatest).map((x: INote) => {
           return <div key={x.id}>
-            <ReusableObject reloadChildren={() => saveState()} dispatch={dispatchNotes} mainNote={x} size={18}></ReusableObject>
+            <ReusableObject {...{showOptions, setShowOptions}} reloadChildren={() => saveState()} dispatch={dispatchNotes} mainNote={x} size={18}></ReusableObject>
           </div>
         })}
       </ul>
