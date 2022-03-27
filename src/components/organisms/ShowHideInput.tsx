@@ -41,7 +41,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
             <div style={{marginRight: '1em'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
                 {props.showChildren ? <FontAwesomeIcon icon={faFolderMinus} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderOpen} />}
             </div>
-            <div onClick={() => props.setShowOptions(props.mainNote!.id)}>
+            <div onClick={() => props.setShowOptions(props.showOptions === 0 ? props.mainNote!.id : 0)}>
                 {props.showOptions ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>
         </div>

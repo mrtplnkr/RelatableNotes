@@ -85,7 +85,6 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                           props.setShowOptions(0);
                           props.setShowChildren(true);
                           setShowTextbox(false);
-                          console.log('addNote called', props.showOptions, addLink);
                       } else if (e.keyCode === 27) {
                           setShowTextbox(false);
                       }
