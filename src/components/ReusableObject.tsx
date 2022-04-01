@@ -46,11 +46,11 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               {children?.length ? <div style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 {<div style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()}>
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                     </BrowserView>
                 </div>}
                 <MobileView>
-                    <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
+                    <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                 </MobileView>
                 {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map((x, index) => { 
                     return (
@@ -64,10 +64,10 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
             <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                     </BrowserView>
                     <MobileView>
-                        <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isCut: notes.filter(a => a.cut).length > 0}} />
+                        <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                     </MobileView>
                 </span>
               </div>}

@@ -13,7 +13,8 @@ export interface IManageNoteMobileProps {
     showOptions: number;
     setShowOptions: Dispatch<React.SetStateAction<number>>;
     setShowChildren: Dispatch<React.SetStateAction<boolean>>;
-    isCut: boolean;
+    isAnythingCut: boolean;
+    hasBrothers: boolean;
 }
 
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
@@ -25,7 +26,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     <>
         <div className="">
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />
+                {props.hasBrothers && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
                 <div style={{flex: '1'}}>
                     <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
                 </div>
@@ -43,7 +44,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             props.setShowOptions(0);
                             setAddLink(true);
                         }}><FontAwesomeIcon icon={faLink} /></button>
-                        {!props.isCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                        {!props.isAnythingCut && !props.mainNote.cut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.dispatch({type: 'cutNote', payload: props.mainNote});
                         }}><FontAwesomeIcon icon={faCut} /></button> :
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {

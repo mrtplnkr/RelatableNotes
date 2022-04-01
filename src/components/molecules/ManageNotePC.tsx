@@ -11,7 +11,8 @@ export interface IManageNotePCProps {
   setShowOptions: React.Dispatch<React.SetStateAction<number>>;
   showChildren: boolean;
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
-  isCut: boolean;
+  isAnythingCut: boolean;
+  hasBrothers: boolean;
 }
 
 enum Property {
@@ -27,8 +28,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
       {!updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
         <>
-          <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />
-
+          {props.hasBrothers && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
           {props.mainNote!.url ? 
             <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
           :
@@ -65,7 +65,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     setShowTextbox(2);
                 }}><FontAwesomeIcon icon={faLink} /></button>
-                {!props.isCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                {!props.isAnythingCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     props.dispatch({type: 'cutNote', payload: props.mainNote});
                 }}><FontAwesomeIcon icon={faCut} /></button> :
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
