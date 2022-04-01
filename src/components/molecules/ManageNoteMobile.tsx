@@ -1,8 +1,9 @@
 import React, { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { faCut, faEdit, faLink, faPaste, faPlus, faSortDown, faSortUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHideInput } from '../organisms/ShowHideInput';
+import OrderButtons from '../atoms/OrderButtons';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
@@ -24,14 +25,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     <>
         <div className="">
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <FontAwesomeIcon icon={faSortUp} onClick={() => {
-                        props.dispatch({type: 'moveUp', payload: props.mainNote}) 
-                    }} />
-                    <FontAwesomeIcon icon={faSortDown} onClick={() => {
-                        props.dispatch({type: 'moveDown', payload: props.mainNote})
-                    }} />
-                </div>
+                <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />
                 <div style={{flex: '1'}}>
                     <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
                 </div>

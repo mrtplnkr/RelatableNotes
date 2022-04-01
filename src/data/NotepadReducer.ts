@@ -4,9 +4,14 @@ export interface INote {
     parentId: number | null,
     id: number,
     text: string,
+    type?: ENoteType,
     url?: string,
     order: number,
     cut?: boolean
+}
+
+enum ENoteType {
+    regular, bubbles, timeline, event
 }
 
 export interface INotepadState {

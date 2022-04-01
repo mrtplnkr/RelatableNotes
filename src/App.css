@@ -46,3 +46,7 @@ input[type="radio"] {
 button {
   cursor: pointer;
 }
+
+a {
+  color: aqua;
+}

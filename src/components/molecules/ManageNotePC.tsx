@@ -2,6 +2,7 @@ import { faCut, faEdit, faFolderMinus, faFolderOpen, faLink, faPaste, faPlus, fa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
+import OrderButtons from '../atoms/OrderButtons';
 
 export interface IManageNotePCProps {
   mainNote: INote;
@@ -23,17 +24,21 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-      
-      {!updatingText ? <div style={{display: 'flex'}} className="dropbtn">
-        {props.mainNote!.url ? 
-          <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
-        :
-          <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
-        }
-        
-        <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
-              {props.hasChildren && !props.showChildren ? <FontAwesomeIcon icon={faFolderOpen} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
-        </div>
+
+      {!updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
+        <>
+          <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />
+
+          {props.mainNote!.url ? 
+            <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
+          :
+            <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+          }
+          
+          <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
+                {props.hasChildren && !props.showChildren ? <FontAwesomeIcon icon={faFolderOpen} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
+          </div>
+        </>
       </div>
       :
       <>
