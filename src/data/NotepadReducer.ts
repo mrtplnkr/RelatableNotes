@@ -55,6 +55,9 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'cutNote':
             return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
                 {...action.payload, cut: true} : content )};
+        case 'cancelCut':
+            return {...state, allNotes: state.allNotes.map((content) => content.cut ?
+                {...content, cut: false} : content )};
         case 'pasteNote':
             return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
                 {...content, cut: false, parentId: action.payload.id} : content )};

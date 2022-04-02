@@ -4,7 +4,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { ENoteType, INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarTimes, faCampground, faChartPie, faLink, faRandom, faSitemap, faSpellCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarTimes, faCampground, faChartPie, faLink, faRandom, faRemoveFormat, faSitemap, faSpellCheck, faTimes, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }
@@ -21,7 +21,6 @@ export function Notepad (props: INotepadProps) {
   
   const { notes, dispatchNotes} = useNotepadContext();
   const [showOptions, setShowOptions] = useState<number>(0);
-  const [showTypes, setShowTypes] = useState(false);
   const [selectedType, setSelectedType] = useState<ENoteType>(ENoteType.regular);
 
   useEffect(() => {
@@ -50,6 +49,10 @@ export function Notepad (props: INotepadProps) {
                 }
             }} />
           </div>
+          {notes.some(x => x.cut) && <span style={{position: 'absolute',  right: 0}}>
+            {notes.find(x => x.cut)!.text} 
+            <FontAwesomeIcon onClick={() => dispatchNotes({type: 'cancelCut', payload: notes[0]})} title='undo' cursor={'pointer'} icon={faUndo} style={{padding: '0 0.5em'}} />
+          </span>}
         </>
       <ul>
         {notes.filter(x => x.parentId === null).sort(compareLatest).map((x: INote) => {

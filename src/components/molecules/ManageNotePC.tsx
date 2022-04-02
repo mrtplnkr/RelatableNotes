@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
+import { ShowHideHeaderPC } from '../organisms/ShowHideHeaderPC';
 
 export interface IManageNotePCProps {
   mainNote: INote;
@@ -24,35 +25,11 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-
-      {!updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
-        <>
-          {props.hasBrothers && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
-          {props.mainNote!.url ? 
-            <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
-          :
-            <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
-          }
-          
-          <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
-                {props.hasChildren && !props.showChildren ? <FontAwesomeIcon icon={faFolderOpen} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
-          </div>
-        </>
-      </div>
-      :
-      <>
-        {updatingText &&
-        <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => setUpdatingText(false)} onKeyDown={(e: any) => {
-          if (e.keyCode === 13) {
-            props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
-            setUpdatingText(false);
-          } else if (e.keyCode === 27) {
-            setUpdatingText(false);
-          }
-        }} />}
-      </>
+      {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div>
+        :
+        <ShowHideHeaderPC {...{showChildren: props.showChildren, hasChildren: props.hasChildren, setShowChildren: props.setShowChildren, hasBrothers: props.hasBrothers, updatingText, setUpdatingText, mainNote: props.mainNote, dispatch: props.dispatch }} />
       }
-      <div className="dropdown-content">
+      {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
             <>
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
@@ -105,7 +82,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
               <button onClick={() => setShowTextbox(0)}>x</button>
             </div>
           }
-      </div>
+      </div>}
   </div>
   );
 }
