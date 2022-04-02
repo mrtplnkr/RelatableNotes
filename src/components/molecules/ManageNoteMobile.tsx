@@ -24,11 +24,13 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
 
     return (
     <>
-        <div className="">
+        <>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                {props.hasBrothers && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
+                {props.hasBrothers && !props.mainNote.cut && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
                 <div style={{flex: '1'}}>
-                    <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
+                    {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div> :
+                        <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
+                    }
                 </div>
             </div>
             {!showTextbox ? 
@@ -46,6 +48,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         }}><FontAwesomeIcon icon={faLink} /></button>
                         {!props.isAnythingCut && !props.mainNote.cut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.dispatch({type: 'cutNote', payload: props.mainNote});
+                            props.setShowOptions(0);
                         }}><FontAwesomeIcon icon={faCut} /></button> :
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.dispatch({type: 'pasteNote', payload: props.mainNote});
@@ -89,7 +92,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                   <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
                 </div>
             }
-        </div>
+        </>
     </>
   );
 }
