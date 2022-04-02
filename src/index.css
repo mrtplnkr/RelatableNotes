@@ -36,7 +36,7 @@ ul {
 .dropdown-content {
   text-align:left;
   display: none;
-  min-width: 9em;
+  min-width: 12em;
   position: absolute;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;

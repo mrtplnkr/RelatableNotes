@@ -45,8 +45,11 @@ input[type="radio"] {
 
 button {
   cursor: pointer;
+  background-color: silver;
+  padding: 5px;
 }
 
 a {
-  color: aqua;
+  text-decoration: none;
+  font-weight: bold;
 }

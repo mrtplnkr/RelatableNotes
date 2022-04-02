@@ -49,6 +49,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         }}><FontAwesomeIcon icon={faCut} /></button> :
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.dispatch({type: 'pasteNote', payload: props.mainNote});
+                            props.setShowChildren(true);
                         }}><FontAwesomeIcon icon={faPaste} /></button>}
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             if (props.hasChildren) {

@@ -12,10 +12,14 @@ export default class Home extends React.Component<IHomeProps> {
         <h1>Relatable Notes</h1>
         <p>{version}</p>
         <p>
-          <Link to="notepad">create your notes</Link>
+          <button>
+            <Link to="notepad">Make Notes</Link>
+          </button>
         </p>
         <p>
-          <Link to="preview">get visuals</Link>
+          <button>
+            <Link to="preview">Get Visuals</Link>
+          </button>
         </p>
         <p>This is my relatable notepad project, create limitless notes that can be joint in a herarchical structure..</p>
         <p>Then display, merge with other notes and share them, fast..</p>
