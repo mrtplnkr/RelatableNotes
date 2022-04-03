@@ -41,7 +41,7 @@ export function Notepad (props: INotepadProps) {
             <FontAwesomeIcon title="timeline" onClick={() => setSelectedType(ENoteType.timeline)} icon={faRandom} cursor='pointer' style={{color: selectedType === ENoteType.timeline ? 'blue' : ''}} />
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div>
-          <div>
+          <div style={{margin: '0.5em'}}>
             <input placeholder={`add new ${ENoteType[selectedType]} note`} style={{fontWeight:'bold'}} type="text" 
               onKeyDown={(e: any) => {
                 if (e.keyCode === 13) {

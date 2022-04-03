@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
 import { compareLatest } from './Notepad';
+import {GoogleApiWrapper} from 'google-maps-react';
+import { ENoteType } from '../data/NotepadReducer';
 
 export interface IPreviewProps {
   data: any[]
@@ -52,7 +54,6 @@ export function Preview (props: IPreviewProps) {
   };
 
   const { notes } = useNotepadContext();
-
   React.useEffect(() => {
     filterData(filter);
   }, [notes])
@@ -81,14 +82,15 @@ export function Preview (props: IPreviewProps) {
     }
   }, [notes, data, childrenIds])
 
-  const [filter, setFilter] = useState(notes.filter(x => x.parentId === null).sort(compareLatest)[0].text);
+  const [filter, setFilter] = useState<number>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].id);
+  const [type, setType] = useState<ENoteType | undefined>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].type);
 
-  const filterData = (filtered: string) => {
-    const parentIds = notes.filter(x => filtered === x.text).map(q => q.id);
+  const filterData = (filtered: number) => {
+    const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);
     const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
     //first set
     setData({
-      nodes: notes.filter(x => filtered === x.text 
+      nodes: notes.filter(x => filtered === x.id 
       || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
         id: x.text.toString(),
         url: x.text,
@@ -114,24 +116,29 @@ export function Preview (props: IPreviewProps) {
             return <div key={index}>
               <label style={{fontSize: '0.5em'}}>
                 {e.text}
-                <input value={e.text} type="radio" name="parents" defaultChecked={index === 0}
+                <input value={e.id} type="radio" name="parents" defaultChecked={index === 0}
                   onChange={(chk) => {
-                    setFilter(chk.target.value)
-                    filterData(chk.target.value);
+                    setFilter(parseInt(chk.target.value));
+                    filterData(parseInt(chk.target.value));
                   }} />
               </label>
             </div>
           })}
         </details>
         
-        {data?.nodes.length && <Graph
-          onNodePositionChange={(e)=> console.log(e)}
-          id="noteGraph" // id is mandatory
-          data={data}
-          config={myConfig}
-          onClickNode={onClickNode}
-          onClickLink={onClickLink}
-        />}
+        {type === ENoteType.event ? 
+        <>qwe</>
+        :
+        <>{data?.nodes.length && 
+          <Graph
+            onNodePositionChange={(e)=> console.log(e)}
+            id="noteGraph" // id is mandatory
+            data={data}
+            config={myConfig}
+            onClickNode={onClickNode}
+            onClickLink={onClickLink}
+          />}
+        </>}
       </>
       
       <p>
