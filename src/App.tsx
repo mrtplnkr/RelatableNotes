@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Preview } from './pages/Preview';
+import { Preview } from './pages/DataPreview';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';

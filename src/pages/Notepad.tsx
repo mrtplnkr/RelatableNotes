@@ -63,7 +63,7 @@ export function Notepad (props: INotepadProps) {
       </ul>
 
       <p>
-        <Link to="/preview">get visuals</Link>
+        <Link to="/dataPreview">get visuals</Link>
       </p>
     </div>
   );
