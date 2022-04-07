@@ -88,21 +88,25 @@ export function Preview (props: IPreviewProps) {
   const filterData = (filtered: number) => {
     const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);
     const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
-    //first set
-    setData({
-      nodes: notes.filter(x => filtered === x.id 
-      || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
-        id: x.text.toString(),
-        url: x.text,
-        color: x.parentId === null ? 'blue' : 'red',
-      }}),
-      links: notes.filter(x => x.parentId !== null
-        && parentIds.includes(x.parentId)).map(x => { return {
-        source: x.text.toString(),
-        target: notes.find(a => a.id === x.parentId)!.text
-      }})
-    });
-    setChildrenIds(childrenIds);
+    const type = notes.find(x => x.id === filtered)?.type;
+    console.log('type', type, notes.find(x => x.id === filtered));
+    
+    if (!type) {
+      setData({
+        nodes: notes.filter(x => filtered === x.id 
+        || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
+          id: x.text.toString(),
+          url: x.text,
+          color: x.parentId === null ? 'blue' : 'red',
+        }}),
+        links: notes.filter(x => x.parentId !== null
+          && parentIds.includes(x.parentId)).map(x => { return {
+          source: x.text.toString(),
+          target: notes.find(a => a.id === x.parentId)!.text
+        }})
+      });
+      setChildrenIds(childrenIds);
+    }
   }
 
   return (
@@ -120,7 +124,6 @@ export function Preview (props: IPreviewProps) {
                   onChange={(chk) => {
                     setFilter(parseInt(chk.target.value));
                     filterData(parseInt(chk.target.value));
-                    
                     setType(notes.find(x => x.id === parseInt(chk.target.value))?.type);
                   }} />
               </label>
@@ -133,8 +136,8 @@ export function Preview (props: IPreviewProps) {
             <MapContainer />
           </div>
         :
-        <>{data?.nodes.length && 
-          <Graph
+        <>
+          {data?.nodes.length && <Graph
             onNodePositionChange={(e)=> console.log(e)}
             id="noteGraph" // id is mandatory
             data={data}
