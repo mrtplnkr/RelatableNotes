@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
 import { compareLatest } from './Notepad';
-import {GoogleApiWrapper} from 'google-maps-react';
 import { ENoteType } from '../data/NotepadReducer';
+import MapContainer from '../components/organisms/MapContainer';
 
 export interface IPreviewProps {
   data: any[]
@@ -83,7 +83,7 @@ export function Preview (props: IPreviewProps) {
   }, [notes, data, childrenIds])
 
   const [filter, setFilter] = useState<number>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].id);
-  const [type, setType] = useState<ENoteType | undefined>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].type);
+  const [type, setType] = useState<ENoteType | undefined>(ENoteType.regular);
 
   const filterData = (filtered: number) => {
     const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);
@@ -120,14 +120,18 @@ export function Preview (props: IPreviewProps) {
                   onChange={(chk) => {
                     setFilter(parseInt(chk.target.value));
                     filterData(parseInt(chk.target.value));
+                    
+                    setType(notes.find(x => x.id === parseInt(chk.target.value))?.type);
                   }} />
               </label>
             </div>
           })}
         </details>
-        
+
         {type === ENoteType.event ? 
-        <>qwe</>
+          <div style={{position: 'relative', width:'320px', height:'320px'}}>
+            <MapContainer />
+          </div>
         :
         <>{data?.nodes.length && 
           <Graph
