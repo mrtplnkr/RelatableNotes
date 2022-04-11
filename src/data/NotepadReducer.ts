@@ -68,7 +68,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             const orders = state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => {
                 return object.order;
             });
-            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', order: Math.max(...orders) + 1, id: Math.max(...ids) + 1}] };
+            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', order: orders.length > 1 ? Math.max(...orders) + 1 : 0, id: Math.max(...ids) + 1}] };
         case 'removeNote': //load parent notes
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
         case 'updateNote':
