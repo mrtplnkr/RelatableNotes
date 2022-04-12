@@ -31,15 +31,15 @@ export default class Home extends React.Component<IHomeProps> {
           <div style={{textAlign: 'left'}}>
             <div>
               <FontAwesomeIcon color="lightBlue" icon={faSpellCheck} cursor='pointer' />
-              <span style={{padding: '0 0.5em'}}>regular notes with links</span>
+              <span style={{padding: '0 0.5em'}}>todo list notes with ability to cross them out</span>
             </div>
             <div>
               <FontAwesomeIcon color="lightBlue" title="hierarchic" icon={faSitemap} cursor='pointer' />
-              <span style={{padding: '0 0.5em'}}>hierarchic notes with images</span>
+              <span style={{padding: '0 0.5em'}}>hierarchic notes with links</span>
             </div>
             <div>
               <FontAwesomeIcon color="lightBlue" title="timeline" icon={faRandom} cursor='pointer' />
-              <span style={{padding: '0 0.5em'}}>timeline notes with calendar feature</span>
+              <span style={{padding: '0 0.5em'}}>timeline notes with calendar features</span>
             </div>
             <div>
               <FontAwesomeIcon color="lightBlue" title="event" icon={faCalendarTimes} cursor='pointer' />

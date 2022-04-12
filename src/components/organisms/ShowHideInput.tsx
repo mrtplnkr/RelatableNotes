@@ -26,7 +26,7 @@ export function ShowHideInput (props: IShowHideInputProps) {
                         {props.mainNote!.url ? 
                             <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
                             :
-                            <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+                            <span style={{margin: '0 10px', textDecoration: props.mainNote.done ? 'line-through' : ''}}>{props.mainNote!.text}</span>
                         }
                     </>
                 </div>

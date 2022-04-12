@@ -28,7 +28,7 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
                 // eslint-disable-next-line react/jsx-no-target-blank
                 <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}>{props.mainNote!.text}</a> 
               :
-                <span style={{margin: '0 10px'}}>{props.mainNote!.text}</span>
+                <span style={{margin: '0 10px', textDecoration: props.mainNote.done ? 'line-through' : ''}}>{props.mainNote!.text}</span>
               }
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
@@ -39,14 +39,15 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
           :
           <>
             {props.updatingText &&
-            <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
-              if (e.keyCode === 13) {
-                props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
-                props.setUpdatingText(false);
-              } else if (e.keyCode === 27) {
-                props.setUpdatingText(false);
-              }
-            }} />}
+              <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
+                if (e.keyCode === 13) {
+                  props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
+                  props.setUpdatingText(false);
+                } else if (e.keyCode === 27) {
+                  props.setUpdatingText(false);
+                }
+              }}
+            />}
           </>
           }
         </div>

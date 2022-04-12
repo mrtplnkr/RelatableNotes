@@ -1,6 +1,6 @@
 import React, { useState, Dispatch } from 'react';
-import { INote } from '../../data/NotepadReducer';
-import { faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { ENoteType, INote } from '../../data/NotepadReducer';
+import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHideInput } from '../organisms/ShowHideInput';
 import OrderButtons from '../atoms/OrderButtons';
@@ -42,10 +42,20 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             setWhileUpdating(true);
                         }}><FontAwesomeIcon icon={faEdit} /></button>
-                        <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                            props.setShowOptions(0);
-                            setAddLink(true);
-                        }}><FontAwesomeIcon icon={faLink} /></button>
+                        {
+                            props.mainNote.type === ENoteType.regular ?
+                            <>
+                                {props.mainNote.type === ENoteType.regular && !props.hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                    props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
+                                    props.setShowOptions(0);
+                                }}><FontAwesomeIcon icon={faCheck} /></button>}
+                            </>
+                            :
+                            <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                props.setShowOptions(0);
+                                setAddLink(true);
+                            }}><FontAwesomeIcon icon={faLink} /></button>
+                        }
                         {!props.isAnythingCut && !props.mainNote.cut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.dispatch({type: 'cutNote', payload: props.mainNote});
                             props.setShowOptions(0);
@@ -67,7 +77,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                     <>{addLink && 
                         <input defaultValue={props.mainNote.url} style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                             if (e.keyCode === 13) {
-                                props.dispatch({type: 'updateNote', payload: {...props.mainNote, url: e.target.value }})
+                                props.dispatch({type: 'updateNote', payload: {...props.mainNote, url: e.target.value }});
                                 props.setShowOptions(0);
                                 setAddLink(false);
                             } else if (e.keyCode === 27) {
@@ -81,7 +91,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                 <div style={{display: 'flex'}}>
                   <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                       if (e.keyCode === 13) {
-                          props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
+                          props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: false }});
                           props.setShowOptions(0);
                           props.setShowChildren(true);
                           setShowTextbox(false);

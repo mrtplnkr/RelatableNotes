@@ -39,6 +39,8 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
         setChildren(notes.filter((x: INote) => x.parentId === props.mainNote.id));
         setLoading(true);
     }
+
+    const { setShowOptions, mainNote, dispatch, showOptions } = props;
     
     return (
       <>
@@ -46,16 +48,22 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
               {children?.length ? <div style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                 {<div style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()}>
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, mainNote, dispatch, 
+                            hasChildren: children.length > 0,
+                            isAnythingCut: notes.filter(a => a.cut).length > 0,
+                            hasBrothers: children.length > 1}} />
                     </BrowserView>
                 </div>}
                 <MobileView>
-                    <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
+                    <ManageNoteMobile {...{showOptions, setShowOptions, showChildren, setShowChildren, mainNote, dispatch, 
+                        hasChildren: children.length > 0, 
+                        isAnythingCut: notes.filter(a => a.cut).length > 0, 
+                        hasBrothers: children.length > 1}} />
                 </MobileView>
                 {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map((x, index) => { 
                     return (
                         <div style={{padding:'5px'}} key={x.id}>
-                            <ReusableObject showOptions={props.showOptions} setShowOptions={props.setShowOptions} reloadChildren={reloadChildren} dispatch={props.dispatch} mainNote={x} size={props.size!-1}></ReusableObject>
+                            <ReusableObject {...{showOptions, setShowOptions, reloadChildren, dispatch}} mainNote={x} size={props.size!-1}></ReusableObject>
                         </div>
                     )
                 })}
@@ -64,7 +72,11 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
             <div>
                 <span style={{fontSize: props.size}}>
                     <BrowserView>
-                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions: props.setShowOptions, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
+                        <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, mainNote, dispatch, 
+                            hasChildren: children.length > 0, 
+                            isAnythingCut: notes.filter(a => a.cut).length > 0, 
+                            hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1
+                        }} />
                     </BrowserView>
                     <MobileView>
                         <ManageNoteMobile {...{showOptions: props.showOptions, setShowOptions: props.setShowOptions, showChildren, setShowChildren, mainNote: props.mainNote, dispatch: props.dispatch, hasChildren: children.length > 0, isAnythingCut: notes.filter(a => a.cut).length > 0, hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />

@@ -1,8 +1,7 @@
-import { faCut, faEdit, faFolderMinus, faFolderOpen, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
-import { INote } from '../../data/NotepadReducer';
-import OrderButtons from '../atoms/OrderButtons';
+import { ENoteType, INote } from '../../data/NotepadReducer';
 import { ShowHideHeaderPC } from '../organisms/ShowHideHeaderPC';
 
 export interface IManageNotePCProps {
@@ -23,11 +22,13 @@ export function ManageNotePC (props: IManageNotePCProps) {
   const [showTextbox, setShowTextbox] = useState<Property>(0);
   const [updatingText, setUpdatingText] = useState<boolean>(false);
 
+  const { showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
+
   return (
     <div className="dropdown">
       {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div>
         :
-        <ShowHideHeaderPC {...{showChildren: props.showChildren, hasChildren: props.hasChildren, setShowChildren: props.setShowChildren, hasBrothers: props.hasBrothers, updatingText, setUpdatingText, mainNote: props.mainNote, dispatch: props.dispatch }} />
+        <ShowHideHeaderPC {...{showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       }
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
@@ -38,9 +39,18 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     setUpdatingText(true);
                 }}><FontAwesomeIcon icon={faEdit} /></button>
-                <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                    setShowTextbox(2);
-                }}><FontAwesomeIcon icon={faLink} /></button>
+                {
+                  props.mainNote.type === ENoteType.regular ?
+                    <>
+                      {props.mainNote.type === ENoteType.regular && !hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                        props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
+                      }}><FontAwesomeIcon icon={faCheck} /></button>}
+                    </>
+                  :
+                    <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                        setShowTextbox(2);
+                    }}><FontAwesomeIcon icon={faLink} /></button>
+                }
                 {!props.isAnythingCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     props.dispatch({type: 'cutNote', payload: props.mainNote});
                 }}><FontAwesomeIcon icon={faCut} /></button> :
@@ -71,7 +81,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 :
                 <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                   if (e.keyCode === 13) {
-                    props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value }})
+                    props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: false }})
                     setShowTextbox(0);
                     props.setShowChildren(true);
                   } else if (e.keyCode === 27) {

@@ -4,7 +4,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { ENoteType, INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarTimes, faCampground, faChartPie, faLink, faRandom, faRemoveFormat, faSitemap, faSpellCheck, faTimes, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarTimes, faRandom, faSitemap, faSpellCheck, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }

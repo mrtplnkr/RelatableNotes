@@ -4,10 +4,11 @@ export interface INote {
     parentId: number | null,
     id: number,
     text: string,
+    order: number,
     type?: ENoteType,
     url?: string,
-    order: number,
-    cut?: boolean
+    cut?: boolean,
+    done?: boolean
 }
 
 export enum ENoteType {
@@ -72,8 +73,10 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'removeNote': //load parent notes
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
         case 'updateNote':
-            return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
-                {...action.payload} : content )};
+            const checkChildren = state.allNotes.some((content) => content.parentId === action.payload.parentId && content.done)
+            return {...state, allNotes: state.allNotes
+                .map((content) => content.id === action.payload.id ? {...action.payload} : content )
+                .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};
         case 'moveUp':
             return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
                 content.id === action.payload.id ? {...content, order: content.order+1} : 
