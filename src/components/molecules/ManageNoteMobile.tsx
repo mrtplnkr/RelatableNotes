@@ -43,9 +43,9 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             setWhileUpdating(true);
                         }}><FontAwesomeIcon icon={faEdit} /></button>
                         {
-                            props.mainNote.type === ENoteType.regular ?
+                            props.mainNote.type === ENoteType.todo ?
                             <>
-                                {props.mainNote.type === ENoteType.regular && !props.hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                                {props.mainNote.type === ENoteType.todo && !props.hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                                     props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
                                     props.setShowOptions(0);
                                 }}><FontAwesomeIcon icon={faCheck} /></button>}

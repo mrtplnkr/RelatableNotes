@@ -83,7 +83,7 @@ export function Preview (props: IPreviewProps) {
   }, [notes, data, childrenIds])
 
   const [filter, setFilter] = useState<number>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].id);
-  const [type, setType] = useState<ENoteType | undefined>(ENoteType.regular);
+  const [type, setType] = useState<ENoteType | undefined>(ENoteType.todo);
 
   const filterData = (filtered: number) => {
     const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);

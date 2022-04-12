@@ -21,7 +21,7 @@ export function Notepad (props: INotepadProps) {
   
   const { notes, dispatchNotes} = useNotepadContext();
   const [showOptions, setShowOptions] = useState<number>(0);
-  const [selectedType, setSelectedType] = useState<ENoteType>(ENoteType.regular);
+  const [selectedType, setSelectedType] = useState<ENoteType>(ENoteType.todo);
 
   useEffect(() => {
     // setData(starterPackData);
@@ -36,7 +36,7 @@ export function Notepad (props: INotepadProps) {
       <h3>Your Collections</h3>
         <>
           <div style={{display: 'flex', justifyContent: 'center', placeContent: 'space-evenly'}}>
-            <FontAwesomeIcon onClick={() => setSelectedType(ENoteType.regular)} icon={faSpellCheck} cursor='pointer' style={{color: selectedType === ENoteType.regular ? 'blue' : ''}} />
+            <FontAwesomeIcon onClick={() => setSelectedType(ENoteType.todo)} icon={faSpellCheck} cursor='pointer' style={{color: selectedType === ENoteType.todo ? 'blue' : ''}} />
             <FontAwesomeIcon title="hierarchic" onClick={() => setSelectedType(ENoteType.hierarchic)} icon={faSitemap} cursor='pointer' style={{color: selectedType === ENoteType.hierarchic ? 'blue' : ''}} />
             <FontAwesomeIcon title="timeline" onClick={() => setSelectedType(ENoteType.timeline)} icon={faRandom} cursor='pointer' style={{color: selectedType === ENoteType.timeline ? 'blue' : ''}} />
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />

@@ -40,9 +40,9 @@ export function ManageNotePC (props: IManageNotePCProps) {
                     setUpdatingText(true);
                 }}><FontAwesomeIcon icon={faEdit} /></button>
                 {
-                  props.mainNote.type === ENoteType.regular ?
+                  props.mainNote.type === ENoteType.todo ?
                     <>
-                      {props.mainNote.type === ENoteType.regular && !hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
+                      {props.mainNote.type === ENoteType.todo && !hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                         props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
                       }}><FontAwesomeIcon icon={faCheck} /></button>}
                     </>

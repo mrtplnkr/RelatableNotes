@@ -12,7 +12,7 @@ export interface INote {
 }
 
 export enum ENoteType {
-    regular, hierarchic, timeline, event
+    todo, hierarchic, timeline, event
 }
 
 export interface INotepadState {
