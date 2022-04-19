@@ -68,7 +68,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             if (props.hasChildren) {
                               alert('Remove children first');
                             } else {
-                              props.dispatch({type: 'removeNote', payload: {...props.mainNote, parentId: null, text: ''}});
+                              props.dispatch({type: 'removeNote', payload: props.mainNote});
                               props.setShowOptions(0);
                             }
                         }}><FontAwesomeIcon icon={faTrash} /></button>

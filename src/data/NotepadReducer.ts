@@ -65,17 +65,20 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
                 {...content, cut: false} : content )};
         case 'pasteNote':
             const {parentId, order} = state.allNotes.find(x => x.cut)!;//previous parent, previous order
-            const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ));
-            return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
-                {...content, cut: false, parentId: action.payload.id, order: newHighestOrder} 
-                : //old lower orders
-                content.parentId === parentId && order >= content.order ? {...content, order: content.order+1} : content )};
+            const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId)
+            .map(object => object.order ));
+                return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
+                    {...content, cut: false, parentId: action.payload.id, order: newHighestOrder} 
+                    : //old lower orders
+                    content.parentId === parentId && order >= content.order ? {...content, order: content.order++} : content )};
         case 'addNote': //load parent notes
             const ids = state.allNotes.map(object => object.id);
             return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', 
                 order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order )), id: Math.max(...ids) + 1}] };
         case 'removeNote': //load parent notes
-            return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
+            return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id)
+                .map(x => x.parentId === action.payload.parentId && x.order > action.payload.order 
+                    ? {...x, order: x.order-1} : x) };
         case 'updateNote':
             const checkChildren = state.allNotes.some((content) => content.parentId === action.payload.parentId && content.done)
             return {...state, allNotes: state.allNotes
