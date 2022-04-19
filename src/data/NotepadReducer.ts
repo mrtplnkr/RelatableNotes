@@ -49,6 +49,10 @@ export const initialState: INotepadState = {
     ],
 }
 
+const checkAssignOrder = (orders: number[]): number => {
+    return orders.length > 1 ? Math.max(...orders) + 1 : 0;
+}
+
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
     switch(action.type) {
         case 'loadChains': //or initial state
@@ -60,16 +64,16 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             return {...state, allNotes: state.allNotes.map((content) => content.cut ?
                 {...content, cut: false} : content )};
         case 'pasteNote':
+            const {parentId, order} = state.allNotes.find(x => x.cut)!;//previous parent, previous order
+            const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ));
             return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
-                {...content, cut: false, parentId: action.payload.id} : content )};
+                {...content, cut: false, parentId: action.payload.id, order: newHighestOrder} 
+                : //old lower orders
+                content.parentId === parentId && order >= content.order ? {...content, order: content.order+1} : content )};
         case 'addNote': //load parent notes
-            const ids = state.allNotes.map(object => {
-                return object.id;
-            });
-            const orders = state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => {
-                return object.order;
-            });
-            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', order: orders.length > 1 ? Math.max(...orders) + 1 : 0, id: Math.max(...ids) + 1}] };
+            const ids = state.allNotes.map(object => object.id);
+            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', 
+                order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order )), id: Math.max(...ids) + 1}] };
         case 'removeNote': //load parent notes
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id) };
         case 'updateNote':
