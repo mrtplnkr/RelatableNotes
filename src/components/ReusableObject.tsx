@@ -51,14 +51,14 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                         <ManageNotePC {...{showChildren, setShowChildren, setShowOptions, mainNote, dispatch, 
                             hasChildren: children.length > 0,
                             isAnythingCut: notes.filter(a => a.cut).length > 0,
-                            hasBrothers: children.length > 1}} />
+                            hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                     </BrowserView>
                 </div>}
                 <MobileView>
                     <ManageNoteMobile {...{showOptions, setShowOptions, showChildren, setShowChildren, mainNote, dispatch, 
                         hasChildren: children.length > 0, 
                         isAnythingCut: notes.filter(a => a.cut).length > 0, 
-                        hasBrothers: children.length > 1}} />
+                        hasBrothers: notes.filter(a => a.parentId === props.mainNote.parentId).length > 1}} />
                 </MobileView>
                 {showChildren && props.mainNote && children?.length && children.sort(compareLatest).map((x, index) => { 
                     return (
