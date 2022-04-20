@@ -23,7 +23,7 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
         <div className="dropdown">
           {!props.updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
             <>
-              {props.hasBrothers && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
+              {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
               {props.mainNote!.url ? 
                 // eslint-disable-next-line react/jsx-no-target-blank
                 <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}>{props.mainNote!.text}</a> 
