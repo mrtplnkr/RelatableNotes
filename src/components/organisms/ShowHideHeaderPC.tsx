@@ -2,7 +2,7 @@ import { faFolderMinus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
-import { INote } from '../../data/NotepadReducer';
+import { ENoteType, INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
 export interface IShowHideHeaderPCProps {
@@ -28,7 +28,8 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
                 // eslint-disable-next-line react/jsx-no-target-blank
                 <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}>{props.mainNote!.text}</a> 
               :
-                <span style={{margin: '0 10px', textDecoration: props.mainNote.done ? 'line-through' : ''}}>{props.mainNote!.text}</span>
+                <span style={{margin: '0 10px', 
+                  textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>{props.mainNote!.text}</span>
               }
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>

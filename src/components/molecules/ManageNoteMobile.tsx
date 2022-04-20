@@ -91,7 +91,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                 <div style={{display: 'flex'}}>
                   <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
                       if (e.keyCode === 13) {
-                          props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: false }});
+                          props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: undefined }});
                           props.setShowOptions(0);
                           props.setShowChildren(true);
                           setShowTextbox(false);

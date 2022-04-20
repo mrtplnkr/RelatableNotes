@@ -83,9 +83,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             const checkChildren = state.allNotes.some((content) => content.parentId === action.payload.parentId && content.done)
             return {...state, allNotes: state.allNotes
                 .map((content) => content.id === action.payload.id ? {...action.payload} : content )
-                .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} 
-                ://TODO: remove this code later
-                content.order === 0 ? {...content, order: state.allNotes.findIndex(x => x.id === content.id)} : content)};
+                .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};
         case 'moveUp':
             return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
                 content.id === action.payload.id ? {...content, order: content.order+1} : 
