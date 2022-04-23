@@ -53,6 +53,11 @@ const checkAssignOrder = (orders: number[]): number => {
     return orders.length > 1 ? Math.max(...orders) + 1 : 0;
 }
 
+const changeOrder = (notes: INote[], direction: number, noteId: number) => {
+    const allWithinParentSorted = notes.sort(compareLatest);
+    const currentIndex = allWithinParentSorted.findIndex(a => a.id === noteId);
+    return currentIndex > 0 ? allWithinParentSorted[currentIndex + direction] :  allWithinParentSorted[currentIndex];
+}
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
     switch(action.type) {
         case 'loadChains': //or initial state
@@ -85,13 +90,19 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
                 .map((content) => content.id === action.payload.id ? {...action.payload} : content )
                 .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};
         case 'moveUp':
-            return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
+            const movedUp = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), -1, action.payload.id);
                 content.id === action.payload.id ? {...content, order: content.order+1} : 
-                (action.payload.parentId === content.parentId && (action.payload.order+1) === content.order) ? {...content, order: content.order-1} : content )};
+            return {...state, allNotes: state.allNotes.map((content) => 
+                content.id === action.payload.id ? 
+                    {...content, order: movedUp.order === action.payload.order ? movedUp.order+1 : movedUp.order} : 
+                (movedUp.id === content.id) ? {...content, order: action.payload.order} : content )};
         case 'moveDown':
-            return {...state, allNotes: state.allNotes.sort(compareLatest).map((content) => 
+            const movedDown = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), +1, action.payload.id);
                 content.id === action.payload.id ? {...content, order: content.order-1} :
-                (action.payload.parentId === content.parentId && (action.payload.order-1)) === content.order ? {...content, order: content.order+1} : content )};
+            return {...state, allNotes: state.allNotes.map((content) => 
+                content.id === action.payload.id ? 
+                    {...content, order: movedDown.order === action.payload.order ? movedDown.order-1 : movedDown.order} :
+                    movedDown.id === content.id ? {...content, order: action.payload.order} : content )};
         default:
             return state;
     }

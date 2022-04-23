@@ -33,8 +33,6 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
     const [children, setChildren] = useState<INote[]>([]);
     const [showChildren, setShowChildren] = useState(false);
 
-    const [showNewInput, setShowNewInout] = useState(false);
-
     React.useEffect(() => {
         reloadChildren();
     }, []);
@@ -43,27 +41,18 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
         if (mainNote) {
             setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));
         } else {
-            setShowNewInout(true);
             setChildren(notes.filter((x: INote) => x.parentId === null));
         }
         setLoading(false);
     }
     
     const { setShowOptions, mainNote, showOptions } = props;
-    console.log(mainNote);
     
     return (
       <>
-                {showNewInput &&
-                    <InitialInputWithTypes dispatch={dispatchNotes} />}
-                    {notes.some(x => x.cut) && <span style={{position: 'absolute',  right: 0}}>
-                    {notes.find(x => x.cut)!.text} 
-                    <FontAwesomeIcon onClick={() => dispatchNotes({type: 'cancelCut', payload: notes[0]})} title='undo' cursor={'pointer'} icon={faUndo} style={{padding: '0 0.5em'}} />
-                </span>}
         {!loading ? <>
             <>
                 {mainNote ? <div>
-                    
                     {children?.length ? <div style={{border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px'}}>
                         <div style={{fontSize: props.size}} onKeyUp={e => e.preventDefault()}>
                             <BrowserView>
@@ -117,6 +106,11 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                     </div>}
                 </div>
                 : <div>
+                    <InitialInputWithTypes dispatch={dispatchNotes} />
+                    {notes.some(x => x.cut) && <span style={{position: 'absolute',  right: 0}}>
+                        {notes.find(x => x.cut)!.text} 
+                        <FontAwesomeIcon onClick={() => dispatchNotes({type: 'cancelCut', payload: notes[0]})} title='undo' cursor={'pointer'} icon={faUndo} style={{padding: '0 0.5em'}} />
+                    </span>}
                     {children?.length && children.sort(compareLatest).map((x, index) => { 
                       return (
                           <div style={{padding:'5px'}} key={x.id}>
