@@ -35,7 +35,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
 
     React.useEffect(() => {
         reloadChildren();
-    }, []);
+    }, [notes]);
 
     const reloadChildren = () => {
         if (mainNote) {
@@ -114,7 +114,7 @@ export const ReusableObject = React.memo(function RecursiveObject(props: IReusab
                     {children?.length && children.sort(compareLatest).map((x, index) => { 
                       return (
                           <div style={{padding:'5px'}} key={x.id}>
-                              <ReusableObject {...{showOptions, setShowOptions, reloadChildren, dispatchNotes}} mainNote={x} size={props.size!-1}></ReusableObject>
+                              <ReusableObject {...{showOptions, setShowOptions, reloadChildren}} mainNote={x} size={props.size!-1}></ReusableObject>
                           </div>
                       )
                     })}
