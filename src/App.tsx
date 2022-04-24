@@ -26,18 +26,20 @@ function App() {
           <img src={logo} className="App-logo" alt="logo" />
         </a>
       
-        <NotepadProvider>
           <HashRouter>
+          <NotepadProvider>
             <Routes>
               <Route path="/" element={<Home />}>
               </Route>
               <Route path="notepad" element={<Notepad />}>
               </Route>
+              <Route path="notepad/:id" element={<Notepad />}>
+              </Route>
               <Route path="preview" element={<Preview data={data} />}>
               </Route>
             </Routes>
+            </NotepadProvider>
           </HashRouter>
-        </NotepadProvider>
       
       </header>
 

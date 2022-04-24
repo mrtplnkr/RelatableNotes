@@ -1,15 +1,20 @@
-import { faCalendarTimes, faRandom, faSearch, faSitemap, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarTimes, faRandom, faSitemap, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+import { useEffect } from 'react';
 import { Dispatch, useState } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
 
-export interface IInitialInputWithTypesProps {
+export interface ISearchInputWithTypesProps {
     dispatch: Dispatch<{ type: string; payload: INote }>;
 }
 
-export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
-  const [selectedType, setSelectedType] = useState<ENoteType>(ENoteType.todo);
+export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
+  const [searchText, setSearchText] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<ENoteType>();
+
+  useEffect(() => {
+    props.dispatch({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: searchText, type: selectedType}});
+  }, [searchText, selectedType])
 
   return (
     <div>
@@ -21,12 +26,8 @@ export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div>
           <div style={{margin: '0.5em'}}>
-            <input placeholder={`add new ${ENoteType[selectedType]} note`} style={{fontWeight:'bold'}} type="text" 
-              onKeyDown={(e: any) => {
-                if (e.keyCode === 13) {
-                    props.dispatch({type: 'addNote', payload: {order: 0, id: 1, parentId: null, text: e.target.value, type: selectedType }});
-                }
-            }} />
+            <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
+              onChange={(e: any) => setSearchText(e.target.value)} />
           </div>
           
         </>

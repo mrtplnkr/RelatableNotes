@@ -8,7 +8,7 @@ export interface INote {
     type?: ENoteType,
     url?: string,
     cut?: boolean,
-    done?: boolean
+    done?: boolean,
 }
 
 export enum ENoteType {
@@ -17,6 +17,11 @@ export enum ENoteType {
 
 export interface INotepadState {
     allNotes: INote[],
+    highlighted: number[],
+    filter: {
+        text: string,
+        type?: ENoteType,
+    }
 }
 
 export const initialState: INotepadState = {
@@ -33,20 +38,15 @@ export const initialState: INotepadState = {
         { parentId: 2, id: 23, text: "provide visualisation", order: 3 },
         { parentId: null, id: 3, text: "life priorities", order: 2 },
         { parentId: 3, id: 31, text: "money?", order: 1 },
-        { parentId: 3, id: 32, text: "love", order: 2 },
-        { parentId: 3, id: 33, text: "health", order: 3 },
-        { parentId: 3, id: 34, text: "peace", order: 4 },
-        {"id":414,"parentId":null,"text":"Car", order: 4, url: 'https://audi.com'},
-        {"id":415,"parentId":414,"text":"wheels", order: 1},
-        {"id":416,"parentId":414,"text":"steering", order: 2},
-        {"id":417,"parentId":414,"text":"engine", order: 3},
-        {"id":418,"parentId":414,"text":"headlights", order: 4},
-        {"id":419,"parentId":417,"text":"cylinders", order: 0},
-        {"id":420,"parentId":417,"text":"ignition", order: 1},
-        {"id":421,"parentId":420,"text":"spark plugs", order: 1},
-        {"id":422,"parentId":420,"text":"coilpack", order: 2},
-        {"id":423,"parentId":417,"text":"fuel pump", order: 2}
+        { parentId: 3, id: 32, text: "love", order: 1 },
+        { parentId: 3, id: 33, text: "health", order: 1 },
+        { parentId: 3, id: 34, text: "peace", order: 1 },
     ],
+    highlighted: [],
+    filter: {
+        text: '',
+        type: ENoteType.hierarchic
+    }
 }
 
 const checkAssignOrder = (orders: number[]): number => {
@@ -58,10 +58,19 @@ const changeOrder = (notes: INote[], direction: number, noteId: number) => {
     const currentIndex = allWithinParentSorted.findIndex(a => a.id === noteId);
     return currentIndex > 0 ? allWithinParentSorted[currentIndex + direction] :  allWithinParentSorted[currentIndex];
 }
+
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
     switch(action.type) {
-        case 'loadChains': //or initial state
-            return state;
+        case 'applyFilter':
+            return {...state, 
+                highlighted: [],
+                filter: {
+                    text: action.payload.text,
+                    type: action.payload.type
+                }};
+        case 'highlightNote':
+            return {...state, highlighted: [...state.highlighted].concat(state.allNotes.filter((content) => 
+                !state.highlighted.includes(content.id) && content.id === action.payload.id).map(x => x.id))};
         case 'cutNote':
             return {...state, allNotes: state.allNotes.map((content) => content.id === action.payload.id ?
                 {...action.payload, cut: true} : content )};
@@ -91,14 +100,14 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
                 .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};
         case 'moveUp':
             const movedUp = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), -1, action.payload.id);
-                content.id === action.payload.id ? {...content, order: content.order+1} : 
+            console.log('current item', action.payload);
             return {...state, allNotes: state.allNotes.map((content) => 
                 content.id === action.payload.id ? 
                     {...content, order: movedUp.order === action.payload.order ? movedUp.order+1 : movedUp.order} : 
                 (movedUp.id === content.id) ? {...content, order: action.payload.order} : content )};
         case 'moveDown':
             const movedDown = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), +1, action.payload.id);
-                content.id === action.payload.id ? {...content, order: content.order-1} :
+            console.log('current item', action.payload, movedDown);
             return {...state, allNotes: state.allNotes.map((content) => 
                 content.id === action.payload.id ? 
                     {...content, order: movedDown.order === action.payload.order ? movedDown.order-1 : movedDown.order} :

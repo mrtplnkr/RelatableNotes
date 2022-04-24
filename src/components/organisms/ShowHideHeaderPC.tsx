@@ -26,14 +26,18 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
               {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
               {props.mainNote!.url ? 
                 // eslint-disable-next-line react/jsx-no-target-blank
-                <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}>{props.mainNote!.text}</a> 
+                <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px', background: [31].includes(props.mainNote.id) ? 'pink' : 'red' }}>{props.mainNote!.text}</a> 
               :
                 <span style={{margin: '0 10px', 
-                  textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>{props.mainNote!.text}</span>
+                  border: [31].includes(props.mainNote.id) ? '1px solid pink' : '',
+                  textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>
+                    {props.mainNote!.text}</span>
               }
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
-                    {props.hasChildren && !props.showChildren ? <FontAwesomeIcon icon={faFolderOpen} /> : <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
+                {props.hasChildren && !props.showChildren ? 
+                  <FontAwesomeIcon icon={faFolderOpen} /> : 
+                  <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
               </div>
             </>
           </div>
