@@ -1,6 +1,5 @@
 import { createContext, Dispatch, useContext, useEffect, useReducer, useState } from 'react';
 import { ENoteType, initialState, INote, NotepadReducer } from './NotepadReducer';
-import { useLocation } from 'react-router-dom'
 
 interface INotepadContext {
     notes: INote[];
@@ -25,24 +24,19 @@ export const NotepadProvider = (children: any) => {
         if (notes)
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes])
-    console.log('text', notes.filter.text);
     
     useEffect(() => {
-        const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
-        if (check && notes.filter.text !== '') highlightParent(check[0].id);
+        const check = notes.allNotes.filter(x => 
+            (!notes.filter.type || x.type === notes.filter.type) && 
+            (!notes.filter.text || x.text.includes(notes.filter.text)));
+        if (check.length > 0 && (notes.filter.text !== '' || notes.filter.type)) highlightParent(check[0].id);
     }, [notes.filter]);
-
-    // const location = useLocation();
-
-    // const highlight = location.pathname.substring(location.pathname.lastIndexOf('/') + 1, location.pathname.length);
 
     const highlightParent = (noteId: number | null) => {
         const note = notes.allNotes.find(x => x.id === noteId);
         dispatch({type: 'highlightNote', payload: {id: noteId!, parentId: null, order: 0, text: ''}});
         if (note && note.parentId != null)  {
-            setTimeout(() => {
-                highlightParent(note.parentId);
-            }, 1000)
+            highlightParent(note.parentId);
         }
     }
     

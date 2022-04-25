@@ -9,7 +9,7 @@ export interface IManageNotePCProps {
   hasChildren: boolean;
   dispatch: Dispatch<{ type: string; payload: INote }>;
   showChildren: boolean;
-  setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
+  checkToggleChildren(showChilren: boolean): void;
   isAnythingCut: boolean;
   hasBrothers: boolean;
 }
@@ -22,13 +22,13 @@ export function ManageNotePC (props: IManageNotePCProps) {
   const [showTextbox, setShowTextbox] = useState<Property>(0);
   const [updatingText, setUpdatingText] = useState<boolean>(false);
 
-  const { showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
+  const { showChildren, hasChildren, checkToggleChildren, hasBrothers, mainNote, dispatch } = props;
 
   return (
     <div className="dropdown">
       {props.mainNote!.cut ? <div style={{opacity: '0.1'}}>{props.mainNote!.text}</div>
         :
-        <ShowHideHeaderPC {...{showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
+        <ShowHideHeaderPC {...{showChildren, hasChildren, checkToggleChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       }
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
@@ -83,7 +83,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                   if (e.keyCode === 13) {
                     props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: undefined }});
                     setShowTextbox(0);
-                    props.setShowChildren(true);
+                    props.checkToggleChildren(true);
                   } else if (e.keyCode === 27) {
                     setShowTextbox(0);
                   }
