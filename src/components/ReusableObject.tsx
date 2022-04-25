@@ -1,13 +1,16 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
-import { INote } from '../data/NotepadReducer';
+import { ENoteType, INote } from '../data/NotepadReducer';
 import { Dispatch, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
-// import { useLocation, useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import { InitialInputWithTypes } from './organisms/InitialInputWithTypes';
+import { SearchInputWithTypes } from './organisms/SearchInputWithTypes';
 
 export type ReusableType = {
     id: number,
@@ -39,15 +42,10 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
     React.useEffect(() => {
         reloadChildren();
     }, []);
-    
-    // const navigate = useNavigate();
 
-    const checkToggleChildren = () => {
-        // if (highlighted.includes(mainNote.id)) {
-        //     // const highlight = location.pathname.substring(location.pathname.lastIndexOf('/') + 1, location.pathname.length);
-        //     navigate(`/notepad/${mainNote.id}`)
-        // } else 
-        setShowChildren(s => !s)
+    const checkShowChildren = () => {
+        if (!highlighted.includes(mainNote.id))
+            setShowChildren(s => !s);
     }
 
     const reloadChildren = () => {
@@ -66,7 +64,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                             <div style={{ fontSize: props.size }} onKeyUp={e => e.preventDefault()}>
                                 <BrowserView>
                                     <ManageNotePC {...{
-                                        showChildren, checkToggleChildren, setShowOptions,
+                                        showChildren, setShowChildren, setShowOptions,
                                         mainNote: mainNote!,
                                         dispatch: dispatch,
                                         hasChildren: children.length > 0,
@@ -110,7 +108,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 {mainNote && <span style={{ fontSize: props.size }}>
                                     <BrowserView>
                                         <ManageNotePC {...{
-                                            showChildren, checkToggleChildren, setShowOptions,
+                                            showChildren, setShowChildren, setShowOptions,
                                             mainNote: mainNote!,
                                             dispatch: dispatch,
                                             hasChildren: children.length > 0,
@@ -136,4 +134,3 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
         </>
     );
 });
-

@@ -12,7 +12,7 @@ export interface INote {
 }
 
 export enum ENoteType {
-    todo = 1, hierarchic, timeline, event
+    todo, hierarchic, timeline, event
 }
 
 export interface INotepadState {
@@ -26,22 +26,21 @@ export interface INotepadState {
 
 export const initialState: INotepadState = {
     allNotes: [
-        { parentId: null, id: 4, text: "shopping list", order: 0, type: ENoteType.todo },
-        { parentId: 4, id: 41, text: "milk", order: 1, type: ENoteType.todo },
-        { parentId: 4, id: 42, text: "bread", order: 2, type: ENoteType.todo },
-        { parentId: 42, id: 412, text: 'white', order: 0, type: ENoteType.todo },
-        { parentId: 42, id: 413, text: 'dark', order: 1, type: ENoteType.todo },
-        { parentId: 4, id: 43, text: "tea", order: 3, type: ENoteType.todo },
-        { parentId: null, id: 2, text: "app dev features", order: 1, type: ENoteType.timeline },
-        { parentId: 2, id: 21, text: "creating new note with children", order: 1, type: ENoteType.timeline },
-        { parentId: 2, id: 22, text: "update, edit, delete", order: 2, type: ENoteType.timeline },
-        { parentId: 2, id: 23, text: "provide visualisation", order: 3, type: ENoteType.timeline },
-        { parentId: null, id: 3, text: "life priorities", order: 2, type: ENoteType.hierarchic },
-        { parentId: 3, id: 31, text: "money?", order: 1, type: ENoteType.hierarchic },
-        { parentId: 3, id: 32, text: "love", order: 1, type: ENoteType.hierarchic },
-        { parentId: 3, id: 33, text: "health", order: 1, type: ENoteType.hierarchic },
-        { parentId: 3, id: 34, text: "peace", order: 1, type: ENoteType.hierarchic },
-        { parentId: null, id: 1, text: "locations", order: 2, type: ENoteType.event },
+        { parentId: null, id: 4, text: "shopping list", order: 0 },
+        { parentId: 4, id: 41, text: "milk", order: 1 },
+        { parentId: 4, id: 42, text: "bread", order: 2 },
+        { parentId: 42, id: 412, text: 'white', order: 0 },
+        { parentId: 42, id: 413, text: 'dark', order: 1 },
+        { parentId: 4, id: 43, text: "tea", order: 3 },
+        { parentId: null, id: 2, text: "app dev features", order: 1 },
+        { parentId: 2, id: 21, text: "creating new note with children", order: 1 },
+        { parentId: 2, id: 22, text: "update, edit, delete", order: 2 },
+        { parentId: 2, id: 23, text: "provide visualisation", order: 3 },
+        { parentId: null, id: 3, text: "life priorities", order: 2 },
+        { parentId: 3, id: 31, text: "money?", order: 1 },
+        { parentId: 3, id: 32, text: "love", order: 1 },
+        { parentId: 3, id: 33, text: "health", order: 1 },
+        { parentId: 3, id: 34, text: "peace", order: 1 },
     ],
     highlighted: [],
     filter: {

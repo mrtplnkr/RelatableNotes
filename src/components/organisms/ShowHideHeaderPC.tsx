@@ -8,7 +8,7 @@ import OrderButtons from '../atoms/OrderButtons';
 export interface IShowHideHeaderPCProps {
     hasChildren: boolean;
     showChildren: boolean;
-    checkToggleChildren(showChilren: boolean): void;
+    setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
     setUpdatingText: React.Dispatch<React.SetStateAction<boolean>>;
     hasBrothers: boolean;
     updatingText: boolean;
@@ -34,7 +34,7 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
                     {props.mainNote!.text}</span>
               }
               
-              <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.checkToggleChildren(!props.showChildren) : console.log('nothing')}>
+              <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
                 {props.hasChildren && !props.showChildren ? 
                   <FontAwesomeIcon icon={faFolderOpen} /> : 
                   <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
