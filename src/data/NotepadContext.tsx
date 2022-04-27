@@ -27,8 +27,10 @@ export const NotepadProvider = (children: any) => {
     }, [notes])
     
     useEffect(() => {
-        const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
-        if (check && notes.filter.text !== '') highlightParent(check[0].id);
+        if (notes.filter) {
+            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
+            if (check && notes.filter.text !== '') highlightParent(check[0].id);
+        }
     }, [notes.filter]);
 
     // const location = useLocation();
