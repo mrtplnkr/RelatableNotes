@@ -84,7 +84,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 }} />
                             </MobileView>
                             
-                            {(filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
+                            {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
                                 {children?.length && children.sort(compareLatest).map((x, index) => {
                                     return (
                                         <div style={{ padding: '5px' }} key={x.id}>
