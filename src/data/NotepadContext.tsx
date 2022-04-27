@@ -25,7 +25,6 @@ export const NotepadProvider = (children: any) => {
         if (notes)
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes])
-    console.log('text', notes.filter.text);
     
     useEffect(() => {
         const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
