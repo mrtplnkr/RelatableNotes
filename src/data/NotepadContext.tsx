@@ -1,6 +1,5 @@
-import { createContext, Dispatch, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
 import { ENoteType, initialState, INote, NotepadReducer } from './NotepadReducer';
-import { useLocation } from 'react-router-dom'
 
 interface INotepadContext {
     notes: INote[];
@@ -34,14 +33,24 @@ export const NotepadProvider = (children: any) => {
             const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
             if (check && check.length && notes.filter.text !== '') {
                 getParents(check[0].id);
-                arr.reverse().forEach(id => {
-                    setTimeout(async () => {
-                        dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
-                    }, 3000);
-                }); 
+                delay(arr.reverse());
             }
         }
     }, [notes.filter]);
+
+    const delay = async (arr: number[]) => {
+        for await (let id of arr) {
+            await sleep(2000);
+            dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
+        }
+        return sleep(2000);
+    };
+
+    const sleep = (delay: number) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, delay)
+        });
+    }
 
     const getParents = async (id: number) => {
         await getParentList(id);
