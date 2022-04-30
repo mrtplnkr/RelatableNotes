@@ -1,6 +1,6 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
-import { ENoteType, INote } from '../data/NotepadReducer';
+import { INote } from '../data/NotepadReducer';
 import { Dispatch, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
@@ -37,7 +37,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
 
     React.useEffect(() => {
         reloadChildren();
-    }, []);
+    }, [notes]);
 
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));
