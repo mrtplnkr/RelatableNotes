@@ -14,6 +14,7 @@ export interface IShowHideHeaderPCProps {
     updatingText: boolean;
     mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
+    highlighted: boolean;
 }
 
 export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
@@ -26,10 +27,11 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
               {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
               {props.mainNote!.url ? 
                 // eslint-disable-next-line react/jsx-no-target-blank
-                <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px', background: [31].includes(props.mainNote.id) ? 'pink' : 'red' }}>{props.mainNote!.text}</a> 
+                <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}
+                  className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
+                    {props.mainNote!.text}</a> 
               :
-                <span style={{margin: '0 10px', 
-                  border: [31].includes(props.mainNote.id) ? '1px solid pink' : '',
+                <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px', 
                   textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>
                     {props.mainNote!.text}</span>
               }

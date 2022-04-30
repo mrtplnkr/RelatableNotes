@@ -7,10 +7,6 @@ import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndo } from '@fortawesome/free-solid-svg-icons';
-import { InitialInputWithTypes } from './organisms/InitialInputWithTypes';
-import { SearchInputWithTypes } from './organisms/SearchInputWithTypes';
 
 export type ReusableType = {
     id: number,
@@ -43,11 +39,6 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
         reloadChildren();
     }, []);
 
-    const checkShowChildren = () => {
-        if (!highlighted.includes(mainNote.id))
-            setShowChildren(s => !s);
-    }
-
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));
         setLoading(false);
@@ -69,7 +60,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                         dispatch: dispatch,
                                         hasChildren: children.length > 0,
                                         isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                        hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1
+                                        hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
+                                        highlighted: highlighted.includes(props.mainNote.id)
                                     }} />
                                 </BrowserView>
                             </div>
@@ -113,7 +105,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                             dispatch: dispatch,
                                             hasChildren: children.length > 0,
                                             isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1
+                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
+                                            highlighted: highlighted.includes(props.mainNote.id)
                                         }} />
                                     </BrowserView>
                                     <MobileView>

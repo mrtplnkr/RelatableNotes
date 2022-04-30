@@ -9,7 +9,8 @@ interface INotepadContext {
     dispatchNotes: Dispatch<{ type: string; payload: INote; }>;
 }
 
-const NotepadContext = createContext<INotepadContext>({notes: [], highlighted: [], filter: {text:''}, dispatchNotes: () => console.log('silly code...')});
+const NotepadContext = createContext<INotepadContext>({notes: [], highlighted: [], filter: {text:''}, 
+                        dispatchNotes: () => console.log('silly code...')});
 
 export function useNotepadContext() {
     return useContext(NotepadContext);
@@ -26,27 +27,33 @@ export const NotepadProvider = (children: any) => {
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes])
     
+    const arr: number[] = [];
+
     useEffect(() => {
         if (notes.filter) {
             const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
-            if (check && check.length && notes.filter.text !== '') highlightParent(check[0].id);
+            if (check && check.length && notes.filter.text !== '') {
+                getParents(check[0].id);
+                arr.reverse().forEach(id => {
+                    setTimeout(async () => {
+                        dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
+                    }, 3000);
+                }); 
+            }
         }
-        // else {
-        //     dispatch({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: '', type: undefined}});
-        // }
     }, [notes.filter]);
 
-    // const location = useLocation();
+    const getParents = async (id: number) => {
+        await getParentList(id);
+    }
 
-    // const highlight = location.pathname.substring(location.pathname.lastIndexOf('/') + 1, location.pathname.length);
-
-    const highlightParent = (noteId: number | null) => {
+    const getParentList = async (noteId: number) => {
+        arr.push(noteId);
         const note = notes.allNotes.find(x => x.id === noteId);
-        dispatch({type: 'highlightNote', payload: {id: noteId!, parentId: null, order: 0, text: ''}});
-        if (note && note.parentId != null)  {
-            setTimeout(() => {
-                highlightParent(note.parentId);
-            }, 1000)
+        if (note?.parentId) {
+            await getParentList(note.parentId);
+        } else {
+            return arr;
         }
     }
     

@@ -1,8 +1,9 @@
 import { faCalendarTimes, faRandom, faSitemap, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Dispatch, useState } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
+import debounce from 'lodash.debounce';
 
 export interface ISearchInputWithTypesProps {
     dispatch: Dispatch<{ type: string; payload: INote }>;
@@ -16,6 +17,14 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     props.dispatch({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: searchText, type: selectedType}});
   }, [searchText, selectedType])
 
+  const changeTextHandler = (val: string) => {
+    setSearchText(val);
+  }
+
+  const debouncedChangeHandler = useCallback(
+    debounce(changeTextHandler, 999)
+  , []);
+
   return (
     <div>
       <>
@@ -27,7 +36,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
           </div>
           <div style={{margin: '0.5em'}}>
             <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
-              onChange={(e: any) => setSearchText(e.target.value)} />
+              onChange={(e: any) => debouncedChangeHandler(e.target.value)} />
           </div>
           
         </>

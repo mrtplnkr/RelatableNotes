@@ -89,9 +89,8 @@ export function Preview (props: IPreviewProps) {
     const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);
     const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
     const type = notes.find(x => x.id === filtered)?.type;
-    console.log('type', type, notes.find(x => x.id === filtered));
     
-    if (!type) {
+    if (type !== ENoteType.event) {
       setData({
         nodes: notes.filter(x => filtered === x.id 
         || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
