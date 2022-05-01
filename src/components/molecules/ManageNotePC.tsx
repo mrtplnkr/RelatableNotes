@@ -27,7 +27,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-      {props.mainNote!.cut ? <div style={{opacity: '0.1'}}>{props.mainNote!.text}</div>
+      {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div>
         :
         <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       }

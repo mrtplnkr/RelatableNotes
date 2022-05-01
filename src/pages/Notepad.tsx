@@ -6,7 +6,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InitialInputWithTypes } from '../components/organisms/InitialInputWithTypes';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
-import { faSearch, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUndo, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }
@@ -32,9 +32,11 @@ export function Notepad (props: INotepadProps) {
     <div>
       <h3>Your Collections</h3>
       <div>
-          {!searchOrNot ? <InitialInputWithTypes dispatch={dispatchNotes} /> :
-          <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />}
-          <FontAwesomeIcon title="search" onClick={() => setSearchOrNot((s) => !s)} icon={faSearch} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
+          <div style={{position: 'relative'}}>
+            {!searchOrNot ? <InitialInputWithTypes dispatch={dispatchNotes} /> :
+            <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />}
+            <FontAwesomeIcon style={{position: 'absolute', right: 0, top: '35px'}} title="search" onClick={() => setSearchOrNot((s) => !s)} icon={!searchOrNot ? faSearch : faWindowClose} cursor='pointer' />
+          </div>
 
           {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
               {notes.find(x => x.cut)!.text}

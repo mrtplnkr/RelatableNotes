@@ -38,7 +38,7 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
                 {props.hasChildren && !props.showChildren ? 
-                  <FontAwesomeIcon icon={faFolderOpen} /> : 
+                  <FontAwesomeIcon icon={faFolderOpen} className={props.highlighted ? 'blink' : ''} /> : 
                   <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
               </div>
             </>

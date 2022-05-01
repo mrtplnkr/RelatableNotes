@@ -72,7 +72,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                     dispatch: dispatch,
                                     hasChildren: children.length > 0,
                                     isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                    hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1
+                                    hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
+                                    highlighted: highlighted.includes(props.mainNote.id)
                                 }} />
                             </MobileView>
                             
@@ -116,7 +117,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                             dispatch: dispatch,
                                             hasChildren: children.length > 0,
                                             isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1
+                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
+                                            highlighted: highlighted.includes(props.mainNote.id)
                                         }} />
                                     </MobileView>
                                 </span>}

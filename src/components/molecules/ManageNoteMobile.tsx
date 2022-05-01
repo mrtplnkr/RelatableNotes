@@ -4,6 +4,7 @@ import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@forta
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHideInput } from '../organisms/ShowHideInput';
 import OrderButtons from '../atoms/OrderButtons';
+import { ShowHideHeaderPC } from '../organisms/ShowHideHeaderPC';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
@@ -15,24 +16,28 @@ export interface IManageNoteMobileProps {
     setShowChildren: Dispatch<React.SetStateAction<boolean>>;
     isAnythingCut: boolean;
     hasBrothers: boolean;
+    highlighted: boolean
 }
 
 export function ManageNoteMobile (props: IManageNoteMobileProps) {
     const [showTextbox, setShowTextbox] = useState<boolean>(false);
-    const [whileUpdating, setWhileUpdating] = useState<boolean>(false);
+    const [updatingText, setUpdatingText] = useState<boolean>(false);
     const [addLink, setAddLink] = useState(false);
+
+    const { highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
 
     return (
     <>
         <>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            {/* <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 {props.hasBrothers && !props.mainNote.cut && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
                 <div style={{flex: '1'}}>
                     {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div> :
                         <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
                     }
                 </div>
-            </div>
+            </div> */}
+            <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
             {!showTextbox ? 
                 <div style={{margin: '10px 0'}}>
                     {props.showOptions === props.mainNote!.id ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -40,7 +45,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                             setShowTextbox(!showTextbox);
                         }}><FontAwesomeIcon icon={faPlus} /></button>
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                            setWhileUpdating(true);
+                            setUpdatingText(true);
                         }}><FontAwesomeIcon icon={faEdit} /></button>
                         {
                             props.mainNote.type === ENoteType.todo ?

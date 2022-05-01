@@ -40,10 +40,9 @@ export const NotepadProvider = (children: any) => {
 
     const delay = async (arr: number[]) => {
         for await (let id of arr) {
-            await sleep(2000);
             dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
         }
-        return sleep(2000);
+        return sleep(999);
     };
 
     const sleep = (delay: number) => {
