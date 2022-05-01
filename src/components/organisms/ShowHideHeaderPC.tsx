@@ -21,7 +21,7 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
 
   return (
     <>
-        <div className="dropdown">
+        <div className="dropdown" style={{flex: '1'}}>
           {!props.updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
             <>
               {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}

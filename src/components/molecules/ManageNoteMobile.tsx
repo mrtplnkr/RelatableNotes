@@ -1,9 +1,7 @@
 import React, { useState, Dispatch } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
-import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCompressArrowsAlt, faCut, faEdit, faExpandArrowsAlt, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ShowHideInput } from '../organisms/ShowHideInput';
-import OrderButtons from '../atoms/OrderButtons';
 import { ShowHideHeaderPC } from '../organisms/ShowHideHeaderPC';
 
 export interface IManageNoteMobileProps {
@@ -29,7 +27,12 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     return (
     <>
         <>
-            <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
+            <div style={{display: 'flex'}}>
+                <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
+                <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
+                    {props.showOptions === props.mainNote.id ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
+                </div>
+            </div>
             {!showTextbox ? 
                 <div style={{margin: '10px 0'}}>
                     {props.showOptions === props.mainNote!.id ? <div style={{display: 'flex', justifyContent: 'space-around'}}>
