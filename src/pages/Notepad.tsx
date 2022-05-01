@@ -28,38 +28,25 @@ export function Notepad (props: INotepadProps) {
 
   const [searchOrNot, setSearchOrNot] = useState<boolean>(false);
 
-  const handleSearch = (val: boolean) => {
-    if (val) dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: '', type: undefined}});
-    setSearchOrNot((s) => !s);
-  }
-
-  const figureOutTheColor = (text: string, highlighted: boolean) => {
-    if (text) {
-      if (highlighted) {
-        return 'green';
-      } else {
-        return 'red';
-      }
-    } else {
-      return 'white';
+  const handleSearch = (text: string) => {
+    if (!text) {
+      setSearchOrNot(false);
+      dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: '', type: undefined}});
     }
+    else dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, type: undefined}});
   }
 
   return (
     <div>
       <h3>Your Collections</h3>
-      <div>
+      <div style={{justifyContent: 'space-around'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <div style={{flex: 1}}>
               {!searchOrNot ? 
-                <InitialInputWithTypes dispatch={dispatchNotes} /> 
+                <InitialInputWithTypes dispatch={dispatchNotes} setSearchOrNot={setSearchOrNot} /> 
                 :
-                <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />
+                <SearchInputWithTypes {...{selectedType, setSelectedType, handleSearch, highlighted: highlighted.length>0}} />
               }
-            </div>
-            <div >
-              <FontAwesomeIcon title="search" onClick={() => handleSearch(searchOrNot)} icon={!searchOrNot ? faSearch : faSearchMinus}
-                cursor='pointer' style={{color: figureOutTheColor(filter.text, highlighted.length > 0)}} />
             </div>
           </div>
           <hr />

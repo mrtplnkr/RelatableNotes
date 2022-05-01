@@ -1,24 +1,23 @@
-import { faCalendarTimes, faRandom, faSitemap, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarTimes, faRandom, faSearchMinus, faSitemap, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useCallback } from 'react';
 import { Dispatch, useState } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
 import debounce from 'lodash.debounce';
+import { figureOutTheColor } from '../../data/functional';
 
 export interface ISearchInputWithTypesProps {
-    dispatch: Dispatch<{ type: string; payload: INote }>;
+    handleSearch(text: string, type: ENoteType | undefined): void;
+    highlighted: boolean;
 }
 
 export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [searchText, setSearchText] = useState<string>('');
-  const [selectedType, setSelectedType] = useState<ENoteType>();
-
-  useEffect(() => {
-    props.dispatch({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: searchText, type: selectedType}});
-  }, [searchText, selectedType])
+  const [selectedType, setSelectedType] = useState<ENoteType | undefined>();
 
   const changeTextHandler = (val: string) => {
     setSearchText(val);
+    props.handleSearch(val, selectedType);
   }
 
   const debouncedChangeHandler = useCallback(
@@ -34,9 +33,11 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             <FontAwesomeIcon title="timeline" onClick={() => setSelectedType(ENoteType.timeline)} icon={faRandom} cursor='pointer' style={{color: selectedType === ENoteType.timeline ? 'blue' : ''}} />
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div>
-          <div style={{marginTop: '0.5em'}}>
+          <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
             <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
               onChange={(e: any) => debouncedChangeHandler(e.target.value)} />
+            <FontAwesomeIcon title="search" onClick={() => props.handleSearch('', undefined)} icon={faSearchMinus}
+              cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor(searchText, props.highlighted)}} />
           </div>
           
         </>

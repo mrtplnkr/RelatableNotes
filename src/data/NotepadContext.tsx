@@ -30,7 +30,7 @@ export const NotepadProvider = (children: any) => {
 
     useEffect(() => {
         if (notes.filter) {
-            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text));
+            const check = notes.allNotes.filter(x => !notes.filter.text.toLowerCase() || x.text.includes(notes.filter.text.toLowerCase()));
             if (check && check.length && notes.filter.text !== '') {
                 getParents(check[0].id);
                 delay(arr.reverse());
@@ -41,8 +41,8 @@ export const NotepadProvider = (children: any) => {
     const delay = async (arr: number[]) => {
         for await (let id of arr) {
             dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
+            await sleep(999);
         }
-        return sleep(999);
     };
 
     const sleep = (delay: number) => {
