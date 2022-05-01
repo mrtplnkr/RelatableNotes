@@ -29,14 +29,6 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     return (
     <>
         <>
-            {/* <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                {props.hasBrothers && !props.mainNote.cut && <OrderButtons mainNote={props.mainNote} dispatch={props.dispatch} />}
-                <div style={{flex: '1'}}>
-                    {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div> :
-                        <ShowHideInput hasChildren={props.hasChildren} showChildren={props.showChildren} setShowChildren={props.setShowChildren} showOptions={props.showOptions} setShowOptions={props.setShowOptions} whileUpdating={whileUpdating} setWhileUpdating={setWhileUpdating} dispatch={props.dispatch} mainNote={props.mainNote} />
-                    }
-                </div>
-            </div> */}
             <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
             {!showTextbox ? 
                 <div style={{margin: '10px 0'}}>

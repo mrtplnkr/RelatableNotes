@@ -6,7 +6,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InitialInputWithTypes } from '../components/organisms/InitialInputWithTypes';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
-import { faSearch, faUndo, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faSearchMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }
@@ -21,12 +21,29 @@ export const compareLatest = (a: INote, b: INote) => {
 
 export function Notepad (props: INotepadProps) {
   
-  const { notes, dispatchNotes } = useNotepadContext();
+  const { filter, notes, highlighted, dispatchNotes } = useNotepadContext();
   const [selectedType, setSelectedType] = useState<ENoteType>();
 
   const [showOptions, setShowOptions] = useState<number>(0);
 
   const [searchOrNot, setSearchOrNot] = useState<boolean>(false);
+
+  const handleSearch = (val: boolean) => {
+    if (val) dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: '', type: undefined}});
+    setSearchOrNot((s) => !s);
+  }
+
+  const figureOutTheColor = (text: string, highlighted: boolean) => {
+    if (text) {
+      if (highlighted) {
+        return 'green';
+      } else {
+        return 'red';
+      }
+    } else {
+      return 'white';
+    }
+  }
 
   return (
     <div>
@@ -35,7 +52,8 @@ export function Notepad (props: INotepadProps) {
           <div style={{position: 'relative'}}>
             {!searchOrNot ? <InitialInputWithTypes dispatch={dispatchNotes} /> :
             <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />}
-            <FontAwesomeIcon style={{position: 'absolute', right: 0, top: '35px'}} title="search" onClick={() => setSearchOrNot((s) => !s)} icon={!searchOrNot ? faSearch : faWindowClose} cursor='pointer' />
+            <FontAwesomeIcon title="search" onClick={() => handleSearch(searchOrNot)} icon={!searchOrNot ? faSearch : faSearchMinus} cursor='pointer' 
+              style={{position: 'absolute', right: 0, top: '35px', color: figureOutTheColor(filter.text, highlighted.length > 0)}} />
           </div>
 
           {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>

@@ -47,14 +47,15 @@ export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
           <>
             {props.updatingText &&
               <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
-                if (e.keyCode === 13) {
-                  props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
-                  props.setUpdatingText(false);
-                } else if (e.keyCode === 27) {
-                  props.setUpdatingText(false);
-                }
-              }}
-            />}
+                  if (e.keyCode === 13) {
+                    props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
+                    props.setUpdatingText(false);
+                  } else if (e.keyCode === 27) {
+                    props.setUpdatingText(false);
+                  }
+                }}
+              />
+            }
           </>
           }
         </div>
