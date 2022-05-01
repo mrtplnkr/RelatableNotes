@@ -49,11 +49,18 @@ export function Notepad (props: INotepadProps) {
     <div>
       <h3>Your Collections</h3>
       <div>
-          <div style={{position: 'relative'}}>
-            {!searchOrNot ? <InitialInputWithTypes dispatch={dispatchNotes} /> :
-            <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />}
-            <FontAwesomeIcon title="search" onClick={() => handleSearch(searchOrNot)} icon={!searchOrNot ? faSearch : faSearchMinus} cursor='pointer' 
-              style={{position: 'absolute', right: 0, top: '35px', color: figureOutTheColor(filter.text, highlighted.length > 0)}} />
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{flex: 1}}>
+              {!searchOrNot ? 
+                <InitialInputWithTypes dispatch={dispatchNotes} /> 
+                :
+                <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />
+              }
+            </div>
+            <div style={{alignSelf: 'self-end'}}>
+              <FontAwesomeIcon title="search" onClick={() => handleSearch(searchOrNot)} icon={!searchOrNot ? faSearch : faSearchMinus}
+                cursor='pointer' style={{color: figureOutTheColor(filter.text, highlighted.length > 0)}} />
+            </div>
           </div>
 
           {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
