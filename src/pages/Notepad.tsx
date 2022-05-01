@@ -49,7 +49,7 @@ export function Notepad (props: INotepadProps) {
     <div>
       <h3>Your Collections</h3>
       <div>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <div style={{flex: 1}}>
               {!searchOrNot ? 
                 <InitialInputWithTypes dispatch={dispatchNotes} /> 
@@ -57,12 +57,12 @@ export function Notepad (props: INotepadProps) {
                 <SearchInputWithTypes dispatch={dispatchNotes} {...{selectedType, setSelectedType}} />
               }
             </div>
-            <div style={{alignSelf: 'self-end'}}>
+            <div >
               <FontAwesomeIcon title="search" onClick={() => handleSearch(searchOrNot)} icon={!searchOrNot ? faSearch : faSearchMinus}
                 cursor='pointer' style={{color: figureOutTheColor(filter.text, highlighted.length > 0)}} />
             </div>
           </div>
-
+          <hr />
           {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
               {notes.find(x => x.cut)!.text}
               <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em' }} />

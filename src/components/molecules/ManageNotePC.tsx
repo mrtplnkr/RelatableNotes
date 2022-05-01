@@ -2,7 +2,7 @@ import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@forta
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
-import { ShowHideHeaderPC } from '../organisms/ShowHideHeaderPC';
+import { ShowHeader } from '../organisms/ShowHeader';
 
 export interface IManageNotePCProps {
   mainNote: INote;
@@ -29,7 +29,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
     <div className="dropdown">
       {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text}</div>
         :
-        <ShowHideHeaderPC {...{highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
+        <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       }
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 

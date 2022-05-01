@@ -5,7 +5,7 @@ import { Dispatch } from 'react';
 import { ENoteType, INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
-export interface IShowHideHeaderPCProps {
+export interface IshowHeaderProps {
     hasChildren: boolean;
     showChildren: boolean;
     setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +17,7 @@ export interface IShowHideHeaderPCProps {
     highlighted: boolean;
 }
 
-export function ShowHideHeaderPC (props: IShowHideHeaderPCProps) {
+export function ShowHeader (props: IshowHeaderProps) {
 
   return (
     <>
