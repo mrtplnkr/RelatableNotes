@@ -29,7 +29,7 @@ export const NotepadProvider = (children: any) => {
     const arr: number[] = [];
 
     useEffect(() => {
-        if (notes.filter) {
+        if (notes.filter && notes.filter.text.length > 1) {
             const check = notes.allNotes.filter(x => !notes.filter.text.toLowerCase() || x.text.includes(notes.filter.text.toLowerCase()));
             if (check && check.length && notes.filter.text !== '') {
                 getParents(check[0].id);
@@ -47,7 +47,7 @@ export const NotepadProvider = (children: any) => {
 
     const sleep = (delay: number) => {
         return new Promise(resolve => {
-            setTimeout(resolve, delay)
+            setTimeout(resolve, delay);
         });
     }
 
