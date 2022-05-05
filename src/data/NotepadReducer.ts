@@ -72,7 +72,7 @@ const checkAssignOrder = (orders: number[]): number => {
 const changeOrder = (notes: INote[], direction: number, noteId: number) => {
     const allWithinParentSorted = notes.sort(compareLatest);
     const currentIndex = allWithinParentSorted.findIndex(a => a.id === noteId);
-    return currentIndex > 0 ? allWithinParentSorted[currentIndex + direction] :  allWithinParentSorted[currentIndex];
+    return currentIndex >= 0 && currentIndex > allWithinParentSorted.length ? allWithinParentSorted[currentIndex + direction] :  allWithinParentSorted[currentIndex];
 }
 
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {

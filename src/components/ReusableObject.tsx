@@ -46,13 +46,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
 
     const { setShowOptions, mainNote, showOptions, dispatch } = props;
 
-    
-
     const sortByIncome = useCallback(e => {
-
-        // Using `companies` will always result in the current value
         return children.sort(compareLatest)
-    
     }, [children]);
 
     return (
