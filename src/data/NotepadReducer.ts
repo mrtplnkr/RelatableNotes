@@ -42,7 +42,7 @@ export const initialState: INotepadState = {
         { parentId: 3, id: 32, text: "love", order: 2, type: ENoteType.hierarchic },
         { parentId: 3, id: 33, text: "health", order: 3, type: ENoteType.hierarchic },
         { parentId: 3, id: 34, text: "peace", order: 4, type: ENoteType.hierarchic },
-        { parentId: null, id: 5, text: "Travel bucket list", order: 2, type: ENoteType.event },
+        { parentId: null, id: 5, text: "Travel bucket list", order: 3, type: ENoteType.event },
         { parentId: 5, id: 51, text: "Thailand", order: 1, type: ENoteType.event },
         { parentId: 5, id: 52, text: "Turkey", order: 2, type: ENoteType.event },
         { parentId: 5, id: 53, text: "Sweden", order: 3, type: ENoteType.event },

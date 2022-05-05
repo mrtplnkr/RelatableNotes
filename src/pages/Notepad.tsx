@@ -6,7 +6,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InitialInputWithTypes } from '../components/organisms/InitialInputWithTypes';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
-import { faSearch, faSearchMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
 
 export interface INotepadProps {
 }
@@ -21,7 +21,7 @@ export const compareLatest = (a: INote, b: INote) => {
 
 export function Notepad (props: INotepadProps) {
   
-  const { filter, notes, highlighted, dispatchNotes } = useNotepadContext();
+  const { notes, highlighted, dispatchNotes } = useNotepadContext();
   const [selectedType, setSelectedType] = useState<ENoteType>();
 
   const [showOptions, setShowOptions] = useState<number>(0);

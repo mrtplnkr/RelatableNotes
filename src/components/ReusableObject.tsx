@@ -1,7 +1,7 @@
 import * as React from 'react';
 import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
-import { Dispatch, useState } from 'react';
+import { Dispatch, useCallback, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
@@ -46,6 +46,15 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
 
     const { setShowOptions, mainNote, showOptions, dispatch } = props;
 
+    
+
+    const sortByIncome = useCallback(e => {
+
+        // Using `companies` will always result in the current value
+        return children.sort(compareLatest)
+    
+    }, [children]);
+
     return (
         <>
             {!loading ? <>
@@ -78,7 +87,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                             </MobileView>
                             
                             {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
-                                {children?.length && children.sort(compareLatest).map((x, index) => {
+                                {children?.length && sortByIncome(children).map((x, index) => {
                                     return (
                                         <div style={{ padding: '5px' }} key={x.id}>
                                             <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
@@ -87,7 +96,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 })}
                             </div> :
                             <div style={{border:'1px black dotted'}}>
-                            {showChildren && children?.length && children.sort(compareLatest).map((x, index) => {
+                            {showChildren && children?.length && sortByIncome(children).map((x, index) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
                                         <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
