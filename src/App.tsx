@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
 import { INote, INotepadState } from './data/NotepadReducer';
 import { NotepadProvider } from './data/NotepadContext';
+import Export from './pages/Export';
 
 interface INotepadContext {
   notepadState: INotepadState;
@@ -36,6 +37,8 @@ function App() {
               <Route path="notepad/:id" element={<Notepad />}>
               </Route>
               <Route path="preview" element={<Preview data={data} />}>
+              </Route>
+              <Route path="export" element={<Export />}>
               </Route>
             </Routes>
             </NotepadProvider>
