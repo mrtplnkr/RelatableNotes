@@ -1,6 +1,6 @@
 import React, { useState, Dispatch } from 'react';
-import { ENoteType, INote } from '../../data/NotepadReducer';
-import { faCheck, faCompressArrowsAlt, faCut, faEdit, faExpandArrowsAlt, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { INote } from '../../data/NotepadReducer';
+import { faCompressArrowsAlt, faCut, faEdit, faExpandArrowsAlt, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ShowHeader } from '../organisms/ShowHeader';
 
@@ -42,14 +42,6 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         setUpdatingText(true);
                     }}><FontAwesomeIcon icon={faEdit} /></button>
                     {
-                        props.mainNote.type === ENoteType.todo ?
-                        <>
-                            {props.mainNote.type === ENoteType.todo && !props.hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                                props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
-                                props.setShowOptions(0);
-                            }}><FontAwesomeIcon icon={faCheck} /></button>}
-                        </>
-                        :
                         <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                             props.setShowOptions(0);
                             setAddLink(true);

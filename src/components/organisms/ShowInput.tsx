@@ -2,7 +2,7 @@ import { faCompressArrowsAlt, faExpandArrowsAlt, faFolderMinus, faFolderOpen } f
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
-import { ENoteType, INote } from '../../data/NotepadReducer';
+import { INote } from '../../data/NotepadReducer';
 
 export interface IShowHideInputProps {
     whileUpdating: boolean;
@@ -26,9 +26,8 @@ export function ShowHideInput (props: IShowHideInputProps) {
                         {props.mainNote!.url ? 
                             <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}} rel="noreferrer">{props.mainNote!.text}</a> 
                             :
-                            <span style={{margin: '0 10px', 
-                                textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>
-                                    {props.mainNote!.text}</span>
+                            <span style={{margin: '0 10px'}}>
+                                    {props.mainNote.text}</span>
                         }
                     </>
                 </div>

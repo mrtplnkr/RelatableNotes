@@ -1,7 +1,7 @@
-import { faCheck, faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, Dispatch } from 'react';
-import { ENoteType, INote } from '../../data/NotepadReducer';
+import { INote } from '../../data/NotepadReducer';
 import { ShowHeader } from '../organisms/ShowHeader';
 
 export interface IManageNotePCProps {
@@ -41,13 +41,6 @@ export function ManageNotePC (props: IManageNotePCProps) {
                     setUpdatingText(true);
                 }}><FontAwesomeIcon icon={faEdit} /></button>
                 {
-                  props.mainNote.type === ENoteType.todo ?
-                    <>
-                      {props.mainNote.type === ENoteType.todo && !hasChildren && <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
-                        props.dispatch({type: 'updateNote', payload: {...props.mainNote, done: !props.mainNote.done }});
-                      }}><FontAwesomeIcon icon={faCheck} /></button>}
-                    </>
-                  :
                     <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                         setShowTextbox(2);
                     }}><FontAwesomeIcon icon={faLink} /></button>

@@ -1,10 +1,10 @@
 import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
-import { ENoteType, initialState, INote, NotepadReducer } from './NotepadReducer';
+import { initialState, INote, NotepadReducer } from './NotepadReducer';
 
 interface INotepadContext {
     notes: INote[];
     highlighted: number[];
-    filter: {text: string, type?: ENoteType};
+    filter: {text: string};
     dispatchNotes: Dispatch<{ type: string; payload: INote; }>;
 }
 

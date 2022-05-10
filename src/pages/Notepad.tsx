@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
-import { ENoteType, INote } from '../data/NotepadReducer';
+import { INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
 import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +22,7 @@ export const compareLatest = (a: INote, b: INote) => {
 export function Notepad (props: INotepadProps) {
   
   const { notes, highlighted, dispatchNotes } = useNotepadContext();
-  const [selectedType, setSelectedType] = useState<ENoteType>();
+  // const [selectedType, setSelectedType] = useState<ENoteType>();
 
   const [showOptions, setShowOptions] = useState<number>(0);
 
@@ -31,9 +31,9 @@ export function Notepad (props: INotepadProps) {
   const handleSearch = (text: string) => {
     if (!text) {
       setSearchOrNot(false);
-      dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: '', type: undefined}});
+      dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: ''}});
     }
-    else dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, type: undefined}});
+    else dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
   }
 
   return (
@@ -45,7 +45,7 @@ export function Notepad (props: INotepadProps) {
               {!searchOrNot ? 
                 <InitialInputWithTypes dispatch={dispatchNotes} setSearchOrNot={setSearchOrNot} /> 
                 :
-                <SearchInputWithTypes {...{selectedType, setSelectedType, handleSearch, highlighted: highlighted.length>0}} />
+                <SearchInputWithTypes {...{handleSearch, highlighted: highlighted.length>0}} />
               }
             </div>
           </div>

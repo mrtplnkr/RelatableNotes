@@ -2,7 +2,7 @@ import { faFolderMinus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
-import { ENoteType, INote } from '../../data/NotepadReducer';
+import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
 export interface IshowHeaderProps {
@@ -31,8 +31,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                   className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
                     {props.mainNote.text}</a> 
               :
-                <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px', 
-                  textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>
+                <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
                     {props.mainNote.text}</span>
               }
               

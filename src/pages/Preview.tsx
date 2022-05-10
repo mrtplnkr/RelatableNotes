@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
 import { compareLatest } from './Notepad';
-import { ENoteType } from '../data/NotepadReducer';
 import MapContainer from '../components/organisms/MapContainer';
 
 export interface IPreviewProps {
@@ -83,29 +82,25 @@ export function Preview (props: IPreviewProps) {
   }, [notes, data, childrenIds])
 
   const [filter, setFilter] = useState<number>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].id);
-  const [type, setType] = useState<ENoteType | undefined>(ENoteType.todo);
 
   const filterData = (filtered: number) => {
     const parentIds = notes.filter(x => filtered === x.id).map(q => q.id);
     const childrenIds = notes.filter(x => parentIds.includes(x.parentId!)).map(x => x.id);
-    const type = notes.find(x => x.id === filtered)?.type;
     
-    if (type !== ENoteType.event) {
-      setData({
-        nodes: notes.filter(x => filtered === x.id 
-        || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
-          id: x.text.toString(),
-          url: x.text,
-          color: x.parentId === null ? 'blue' : 'red',
-        }}),
-        links: notes.filter(x => x.parentId !== null
-          && parentIds.includes(x.parentId)).map(x => { return {
-          source: x.text.toString(),
-          target: notes.find(a => a.id === x.parentId)!.text
-        }})
-      });
-      setChildrenIds(childrenIds);
-    }
+    setData({
+      nodes: notes.filter(x => filtered === x.id 
+      || (x.parentId !== null && childrenIds.includes(x.id))).map(x => { return {
+        id: x.text.toString(),
+        url: x.text,
+        color: x.parentId === null ? 'blue' : 'red',
+      }}),
+      links: notes.filter(x => x.parentId !== null
+        && parentIds.includes(x.parentId)).map(x => { return {
+        source: x.text.toString(),
+        target: notes.find(a => a.id === x.parentId)!.text
+      }})
+    });
+    setChildrenIds(childrenIds);
   }
 
   return (
@@ -123,19 +118,16 @@ export function Preview (props: IPreviewProps) {
                   onChange={(chk) => {
                     setFilter(parseInt(chk.target.value));
                     filterData(parseInt(chk.target.value));
-                    setType(notes.find(x => x.id === parseInt(chk.target.value))?.type);
                   }} />
               </label>
             </div>
           })}
         </details>
 
-        {type === ENoteType.event ? 
+        {/* {type === ENoteType.event ? 
           <div style={{position: 'relative', width:'320px', height:'320px'}}>
             <MapContainer />
-          </div>
-        :
-        <>
+          </div> */}
           {data?.nodes.length && <Graph
             onNodePositionChange={(e)=> console.log(e)}
             id="noteGraph" // id is mandatory
@@ -144,7 +136,6 @@ export function Preview (props: IPreviewProps) {
             onClickNode={onClickNode}
             onClickLink={onClickLink}
           />}
-        </>}
       </>
       
       <p>
