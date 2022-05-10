@@ -29,11 +29,11 @@ export function ShowHeader (props: IshowHeaderProps) {
                 // eslint-disable-next-line react/jsx-no-target-blank
                 <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}
                   className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
-                    {props.mainNote.text} {props.mainNote.order}</a> 
+                    {props.mainNote.text}</a> 
               :
                 <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px', 
                   textDecoration: props.mainNote.type === ENoteType.todo && props.mainNote.done ? 'line-through' : ''}}>
-                    {props.mainNote.text} {props.mainNote.order}</span>
+                    {props.mainNote.text}</span>
               }
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
