@@ -21,6 +21,7 @@ export function ShowHeader (props: IshowHeaderProps) {
 
   return (
     <>
+      {props.mainNote.cut ? <div style={{opacity: '0.1', flex: '1'}}>{props.mainNote.text} x{props.mainNote.order}</div> :
         <div className="dropdown" style={{flex: '1'}}>
           {!props.updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
             <>
@@ -32,7 +33,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                     {props.mainNote.text} {props.mainNote.order}</a> 
               :
                 <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
-                    {props.mainNote.text}</span>
+                    {props.mainNote.text} {props.mainNote.order}</span>
               }
               
               <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
@@ -58,6 +59,7 @@ export function ShowHeader (props: IshowHeaderProps) {
           </>
           }
         </div>
+      }
     </>
   );
 }

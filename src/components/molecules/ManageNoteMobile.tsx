@@ -28,9 +28,9 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     <>
         <div style={{display: 'flex'}}>
             <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
-            <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
+            {!mainNote.cut && <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
                 {props.showOptions === props.mainNote.id ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
-            </div>
+            </div>}
         </div>
         {!showTextbox ? 
             <div style={{margin: '10px 0'}}>

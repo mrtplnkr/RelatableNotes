@@ -27,10 +27,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-      {props.mainNote.cut ? <div style={{opacity: '0.1'}}>{props.mainNote.text} {props.mainNote.order}</div>
-        :
-        <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
-      }
+      <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
             <>
