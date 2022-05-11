@@ -44,7 +44,7 @@ export const initialState: INotepadState = {
         { parentId: 5, id: 51, text: "Thailand", order: 1 },
         { parentId: 5, id: 52, text: "Turkey", order: 2 },
         { parentId: 5, id: 53, text: "Sweden", order: 3 },
-        { parentId: 5, id: 54, text: "France", order: 4 },
+        { parentId: 5, id: 54, text: "France", order: 3 },
         {"id":414,"parentId":null,"text":"Car example", order: 4, url: 'https://audi.com'},
         {"id":415,"parentId":414,"text":"wheels", order: 1},
         {"id":416,"parentId":414,"text":"steering", order: 2},
@@ -113,7 +113,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'moveUp':
             const next = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), -1, action.payload.id);
             return {...state, allNotes: state.allNotes.map((content) => 
-                content.id === action.payload.id ? {...content, order: next.order } : 
+                content.id === action.payload.id ? {...content, order: next.order === action.payload.order ? next.order+1 : next.order } : 
                 content.id === next.id ? {...content, order: action.payload.order} : content )};
         case 'moveDown':
             const last = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), +1, action.payload.id);
