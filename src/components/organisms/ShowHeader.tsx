@@ -29,7 +29,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                 // eslint-disable-next-line react/jsx-no-target-blank
                 <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}
                   className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
-                    {props.mainNote.text}</a> 
+                    {props.mainNote.text} {props.mainNote.order}</a> 
               :
                 <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
                     {props.mainNote.text}</span>
