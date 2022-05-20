@@ -23,46 +23,49 @@ export function ShowHeader (props: IshowHeaderProps) {
   return (
     <>
       {props.mainNote.cut ? <div style={{opacity: '0.1', flex: '1'}}>{props.mainNote.text} x{props.mainNote.order}</div> :
-        <div className="dropdown" style={{flex: '1'}}>
-          {!props.updatingText ? <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} className="dropbtn">
-            <>
-              {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
-              {props.mainNote!.url ? 
-                // eslint-disable-next-line react/jsx-no-target-blank
-                <a target="_blank" href={props.mainNote.url} style={{margin: '0 10px'}}
-                  className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
-                    {props.mainNote.text} {props.mainNote.order}</a> 
-              :
-                <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
-                    {props.mainNote.text} {props.mainNote.order}</span>
-              }
-              
-              <div style={{cursor: 'n-resize'}} onClick={() => {
-                if (props.hasChildren) { 
-                  props.setShowChildren(!props.showChildren)
-                  if (props.showChildren) props.setShowOptions(0)
-                } else console.log('nothing')}}>
-                {props.hasChildren && !props.showChildren ? 
-                  <FontAwesomeIcon icon={faFolderOpen} className={props.highlighted ? 'blink' : ''} /> : 
-                  <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
-              </div>
-            </>
+        <div style={{display: 'flex', alignItems: 'center', flex: 1}}>
+          <div>
+            {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
           </div>
-          :
-          <>
-            {props.updatingText &&
-              <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
-                  if (e.keyCode === 13) {
-                    props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
-                    props.setUpdatingText(false);
-                  } else if (e.keyCode === 27) {
-                    props.setUpdatingText(false);
-                  }
-                }}
-              />
+          <div className="dropdown" style={{flex: '1', margin: '0 5px'}}>
+            {!props.updatingText ? <div style={{justifyContent: 'center', padding: '0 5px', borderRadius: '5px', display: 'flex', alignItems: 'center'}} className="dropbtn">
+              <>
+                {props.mainNote!.url ? 
+                  // eslint-disable-next-line react/jsx-no-target-blank
+                  <a target="_blank" href={props.mainNote.url}
+                    className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
+                      {props.mainNote.text} {props.mainNote.order}</a> 
+                :
+                  <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
+                      {props.mainNote.text} {props.mainNote.order}</span>
+                }
+              </>
+            </div>
+            :
+            <>
+              {props.updatingText &&
+                <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
+                    if (e.keyCode === 13) {
+                      props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
+                      props.setUpdatingText(false);
+                    } else if (e.keyCode === 27) {
+                      props.setUpdatingText(false);
+                    }
+                  }}
+                />
+              }
+            </>
             }
-          </>
-          }
+          </div>
+          <div style={{cursor: 'n-resize'}} onClick={() => {
+            if (props.hasChildren) { 
+              props.setShowChildren(!props.showChildren)
+              if (props.showChildren) props.setShowOptions(0)
+            } else console.log('nothing')}}>
+            {props.hasChildren && !props.showChildren ? 
+              <FontAwesomeIcon icon={faFolderOpen} className={props.highlighted ? 'blink' : ''} /> : 
+              <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
+          </div>
         </div>
       }
     </>
