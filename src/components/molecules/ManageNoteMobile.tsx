@@ -22,12 +22,12 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     const [updatingText, setUpdatingText] = useState<boolean>(false);
     const [addLink, setAddLink] = useState(false);
 
-    const { highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
+    const { highlighted, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, mainNote, dispatch } = props;
 
     return (
     <>
         <div style={{display: 'flex'}}>
-            <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
+            <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, setShowOptions, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
             {!mainNote.cut && <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
                 {props.showOptions === props.mainNote.id ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>}

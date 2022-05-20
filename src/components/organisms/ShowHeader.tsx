@@ -9,6 +9,7 @@ export interface IshowHeaderProps {
     hasChildren: boolean;
     showChildren: boolean;
     setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowOptions: React.Dispatch<React.SetStateAction<number>>;
     setUpdatingText: React.Dispatch<React.SetStateAction<boolean>>;
     hasBrothers: boolean;
     updatingText: boolean;
@@ -36,7 +37,11 @@ export function ShowHeader (props: IshowHeaderProps) {
                     {props.mainNote.text} {props.mainNote.order}</span>
               }
               
-              <div style={{cursor: 'n-resize'}} onClick={() => props.hasChildren ? props.setShowChildren(!props.showChildren) : console.log('nothing')}>
+              <div style={{cursor: 'n-resize'}} onClick={() => {
+                if (props.hasChildren) { 
+                  props.setShowChildren(!props.showChildren)
+                  if (props.showChildren) props.setShowOptions(0)
+                } else console.log('nothing')}}>
                 {props.hasChildren && !props.showChildren ? 
                   <FontAwesomeIcon icon={faFolderOpen} className={props.highlighted ? 'blink' : ''} /> : 
                   <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
