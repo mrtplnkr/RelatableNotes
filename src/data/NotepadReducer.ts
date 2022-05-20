@@ -63,7 +63,7 @@ export const initialState: INotepadState = {
 }
 
 const checkAssignOrder = (orders: number[]): number => {
-    return orders.length > 1 ? Math.max(...orders) + 1 : 0;
+    return orders.length > 1 ? Math.max(...orders) + 1 : 1;
 }
 
 const changeOrder = (notes: INote[], direction: number, noteId: number) => {
