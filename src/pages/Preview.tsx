@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
 import { compareLatest } from './Notepad';
-import MapContainer from '../components/organisms/MapContainer';
+import { NoteSelection } from '../components/organisms/NoteSelection';
+// import MapContainer from '../components/organisms/MapContainer';
 
 export interface IPreviewProps {
   data: any[]
@@ -103,26 +104,15 @@ export function Preview (props: IPreviewProps) {
     setChildrenIds(childrenIds);
   }
 
+  const selectNote = (val: string) => {
+    setFilter(parseInt(val));
+    filterData(parseInt(val));
+  }
+
   return (
     <div>
       <>
-        <details>
-          <summary>
-            Note Relationships
-          </summary>
-          {notes && notes.filter(x => x.parentId === null).sort(compareLatest).map((e, index) => {
-            return <div key={index}>
-              <label style={{fontSize: '0.5em'}}>
-                {e.text}
-                <input value={e.id} type="radio" name="parents" defaultChecked={index === 0}
-                  onChange={(chk) => {
-                    setFilter(parseInt(chk.target.value));
-                    filterData(parseInt(chk.target.value));
-                  }} />
-              </label>
-            </div>
-          })}
-        </details>
+        <NoteSelection opened={false} selectNote={selectNote} notes={notes.filter(x => x.parentId === null)} />
 
         {/* {type === ENoteType.event ? 
           <div style={{position: 'relative', width:'320px', height:'320px'}}>

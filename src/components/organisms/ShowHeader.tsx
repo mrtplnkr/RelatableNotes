@@ -36,7 +36,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                     className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text} {props.mainNote.order}</a> 
                 :
-                  <span className={props.highlighted ? 'zoom-in-zoom-out' : ''} style={{margin: '0 10px'}}>
+                  <span className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text} {props.mainNote.order}</span>
                 }
               </>
