@@ -15,7 +15,7 @@ export interface IshowHeaderProps {
     updatingText: boolean;
     mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
-    highlighted: boolean;
+    isHighlighted: boolean;
 }
 
 export function ShowHeader (props: IshowHeaderProps) {
@@ -33,10 +33,10 @@ export function ShowHeader (props: IshowHeaderProps) {
                 {props.mainNote!.url ? 
                   // eslint-disable-next-line react/jsx-no-target-blank
                   <a target="_blank" href={props.mainNote.url}
-                    className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
+                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text} {props.mainNote.order}</a> 
                 :
-                  <span className={props.highlighted ? 'zoom-in-zoom-out' : ''}>
+                  <span className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text} {props.mainNote.order}</span>
                 }
               </>
@@ -63,7 +63,7 @@ export function ShowHeader (props: IshowHeaderProps) {
               if (props.showChildren) props.setShowOptions(0)
             } else console.log('nothing')}}>
             {props.hasChildren && !props.showChildren ? 
-              <FontAwesomeIcon icon={faFolderOpen} className={props.highlighted ? 'blink' : ''} /> : 
+              <FontAwesomeIcon icon={faFolderOpen} className={props.isHighlighted ? 'blink' : ''} /> : 
               <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
           </div>
         </div>

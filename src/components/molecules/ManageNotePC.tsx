@@ -12,7 +12,7 @@ export interface IManageNotePCProps {
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
   isAnythingCut: boolean;
   hasBrothers: boolean;
-  highlighted: boolean;
+  isHighlighted: boolean;
 }
 
 enum Property {
@@ -23,11 +23,11 @@ export function ManageNotePC (props: IManageNotePCProps) {
   const [showTextbox, setShowTextbox] = useState<Property>(0);
   const [updatingText, setUpdatingText] = useState<boolean>(false);
 
-  const { highlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
-  const [opt, setShowOptions] = useState<number>(0);
+  const { isHighlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
+  const [ opt, setShowOptions ] = useState<number>(0);
   return (
     <div className="dropdown">
-      <ShowHeader {...{highlighted, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
+      <ShowHeader {...{isHighlighted, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
             <>

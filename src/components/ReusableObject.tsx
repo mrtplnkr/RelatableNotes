@@ -7,6 +7,7 @@ import { ManageNotePC } from './molecules/ManageNotePC';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
+import { ManageViews } from './organisms/ManageViews';
 
 export type ReusableType = {
     id: number,
@@ -46,8 +47,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
 
     const { setShowOptions, mainNote, showOptions, dispatch } = props;
 
-    const sortByIncome = useCallback(e => {
-        return children.sort(compareLatest)
+    const sortByOrder = useCallback((c: INote[]) => {
+        return c.sort(compareLatest)
     }, [children]);
 
     return (
@@ -56,33 +57,19 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                 <>
                     <>
                         {children?.length ? <div style={{ border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px' }}>
-                            <div style={{ fontSize: props.size }} onKeyUp={e => e.preventDefault()}>
-                                <BrowserView>
-                                    <ManageNotePC {...{
-                                        showChildren, setShowChildren, setShowOptions,
-                                        mainNote: mainNote!,
-                                        dispatch: dispatch,
-                                        hasChildren: children.length > 0,
-                                        isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                        hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
-                                        highlighted: highlighted.includes(props.mainNote.id)
-                                    }} />
-                                </BrowserView>
-                            </div>
-                            <MobileView>
-                                <ManageNoteMobile {...{
-                                    showOptions, setShowOptions, showChildren, setShowChildren,
-                                    mainNote: mainNote,
-                                    dispatch: dispatch,
-                                    hasChildren: children.length > 0,
-                                    isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                    hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
-                                    highlighted: highlighted.includes(props.mainNote.id)
-                                }} />
-                            </MobileView>
+                            <ManageViews {...{
+                                showOptions, showChildren, setShowChildren, setShowOptions,
+                                children,
+                                mainNote: mainNote!,
+                                dispatch: dispatch,
+                                hasChildren: children.length > 0,
+                                isAnythingCut: notes.filter(a => a.cut).length > 0,
+                                hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
+                                isHighlighted: highlighted.includes(props.mainNote.id)
+                            }} />
                             
                             {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
-                                {children?.length && sortByIncome(children).map((x) => {
+                                {children?.length && sortByOrder(children).map((x) => {
                                     return (
                                         <div style={{ padding: '5px' }} key={x.id}>
                                             <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
@@ -91,41 +78,26 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 })}
                             </div> :
                             <div style={{border:'1px black dotted'}}>
-                            {showChildren && children?.length && sortByIncome(children).map((x) => {
-                                return (
-                                    <div style={{ padding: '5px' }} key={x.id}>
-                                        <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
-                                    </div>
-                                );
-                            })}
-                        </div>}
+                                {showChildren && children?.length && sortByOrder(children).map((x) => {
+                                    return (
+                                        <div style={{ padding: '5px' }} key={x.id}>
+                                            <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
+                                        </div>
+                                    );
+                                })}
+                            </div>}
                         </div>
                             :
                             <>
-                                {mainNote && <>
-                                    <BrowserView>
-                                        <ManageNotePC {...{
-                                            showChildren, setShowChildren, setShowOptions,
-                                            mainNote: mainNote!,
-                                            dispatch: dispatch,
-                                            hasChildren: children.length > 0,
-                                            isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
-                                            highlighted: highlighted.includes(props.mainNote.id)
-                                        }} />
-                                    </BrowserView>
-                                    <MobileView>
-                                        <ManageNoteMobile {...{
-                                            showOptions, setShowOptions, showChildren, setShowChildren,
-                                            mainNote: mainNote!,
-                                            dispatch: dispatch,
-                                            hasChildren: children.length > 0,
-                                            isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                            hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
-                                            highlighted: highlighted.includes(props.mainNote.id)
-                                        }} />
-                                    </MobileView>
-                                </>}
+                                <ManageViews {...{
+                                    showChildren, setShowChildren, showOptions, setShowOptions, children,
+                                    mainNote: mainNote!,
+                                    dispatch: dispatch,
+                                    hasChildren: children.length > 0,
+                                    isAnythingCut: notes.filter(a => a.cut).length > 0,
+                                    hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
+                                    isHighlighted: highlighted.includes(props.mainNote.id)
+                                }} />
                             </>}
                     </>
                 </>

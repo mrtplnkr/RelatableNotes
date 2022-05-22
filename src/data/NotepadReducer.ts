@@ -63,7 +63,7 @@ export const initialState: INotepadState = {
 }
 
 const checkAssignOrder = (orders: number[]): number => {
-    return orders.length > 1 ? Math.max(...orders) + 1 : 1;
+    return orders.length > 0 ? Math.max(...orders) + 1 : 1;
 }
 
 const changeOrder = (notes: INote[], direction: number, noteId: number) => {
@@ -90,13 +90,13 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             return {...state, allNotes: state.allNotes.map((content) => content.cut ?
                 {...content, cut: false} : content )};
         case 'pasteNote':
-            const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ));
+            const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.id).map(object => object.order ));
                 return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
-                    {...content, cut: false, parentId: action.payload.id, order: (newHighestOrder + 1)} : content)};
+                    {...content, cut: false, parentId: action.payload.id, order: newHighestOrder} : content)};
         case 'addNote':
             const ids = state.allNotes.map(object => object.id);
-            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', 
-                order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order )), id: Math.max(...ids) + 1}] };
+            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', id: Math.max(...ids) + 1,
+                order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ))}] };
         case 'removeNote':
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id)
                 .map(x => x.parentId === action.payload.parentId && x.order > action.payload.order 
