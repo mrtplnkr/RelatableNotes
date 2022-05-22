@@ -55,51 +55,37 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
         <div style={{ fontSize: props.size }}>
             {!loading ? <>
                 <>
-                    <>
-                        {children?.length ? <div style={{ border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px' }}>
-                            <ManageViews {...{
-                                showOptions, showChildren, setShowChildren, setShowOptions,
-                                children,
-                                mainNote: mainNote!,
-                                dispatch: dispatch,
-                                hasChildren: children.length > 0,
-                                isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
-                                isHighlighted: highlighted.includes(props.mainNote.id)
-                            }} />
-                            
-                            {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
-                                {children?.length && sortByOrder(children).map((x) => {
-                                    return (
-                                        <div style={{ padding: '5px' }} key={x.id}>
-                                            <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
-                                        </div>
-                                    );
-                                })}
-                            </div> :
-                            <div style={{border:'1px black dotted'}}>
-                                {showChildren && children?.length && sortByOrder(children).map((x) => {
-                                    return (
-                                        <div style={{ padding: '5px' }} key={x.id}>
-                                            <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
-                                        </div>
-                                    );
-                                })}
-                            </div>}
-                        </div>
-                            :
-                            <>
-                                <ManageViews {...{
-                                    showChildren, setShowChildren, showOptions, setShowOptions, children,
-                                    mainNote: mainNote!,
-                                    dispatch: dispatch,
-                                    hasChildren: children.length > 0,
-                                    isAnythingCut: notes.filter(a => a.cut).length > 0,
-                                    hasBrothers: notes.filter(a => a.parentId === mainNote!.parentId).length > 1,
-                                    isHighlighted: highlighted.includes(props.mainNote.id)
-                                }} />
-                            </>}
-                    </>
+                    {<div style={{ border: children.length > 0 ? `1px solid ${randomColor()}` : 'none', borderRadius: '50%', padding: children.length > 0 ? '25px' : '5px' }}>
+                        <ManageViews {...{
+                            showOptions, showChildren, setShowChildren, setShowOptions,
+                            children,
+                            mainNote: mainNote!,
+                            dispatch: dispatch,
+                            hasChildren: children.length > 0,
+                            isAnythingCut: notes.filter(a => a.cut).length > 0,
+                            hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
+                            isHighlighted: highlighted.includes(props.mainNote.id)
+                        }} />
+                        
+                        {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
+                            {children?.length && sortByOrder(children).map((x) => {
+                                return (
+                                    <div style={{ padding: '5px' }} key={x.id}>
+                                        <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
+                                    </div>
+                                );
+                            })}
+                        </div> :
+                        <div style={{border:'1px black dotted'}}>
+                            {showChildren && children?.length && sortByOrder(children).map((x) => {
+                                return (
+                                    <div style={{ padding: '5px' }} key={x.id}>
+                                        <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
+                                    </div>
+                                );
+                            })}
+                        </div>}
+                    </div>}
                 </>
             </> : <span>loading...</span>}
         </div>
