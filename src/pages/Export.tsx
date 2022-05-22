@@ -18,8 +18,8 @@ const Export: FunctionComponent<IExportProps> = (props) => {
   }, [notes])
 
   const handleClick = (val: string) => {
-    var blob = new Blob([JSON.stringify(notes.filter((x: INote) => x.id === parseInt(val)))], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "NoteBackup.txt");
+    var blob = new Blob([JSON.stringify(notes.filter((x: INote) => x.id === parseInt(val)))], {type: "application/json;charset=utf-8"});
+    saveAs(blob, `${notes.find(a => a.id === parseInt(selectedNote!))?.text}.txt`);
   }
 
   return <>
