@@ -93,11 +93,11 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
             const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ));
                 return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
                     {...content, cut: false, parentId: action.payload.id, order: (newHighestOrder + 1)} : content)};
-        case 'addNote': //load parent notes
+        case 'addNote':
             const ids = state.allNotes.map(object => object.id);
             return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', 
                 order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order )), id: Math.max(...ids) + 1}] };
-        case 'removeNote': //load parent notes
+        case 'removeNote':
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id)
                 .map(x => x.parentId === action.payload.parentId && x.order > action.payload.order 
                     ? {...x, order: x.order-1} : x) };

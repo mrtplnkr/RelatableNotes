@@ -51,10 +51,10 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
     }, [children]);
 
     return (
-        <>
+        <div style={{ fontSize: props.size }}>
             {!loading ? <>
                 <>
-                    <div>
+                    <>
                         {children?.length ? <div style={{ border: `1px solid ${randomColor()}`, borderRadius: '50%', padding: '25px' }}>
                             <div style={{ fontSize: props.size }} onKeyUp={e => e.preventDefault()}>
                                 <BrowserView>
@@ -82,7 +82,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                             </MobileView>
                             
                             {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
-                                {children?.length && sortByIncome(children).map((x, index) => {
+                                {children?.length && sortByIncome(children).map((x) => {
                                     return (
                                         <div style={{ padding: '5px' }} key={x.id}>
                                             <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
@@ -91,7 +91,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 })}
                             </div> :
                             <div style={{border:'1px black dotted'}}>
-                            {showChildren && children?.length && sortByIncome(children).map((x, index) => {
+                            {showChildren && children?.length && sortByIncome(children).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
                                         <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
@@ -101,8 +101,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                         </div>}
                         </div>
                             :
-                            <div>
-                                {mainNote && <span style={{ fontSize: props.size }}>
+                            <>
+                                {mainNote && <>
                                     <BrowserView>
                                         <ManageNotePC {...{
                                             showChildren, setShowChildren, setShowOptions,
@@ -125,11 +125,11 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                             highlighted: highlighted.includes(props.mainNote.id)
                                         }} />
                                     </MobileView>
-                                </span>}
-                            </div>}
-                    </div>
+                                </>}
+                            </>}
+                    </>
                 </>
-            </> : <div>loading...</div>}
-        </>
+            </> : <span>loading...</span>}
+        </div>
     );
 });

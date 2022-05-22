@@ -26,17 +26,17 @@ export const NotepadProvider = (children: any) => {
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes])
     
-    const arr: number[] = [];
+    const arr: number[] = []; //TODO: hack
 
     useEffect(() => {
         if (notes.filter && notes.filter.text.length > 1) {
-            const check = notes.allNotes.filter(x => !notes.filter.text.toLowerCase() || x.text.includes(notes.filter.text.toLowerCase()));
+            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text.toLowerCase()));
             if (check && check.length && notes.filter.text !== '') {
                 getParents(check[0].id);
                 delay(arr.reverse());
             }
         }
-    }, [notes.filter]);
+    }, [notes.filter.text]);
 
     const delay = async (arr: number[]) => {
         for await (let id of arr) {
