@@ -7,11 +7,12 @@ import { figureOutTheColor } from '../../data/functional';
 
 export interface ISearchInputWithTypesProps {
     handleSearch(text: string): void;
+    searchTerm: string;
     highlighted: boolean;
 }
 
 export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>(props.searchTerm);
   // const [selectedType, setSelectedType] = useState<ENoteType | undefined>();
 
   const changeTextHandler = (val: string) => {
@@ -33,12 +34,11 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div> */}
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
-            <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
+            <input defaultValue={searchText} placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
               onChange={(e: any) => debouncedChangeHandler(e.target.value)} />
             <FontAwesomeIcon title="search" onClick={() => props.handleSearch('')} icon={faSearchMinus}
               cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor(searchText, props.highlighted)}} />
           </div>
-          
         </>
     </div>
   );

@@ -22,7 +22,8 @@ export function ShowHeader (props: IshowHeaderProps) {
 
   return (
     <>
-      {props.mainNote.cut ? <div style={{opacity: '0.1', flex: '1'}}>{props.mainNote.text} x{props.mainNote.order}</div> :
+      {props.mainNote.cut ? 
+      <div style={{opacity: '0.1', flex: '1'}}>{props.mainNote.text}</div> :
         <div style={{display: 'flex', alignItems: 'center', flex: 1}}>
           <div>
             {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
@@ -34,10 +35,10 @@ export function ShowHeader (props: IshowHeaderProps) {
                   // eslint-disable-next-line react/jsx-no-target-blank
                   <a target="_blank" href={props.mainNote.url}
                     className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
-                      {props.mainNote.text} {props.mainNote.order}</a> 
+                      {props.mainNote.text}</a> 
                 :
                   <span className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
-                      {props.mainNote.text} {props.mainNote.order}</span>
+                      {props.mainNote.text}</span>
                 }
               </>
             </div>
@@ -64,7 +65,7 @@ export function ShowHeader (props: IshowHeaderProps) {
             } else console.log('nothing')}}>
             {props.hasChildren && !props.showChildren ? 
               <FontAwesomeIcon icon={faFolderOpen} className={props.isHighlighted ? 'blink' : ''} /> : 
-              <FontAwesomeIcon style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
+              <FontAwesomeIcon className={props.isHighlighted ? 'blink' : ''} style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
           </div>
         </div>
       }

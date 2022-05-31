@@ -21,12 +21,12 @@ export const compareLatest = (a: INote, b: INote) => {
 
 export function Notepad (props: INotepadProps) {
   
-  const { notes, highlighted, dispatchNotes } = useNotepadContext();
+  const { notes, highlighted, filter, dispatchNotes } = useNotepadContext();
   // const [selectedType, setSelectedType] = useState<ENoteType>();
 
   const [showOptions, setShowOptions] = useState<number>(0);
 
-  const [searchOrNot, setSearchOrNot] = useState<boolean>(false);
+  const [searchOrNot, setSearchOrNot] = useState<boolean>(filter.text.length > 0);
 
   const handleSearch = (text: string) => {
     if (!text) {
@@ -45,7 +45,7 @@ export function Notepad (props: INotepadProps) {
               {!searchOrNot ? 
                 <InitialInputWithTypes dispatch={dispatchNotes} setSearchOrNot={setSearchOrNot} /> 
                 :
-                <SearchInputWithTypes {...{handleSearch, highlighted: highlighted.length>0}} />
+                <SearchInputWithTypes {...{handleSearch, searchTerm: filter.text, highlighted: highlighted.length>0}} />
               }
             </div>
           </div>

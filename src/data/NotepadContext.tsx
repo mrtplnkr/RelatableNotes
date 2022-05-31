@@ -30,7 +30,7 @@ export const NotepadProvider = (children: any) => {
 
     useEffect(() => {
         if (notes.filter && notes.filter.text.length > 1) {
-            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.includes(notes.filter.text.toLowerCase()));
+            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.toLowerCase().includes(notes.filter.text.toLowerCase()));
             if (check && check.length && notes.filter.text !== '') {
                 getParents(check[0].id);
                 delay(arr.reverse());
