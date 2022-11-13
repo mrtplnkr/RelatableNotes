@@ -67,7 +67,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                             isHighlighted: highlighted.includes(props.mainNote.id)
                         }} />
                         
-                        {(filter && filter.text !== '' && highlighted.includes(mainNote.id)) ? <div>
+                        {/* {(filter && filter.text.length && highlighted.includes(mainNote.id)) ? <div>
                             {children?.length && sortByOrder(children).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
@@ -75,8 +75,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                     </div>
                                 );
                             })}
-                        </div> :
-                        <div style={{border:'1px black dotted'}}>
+                        </div> : */}
+                        <div style={{border: highlighted.includes(mainNote.id) ? '3px red dotted' : '1px black dotted'}}>
                             {showChildren && children?.length && sortByOrder(children).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
@@ -84,7 +84,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                     </div>
                                 );
                             })}
-                        </div>}
+                        </div>
+                        {/* } */}
                     </div>}
                 </>
             </> : <span>loading...</span>}

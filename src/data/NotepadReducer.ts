@@ -17,6 +17,7 @@ export interface INote {
 export interface INotepadState {
     allNotes: INote[],
     highlighted: number[],
+    found: number[],
     filter: {
         text: string,
     }
@@ -57,6 +58,7 @@ export const initialState: INotepadState = {
         {"id":423,"parentId":417,"text":"fuel pump", order: 2},
     ],
     highlighted: [],
+    found: [],
     filter: {
         text: ''
     }
@@ -77,6 +79,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'applyFilter':
             return {...state, 
                 highlighted: [],
+                found: state.allNotes.filter(x => x.text.includes(action.payload.text)).map(x => x.id),
                 filter: {
                     text: action.payload.text,
                 }};

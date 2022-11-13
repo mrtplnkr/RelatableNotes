@@ -5,10 +5,11 @@ interface INotepadContext {
     notes: INote[];
     highlighted: number[];
     filter: {text: string};
+    found: number[];
     dispatchNotes: Dispatch<{ type: string; payload: INote; }>;
 }
 
-const NotepadContext = createContext<INotepadContext>({notes: [], highlighted: [], filter: {text:''}, 
+const NotepadContext = createContext<INotepadContext>({notes: [], found: [], highlighted: [], filter: {text:''}, 
                         dispatchNotes: () => console.log('silly code...')});
 
 export function useNotepadContext() {
@@ -66,7 +67,7 @@ export const NotepadProvider = (children: any) => {
     }
     
     return (
-        <NotepadContext.Provider value={{notes: notes.allNotes, highlighted: notes.highlighted, filter: notes.filter, dispatchNotes: dispatch}}>
+        <NotepadContext.Provider value={{notes: notes.allNotes, found: notes.found, highlighted: notes.highlighted, filter: notes.filter, dispatchNotes: dispatch}}>
             {{ ...children.children }}
         </NotepadContext.Provider>
     )
