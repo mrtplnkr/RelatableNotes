@@ -3,9 +3,6 @@ import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
 import { Dispatch, useCallback, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
-import { ManageNotePC } from './molecules/ManageNotePC';
-import { BrowserView, MobileView } from 'react-device-detect';
-import { ManageNoteMobile } from './molecules/ManageNoteMobile';
 import { compareLatest } from '../pages/Notepad';
 import { ManageViews } from './organisms/ManageViews';
 
@@ -34,11 +31,15 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
     const [children, setChildren] = useState<INote[]>([]);
     const [showChildren, setShowChildren] = useState<boolean>(false);
 
-    const { notes, filter, highlighted } = useNotepadContext();
+    const { notes, highlighted } = useNotepadContext();
 
     React.useEffect(() => {
         reloadChildren();
     }, [notes]);
+
+    React.useEffect(() => {
+        if (highlighted.includes(mainNote.id)) setShowChildren(true);
+    }, [highlighted])
 
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));

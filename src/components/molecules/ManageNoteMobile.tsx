@@ -27,7 +27,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     return (
     <>
         <div style={{display: 'flex'}}>
-            <ShowHeader {...{isHighlighted, showChildren, hasChildren, setShowChildren, setShowOptions, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
+            <ShowHeader {...{isHighlighted, setShowTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
             {!mainNote.cut && <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
                 {props.showOptions === props.mainNote.id ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>}

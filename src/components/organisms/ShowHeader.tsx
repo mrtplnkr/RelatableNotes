@@ -1,7 +1,8 @@
-import { faFolderMinus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { faFolderMinus, faFolderOpen, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
+import { addSyntheticLeadingComment } from 'typescript';
 import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
@@ -16,10 +17,11 @@ export interface IshowHeaderProps {
     mainNote: INote;
     dispatch: Dispatch<{ type: string; payload: INote }>;
     isHighlighted: boolean;
+    setShowTextbox: (val: boolean) => void;
 }
 
 export function ShowHeader (props: IshowHeaderProps) {
-
+  
   return (
     <>
       {props.mainNote.cut ? 
@@ -37,7 +39,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                     className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text}</a> 
                 :
-                  <span className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
+                  <span id={`lbl${props.mainNote.id}`} className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text}</span>
                 }
               </>
@@ -58,14 +60,21 @@ export function ShowHeader (props: IshowHeaderProps) {
             </>
             }
           </div>
-          <div style={{cursor: 'n-resize'}} onClick={() => {
+          <div onClick={() => {
             if (props.hasChildren) { 
               props.setShowChildren(!props.showChildren)
               if (props.showChildren) props.setShowOptions(0)
             } else console.log('nothing')}}>
-            {props.hasChildren && !props.showChildren ? 
-              <FontAwesomeIcon icon={faFolderOpen} className={props.isHighlighted ? 'blink' : ''} /> : 
-              <FontAwesomeIcon className={props.isHighlighted ? 'blink' : ''} style={{color: props.hasChildren ? '' : 'grey'}} icon={faFolderMinus} />}
+            {props.hasChildren ?
+              <>{
+                props.showChildren ? 
+                <FontAwesomeIcon style={{cursor: 'n-resize', color: props.hasChildren ? '' : 'grey'}} className={props.isHighlighted ? 'blink' : ''} icon={faFolderMinus} />
+                :
+                <FontAwesomeIcon style={{cursor: 'n-resize'}} icon={faFolderOpen} className={props.isHighlighted ? 'blink' : ''} />
+              }</> 
+              :
+              <FontAwesomeIcon icon={faPlusCircle} onClick={() => props.setShowTextbox(true)} />
+            }
           </div>
         </div>
       }

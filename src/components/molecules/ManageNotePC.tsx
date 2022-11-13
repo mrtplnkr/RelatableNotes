@@ -1,6 +1,6 @@
 import { faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState, Dispatch } from 'react';
+import React, { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
 import { ShowHeader } from '../organisms/ShowHeader';
 
@@ -25,9 +25,14 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   const { isHighlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
   const [ opt, setShowOptions ] = useState<number>(0);
+
+  const setShowAddTextbox = (bool: boolean) => {
+    if (bool) setShowTextbox(Property.text);
+  }
+
   return (
     <div className="dropdown">
-      <ShowHeader {...{isHighlighted, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
+      <ShowHeader {...{isHighlighted, setShowTextbox: setShowAddTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
             <>

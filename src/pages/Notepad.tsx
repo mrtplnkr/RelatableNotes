@@ -6,7 +6,10 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InitialInputWithTypes } from '../components/organisms/InitialInputWithTypes';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
-import { faPoundSign, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import scrollToElement from 'scroll-to-element';
+
+console.log('qe', scrollToElement);
 
 export interface INotepadProps {
 }
@@ -38,6 +41,11 @@ export function Notepad (props: INotepadProps) {
     else dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
   }
 
+  const navigateTo = (noteId: number) => {
+    setShowAllFound(false);
+    scrollToElement(`#lbl${noteId}`);  
+  }
+
   return (
     <div>
       <h3>Your Collections</h3>
@@ -51,14 +59,14 @@ export function Notepad (props: INotepadProps) {
                   <div style={{display: 'flex'}}>
                     <SearchInputWithTypes {...{handleSearch, searchTerm: filter.text, highlighted: highlighted.length>0}} />
                     <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
-                      (<a onClick={() => setShowAllFound(!showAllFound)}>{found ? found.length : 0}</a>)
+                      (<u onClick={(e) => setShowAllFound(!e)}>{found ? found.length : 0}</u>)
                     </span>
                   </div>
                   {showAllFound && <ul>
                     {found && notes.filter(x => found.includes(x.id)).map(x => {
                       return (
                         <li style={{ padding: '5px' }} key={x.id}>
-                            <u>{x.text}</u>
+                            <button onClick={() => navigateTo(x.id)}>{x.text}</button>
                         </li>
                       );
                     })}
