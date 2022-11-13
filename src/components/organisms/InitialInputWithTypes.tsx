@@ -11,6 +11,7 @@ export interface IInitialInputWithTypesProps {
 
 export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
   // const [selectedType, setSelectedType] = useState<ENoteType>(ENoteType.todo);
+  const [newNote, setNewNote] = useState<string>('');
 
   return (
     <div>
@@ -22,12 +23,16 @@ export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div> */}
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
-            <input placeholder={`add new note`} style={{fontWeight:'bold'}} type="text" 
+            <input value={newNote} placeholder={`add new note`} style={{fontWeight:'bold'}} type="text" 
+              onChange={(e) => {
+                setNewNote(e.target.value)
+              }}
               onKeyDown={(e: any) => {
                 if (e.keyCode === 13) {
                     props.dispatch({type: 'addNote', payload: {order: 0, id: 1, parentId: null, text: e.target.value }});
+                    setNewNote('');
                 }
-            }} />
+              }} />
             <FontAwesomeIcon title="search" onClick={() => props.setSearchOrNot(true)} icon={faSearch}
               cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor('', false)}} />
           </div>
