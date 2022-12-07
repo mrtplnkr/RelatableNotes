@@ -49,14 +49,14 @@ export function Notepad (props: INotepadProps) {
   return (
     <div>
       <h3>Your Collections</h3>
-      <div style={{justifyContent: 'space-around'}}>
+      <div style={{justifyContent: 'center'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <div style={{flex: 1}}>
               {!searchOrNot ? 
                 <InitialInputWithTypes dispatch={dispatchNotes} setSearchOrNot={setSearchOrNot} /> 
                 :
                 <>
-                  <div style={{display: 'flex'}}>
+                  <div style={{display: 'flex', justifyContent: 'center'}}>
                     <SearchInputWithTypes {...{handleSearch, searchTerm: filter.text, highlighted: highlighted.length>0}} />
                     <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
                       (<u onClick={(e) => setShowAllFound(!e)}>{found ? found.length : 0}</u>)
