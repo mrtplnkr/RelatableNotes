@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
 import { INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
@@ -34,12 +34,12 @@ export function Notepad (props: INotepadProps) {
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
 
   const handleSearch = (text: string) => {
-    if (!text) {
-      setSearchOrNot(false);
-      dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: ''}});
-    }
-    else dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
+    dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
   }
+
+  useEffect(() => {
+    if (found.length === 1) navigateTo(found[0]);
+  }, [found])
 
   const navigateTo = (noteId: number) => {
     setShowAllFound(false);
