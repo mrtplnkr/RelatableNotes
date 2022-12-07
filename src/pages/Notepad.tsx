@@ -44,6 +44,7 @@ export function Notepad (props: INotepadProps) {
   const navigateTo = (noteId: number) => {
     setShowAllFound(false);
     scrollToElement(`#lbl${noteId}`);  
+    console.log('asd', `#lbl${noteId}`);
   }
 
   return (
@@ -59,7 +60,7 @@ export function Notepad (props: INotepadProps) {
                   <div style={{display: 'flex', justifyContent: 'center'}}>
                     <SearchInputWithTypes {...{handleSearch, searchTerm: filter.text, highlighted: highlighted.length>0}} />
                     <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
-                      (<u onClick={(e) => setShowAllFound(!e)}>{found ? found.length : 0}</u>)
+                      (<u onClick={(e) => setShowAllFound(true)}>{found ? found.length : 0}</u>)
                     </span>
                   </div>
                   {showAllFound && <ul>
