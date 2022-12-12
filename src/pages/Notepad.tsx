@@ -33,8 +33,9 @@ export function Notepad (props: INotepadProps) {
 
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
 
-  const handleSearch = (text: string) => {
-    dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
+  const handleSearch = (text: string, exact?: boolean) => {
+    if (text === '') setSearchOrNot(false);
+    dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, exact}});
   }
 
   useEffect(() => {
@@ -44,7 +45,15 @@ export function Notepad (props: INotepadProps) {
   const navigateTo = (noteId: number) => {
     setShowAllFound(false);
     scrollToElement(`#lbl${noteId}`);  
-    console.log('asd', `#lbl${noteId}`);
+  }
+
+  const addNote = (newNote: string) => {
+    if (!notes.filter(x => x.text === newNote).length) {
+      dispatchNotes({type: 'addNote', payload: {order: 0, id: 1, parentId: null, text: newNote }});
+    } else {
+      alert("already exists, I'll show ya");
+      handleSearch(newNote, true);
+    }
   }
 
   return (
@@ -54,7 +63,7 @@ export function Notepad (props: INotepadProps) {
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <div style={{flex: 1}}>
               {!searchOrNot ? 
-                <InitialInputWithTypes dispatch={dispatchNotes} setSearchOrNot={setSearchOrNot} /> 
+                <InitialInputWithTypes addNote={addNote} setSearchOrNot={setSearchOrNot} /> 
                 :
                 <>
                   <div style={{display: 'flex', justifyContent: 'center'}}>

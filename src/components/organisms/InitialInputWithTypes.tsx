@@ -5,7 +5,7 @@ import { figureOutTheColor } from '../../data/functional';
 import { INote } from '../../data/NotepadReducer';
 
 export interface IInitialInputWithTypesProps {
-    dispatch: Dispatch<{ type: string; payload: INote }>;
+    addNote: (newNote: string) => void;
     setSearchOrNot(val: boolean): void;
 }
 
@@ -29,14 +29,13 @@ export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
               }}
               onKeyDown={(e: any) => {
                 if (e.keyCode === 13) {
-                    props.dispatch({type: 'addNote', payload: {order: 0, id: 1, parentId: null, text: e.target.value }});
+                    props.addNote(e.target.value);
                     setNewNote('');
                 }
               }} />
             <FontAwesomeIcon title="search" onClick={() => props.setSearchOrNot(true)} icon={faSearch}
               cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor('', false)}} />
           </div>
-          
         </>
     </div>
   );
