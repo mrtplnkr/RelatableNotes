@@ -34,7 +34,6 @@ export function Notepad (props: INotepadProps) {
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
 
   const handleSearch = (text: string, exact?: boolean) => {
-    if (text === '') setSearchOrNot(false);
     dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, exact}});
   }
 

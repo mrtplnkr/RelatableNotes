@@ -36,7 +36,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
           </div> */}
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
             {!props.highlighted && <FontAwesomeIcon title="add" onClick={() => props.addNote(searchText)} icon={faPlus}
-              cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center'}} />}
+              cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center'}} />}
             <input defaultValue={searchText} placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
               onChange={(e: any) => debouncedChangeHandler(e.target.value)} />
             <FontAwesomeIcon title="search" onClick={() => props.handleSearch('')} icon={faSearchMinus}
