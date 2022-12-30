@@ -67,7 +67,7 @@ export function Notepad (props: INotepadProps) {
                 :
                 <>
                   <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <SearchInputWithTypes {...{handleSearch, searchTerm: filter.text, highlighted: highlighted.length>0}} />
+                    <SearchInputWithTypes {...{handleSearch, addNote, searchTerm: filter.text, highlighted: highlighted.length>0}} />
                     <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
                       (<u onClick={(e) => setShowAllFound(true)}>{found ? found.length : 0}</u>)
                     </span>

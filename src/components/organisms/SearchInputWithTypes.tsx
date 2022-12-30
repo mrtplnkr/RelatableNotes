@@ -1,4 +1,4 @@
-import { faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback } from 'react';
 import { useState } from 'react';
@@ -7,6 +7,7 @@ import { figureOutTheColor } from '../../data/functional';
 
 export interface ISearchInputWithTypesProps {
     handleSearch(text: string): void;
+    addNote(text: string): void;
     searchTerm: string;
     highlighted: boolean;
 }
@@ -34,6 +35,8 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div> */}
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
+            {!props.highlighted && <FontAwesomeIcon title="add" onClick={() => props.addNote(searchText)} icon={faPlus}
+              cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center'}} />}
             <input defaultValue={searchText} placeholder={`search existing notes`} style={{fontWeight:'bold'}} type="text" autoFocus
               onChange={(e: any) => debouncedChangeHandler(e.target.value)} />
             <FontAwesomeIcon title="search" onClick={() => props.handleSearch('')} icon={faSearchMinus}
