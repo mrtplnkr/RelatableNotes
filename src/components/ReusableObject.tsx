@@ -49,7 +49,7 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
     const { setShowOptions, mainNote, showOptions, dispatch } = props;
 
     const sortByOrder = useCallback((c: INote[]) => {
-        return c.sort(compareLatest)
+        return c.sort(compareLatest);
     }, [children]);
 
     return (
@@ -77,8 +77,8 @@ export const ReusableObject = React.memo((props: IReusableObjectProps) => {
                                 );
                             })}
                         </div> : */}
-                        <div style={{border: highlighted.includes(mainNote.id) ? '3px red dotted' : '1px black dotted'}}>
-                            {showChildren && children?.length && sortByOrder(children).map((x) => {
+                        <div style={{border: highlighted.includes(mainNote.id) ? '1px red dotted' : '1px black dotted'}}>
+                            {showChildren && children?.length > 0 && sortByOrder(children).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
                                         <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
