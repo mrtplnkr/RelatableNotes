@@ -1,5 +1,6 @@
 
-export const figureOutTheColor = (text: string, highlighted: boolean) => {
+export const figureOutTheColor = (text: string, highlighted: boolean, exact: boolean) => {
+    if (exact) return 'red';
     if (text) {
       if (highlighted) {
         return 'green';

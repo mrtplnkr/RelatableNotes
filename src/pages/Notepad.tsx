@@ -29,8 +29,8 @@ export function Notepad (props: INotepadProps) {
 
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
 
-  const handleSearch = (text: string, exact?: boolean) => {
-    dispatchNotes({type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, exact}});
+  const handleSearch = (text: string) => {
+    dispatchNotes({ type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
   }
 
   useEffect(() => {
@@ -43,11 +43,11 @@ export function Notepad (props: INotepadProps) {
   }
 
   const addNote = (newNote: string) => {
-    if (!notes.filter(x => x.text === newNote).length) {
-      dispatchNotes({type: 'addNote', payload: {order: 0, id: 1, parentId: null, text: newNote }});
+    if (!notes.some(x => x.text === newNote)) {
+      dispatchNotes({ type: 'addNote', payload: { order: 0, id: 1, parentId: null, text: newNote }});
     } else {
       alert("already exists, I'll show ya");
-      handleSearch(newNote, true);
+      handleSearch(newNote);
     }
   }
 
@@ -58,7 +58,10 @@ export function Notepad (props: INotepadProps) {
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <div style={{flex: 1}}>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-              <SearchInputWithTypes {...{handleSearch, addNote, searchTerm: filter.text, highlighted: highlighted.length>0}} />
+              <SearchInputWithTypes {...{handleSearch, addNote,
+                searchTerm: filter.text,
+                exact: filter.exact,
+                highlighted: highlighted.length>0}} />
               <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
                 (<u onClick={(e) => setShowAllFound(true)}>{found ? found.length : 0}</u>)
               </span>

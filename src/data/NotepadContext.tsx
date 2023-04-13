@@ -4,12 +4,12 @@ import { initialState, INote, NotepadReducer } from './NotepadReducer';
 interface INotepadContext {
     notes: INote[];
     highlighted: number[];
-    filter: {text: string};
+    filter: { text: string, exact: boolean };
     found: number[];
     dispatchNotes: Dispatch<{ type: string; payload: INote; }>;
 }
 
-const NotepadContext = createContext<INotepadContext>({notes: [], found: [], highlighted: [], filter: {text:''}, 
+const NotepadContext = createContext<INotepadContext>({notes: [], found: [], highlighted: [], filter: {text:'', exact: false}, 
                         dispatchNotes: () => console.log('silly code...')});
 
 export function useNotepadContext() {

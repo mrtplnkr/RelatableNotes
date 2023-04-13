@@ -34,7 +34,7 @@ export function InitialInputWithTypes (props: IInitialInputWithTypesProps) {
                 }
               }} />
             <FontAwesomeIcon title="search" onClick={() => props.setSearchOrNot(true)} icon={faSearch}
-              cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor('', false)}} />
+              cursor='pointer' style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor('', false, false)}} />
           </div>
         </>
     </div>

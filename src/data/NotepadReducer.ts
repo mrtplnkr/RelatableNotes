@@ -8,7 +8,6 @@ export interface INote {
     url?: string,
     cut?: boolean,
     done?: boolean,
-    exact?: boolean,
 }
 
 // export enum ENoteType {
@@ -21,7 +20,7 @@ export interface INotepadState {
     found: number[],
     filter: {
         text: string,
-        exact?: boolean,
+        exact: boolean,
     }
 }
 
@@ -62,7 +61,8 @@ export const initialState: INotepadState = {
     highlighted: [],
     found: [],
     filter: {
-        text: ''
+        text: '',
+        exact: false
     }
 }
 
@@ -77,6 +77,8 @@ const changeOrder = (notes: INote[], direction: number, noteId: number) => {
 }
 
 export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
+    console.log('qwe', action);
+    
     switch(action.type) {
         case 'applyFilter':
             return {...state, 
@@ -84,7 +86,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
                 found: state.allNotes.filter(x => x.text.includes(action.payload.text)).map(x => x.id),
                 filter: {
                     text: action.payload.text,
-                    exact: action.payload.exact ? true : false
+                    exact: state.allNotes.some(x => x.text === action.payload.text) ? true : false
                 }};
         case 'highlightNote':
             return {...state, highlighted: [...state.highlighted].concat(state.allNotes.filter((content) => 

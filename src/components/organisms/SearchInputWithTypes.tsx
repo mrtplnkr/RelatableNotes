@@ -7,6 +7,7 @@ export interface ISearchInputWithTypesProps {
     handleSearch(text: string): void;
     addNote(text: string): void;
     searchTerm: string;
+    exact: boolean;
     highlighted: boolean;
 }
 
@@ -32,14 +33,18 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
           </div> */}
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
-            {!props.highlighted && <FontAwesomeIcon title="add" onClick={() => props.addNote(searchText)} icon={faPlus}
-              cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center'}} />}
+            <FontAwesomeIcon title="add" onClick={() => props.addNote(searchText)} icon={faPlus}
+              cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center', 
+              color: props.exact ? 'red' : ''}}
+            />
             <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText} type="text" autoFocus
               onChange={(e: any) => setSearchText(e.target.value)}
               onKeyPress={(e: any) => doSearchHandler(e.key)}
             />
             <FontAwesomeIcon title="search" onClick={() => setSearchText('')} icon={faSearchMinus} cursor='pointer' 
-              style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor(searchText, props.highlighted)}} />
+              style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', 
+              color: figureOutTheColor(searchText, props.highlighted, false)}}
+            />
           </div>
         </>
     </div>
