@@ -1,8 +1,6 @@
 import { faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useEffect } from 'react';
 import { useState } from 'react';
-import debounce from 'lodash.debounce';
 import { figureOutTheColor } from '../../data/functional';
 
 export interface ISearchInputWithTypesProps {
@@ -15,22 +13,14 @@ export interface ISearchInputWithTypesProps {
 export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [searchText, setSearchText] = useState<string>(props.searchTerm);
 
-  const changeTextHandler = (val: string) => {
-    setSearchText(val);
-    sendSearch(val);
+  const doSearchHandler = (key: any) => {
+    if (key === 'Enter')
+      sendSearch(searchText);
   };
-
+ 
   const sendSearch = (val: string) => {
     props.handleSearch(val);
   };
-
-  useEffect(() => {
-    debouncedChangeHandler(searchText);
-  }, [searchText]);
-
-  const debouncedChangeHandler = useCallback(
-    debounce(sendSearch, 999)
-  , []);
 
   return (
     <div>
@@ -44,9 +34,11 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
             {!props.highlighted && <FontAwesomeIcon title="add" onClick={() => props.addNote(searchText)} icon={faPlus}
               cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center'}} />}
-            <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText}
-              type="text" autoFocus onChange={(e: any) => changeTextHandler(e.target.value)} />
-            <FontAwesomeIcon title="search" onClick={() => changeTextHandler('')} icon={faSearchMinus} cursor='pointer' 
+            <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText} type="text" autoFocus
+              onChange={(e: any) => setSearchText(e.target.value)}
+              onKeyPress={(e: any) => doSearchHandler(e.key)}
+            />
+            <FontAwesomeIcon title="search" onClick={() => setSearchText('')} icon={faSearchMinus} cursor='pointer' 
               style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', color: figureOutTheColor(searchText, props.highlighted)}} />
           </div>
         </>
