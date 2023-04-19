@@ -1,0 +1,2 @@
+
+export { compareLatest } from './compareLatest';

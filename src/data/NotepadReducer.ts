@@ -1,4 +1,4 @@
-import { compareLatest } from "../pages/Notepad";
+import { compareLatest } from "../helpers";
 
 export interface INote {
     parentId: number | null,
@@ -76,9 +76,7 @@ const changeOrder = (notes: INote[], direction: number, noteId: number) => {
     return (currentIndex + direction) >= 0 && (currentIndex+direction) < allWithinParentSorted.length ? allWithinParentSorted[currentIndex + direction] :  allWithinParentSorted[currentIndex];
 }
 
-export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {
-    console.log('qwe', action);
-    
+export const NotepadReducer = (state: INotepadState, action: { type: string, payload: INote; }): INotepadState => {    
     switch(action.type) {
         case 'applyFilter':
             return {...state, 

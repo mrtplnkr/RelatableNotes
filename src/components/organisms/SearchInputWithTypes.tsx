@@ -1,6 +1,6 @@
 import { faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { figureOutTheColor } from '../../data/functional';
 
 export interface ISearchInputWithTypesProps {
@@ -23,8 +23,12 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     props.handleSearch(val);
   };
 
+  useEffect(() => {
+    if (searchText.length === 0) sendSearch(searchText);
+  }, [searchText]);
+
   return (
-    <div>
+    <div className={document.documentElement.scrollTop > 10 ? 'searchFieldFixed' : ''}>
       <>
           {/* <div style={{display: 'flex', justifyContent: 'center', placeContent: 'space-evenly'}}>
             <FontAwesomeIcon onClick={() => setSelectedType(ENoteType.todo)} icon={faSpellCheck} cursor='pointer' style={{color: selectedType === ENoteType.todo ? 'blue' : ''}} />
@@ -46,6 +50,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
               color: figureOutTheColor(searchText, props.highlighted, false)}}
             />
           </div>
+          <hr />
         </>
     </div>
   );

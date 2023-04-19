@@ -28,6 +28,11 @@ export default class Home extends React.Component<IHomeProps> {
             <Link to="export">Export data</Link>
           </button>
         </p>
+        <p>
+          <button className="primary">
+            <Link to="settings">Settings</Link>
+          </button>
+        </p>
         <div style={{margin: '0 3em'}}>
           <p>This is my relatable notepad project, create limitless notes that can be joint in a herarchical structure..</p>
           <p>Then display, merge with other notes and share them, fast..</p>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { compareLatest } from '../../pages/Notepad';
+import { compareLatest } from '../../helpers';
 
 export interface INoteSelectionProps {
     notes: INote[];

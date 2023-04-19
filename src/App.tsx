@@ -8,6 +8,7 @@ import { Notepad } from './pages/Notepad';
 import { INote, INotepadState } from './data/NotepadReducer';
 import { NotepadProvider } from './data/NotepadContext';
 import Export from './pages/Export';
+import Settings from './pages/Settings';
 
 interface INotepadContext {
   notepadState: INotepadState;
@@ -24,10 +25,10 @@ function App() {
       
       <header className="App-header">
         <a href="/">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} alt="logo" />
         </a>
       
-          <HashRouter>
+        <HashRouter>
           <NotepadProvider>
             <Routes>
               <Route path="/" element={<Home />}>
@@ -40,10 +41,12 @@ function App() {
               </Route>
               <Route path="export" element={<Export />}>
               </Route>
+              <Route path="settings" element={<Settings />}>
+              </Route>
             </Routes>
             </NotepadProvider>
-          </HashRouter>
-      
+        </HashRouter>
+
       </header>
 
     </div>

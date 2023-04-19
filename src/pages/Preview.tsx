@@ -3,12 +3,12 @@ import { Graph } from "react-d3-graph";
 import { useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { Link } from 'react-router-dom';
-import { compareLatest } from './Notepad';
 import { NoteSelection } from '../components/organisms/NoteSelection';
+import { compareLatest } from '../helpers/compareLatest';
 // import MapContainer from '../components/organisms/MapContainer';
 
 export interface IPreviewProps {
-  data: any[]
+  data: any[];
 }
 
 interface INode {

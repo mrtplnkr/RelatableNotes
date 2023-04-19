@@ -7,19 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import scrollToElement from 'scroll-to-element';
-
-console.log('qe', scrollToElement);
+import { compareLatest } from '../helpers/compareLatest';
 
 export interface INotepadProps {
 }
-
-export const compareLatest = (a: INote, b: INote) => {
-  if (a.order < b.order) {
-      return 1;
-  } else {
-      return -1;
-  }
-};
 
 export function Notepad (props: INotepadProps) {
   
@@ -53,7 +44,6 @@ export function Notepad (props: INotepadProps) {
 
   return (
     <div>
-      <h3>Your Collections</h3>
       <div style={{justifyContent: 'center'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <div style={{flex: 1}}>
@@ -75,23 +65,23 @@ export function Notepad (props: INotepadProps) {
                 );
               })}
             </ul>}
+            <hr />
           </div>
         </div>
-        <hr />
         {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
             {notes.find(x => x.cut)!.text}
             <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em' }} />
         </span>}
-        {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
-            return (
-                <div style={{ padding: '5px' }} key={x.id}>
-                    <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes }} mainNote={x} size={18}></ReusableObject>
-                </div>
-            );
-        })}
+          {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
+              return (
+                  <div style={{ padding: '5px' }} key={x.id}>
+                      <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes }} mainNote={x} size={18}></ReusableObject>
+                  </div>
+              );
+          })}
       </div>
       <p>
-        <Link to="/dataPreview">get visuals</Link>
+        <Link to="#/dataPreview">get visuals</Link>
       </p>
     </div>
   );

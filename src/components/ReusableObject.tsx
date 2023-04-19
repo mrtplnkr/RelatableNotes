@@ -3,7 +3,7 @@ import randomColor from 'randomcolor';
 import { INote } from '../data/NotepadReducer';
 import { Dispatch, useCallback, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
-import { compareLatest } from '../pages/Notepad';
+import { compareLatest } from '../helpers';
 import { ManageViews } from './organisms/ManageViews';
 
 export type ReusableType = {
