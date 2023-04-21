@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
 import { INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
-import scrollToElement from 'scroll-to-element';
 import { compareLatest } from '../helpers/compareLatest';
 
 export interface INotepadProps {
@@ -18,19 +17,8 @@ export function Notepad (props: INotepadProps) {
 
   const [showOptions, setShowOptions] = useState<number>(0);
 
-  const [showAllFound, setShowAllFound] = useState<boolean>(false);
-
   const handleSearch = (text: string) => {
     dispatchNotes({ type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
-  }
-
-  useEffect(() => {
-    if (found.length === 1) navigateTo(found[0]);
-  }, [found])
-
-  const navigateTo = (noteId: number) => {
-    setShowAllFound(false);
-    scrollToElement(`#lbl${noteId}`);  
   }
 
   const addNote = (newNote: string) => {
@@ -47,24 +35,13 @@ export function Notepad (props: INotepadProps) {
       <div style={{justifyContent: 'center'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <div style={{flex: 1}}>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{}}>
               <SearchInputWithTypes {...{handleSearch, addNote,
                 searchTerm: filter.text,
                 exact: filter.exact,
+                foundNotes: notes.filter(x => found.includes(x.id)),
                 highlighted: highlighted.length>0}} />
-              <span style={{alignSelf: 'end', paddingLeft: '1rem'}}>
-                (<u onClick={(e) => setShowAllFound(true)}>{found ? found.length : 0}</u>)
-              </span>
             </div>
-            {showAllFound && <ul>
-              {found && notes.filter(x => found.includes(x.id)).map(x => {
-                return (
-                  <li style={{ padding: '5px' }} key={x.id}>
-                      <button onClick={() => navigateTo(x.id)}>{x.text}</button>
-                  </li>
-                );
-              })}
-            </ul>}
             <hr />
           </div>
         </div>
