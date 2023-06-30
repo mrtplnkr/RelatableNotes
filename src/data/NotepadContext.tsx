@@ -10,7 +10,7 @@ interface INotepadContext {
 }
 
 const NotepadContext = createContext<INotepadContext>({notes: [], found: [], highlighted: [], filter: {text:'', exact: false}, 
-                        dispatchNotes: () => console.log('silly code...')});
+                        dispatchNotes: () => console.log('unknown trigger...')});
 
 export function useNotepadContext() {
     return useContext(NotepadContext);

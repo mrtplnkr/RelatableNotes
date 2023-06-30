@@ -17,6 +17,7 @@ export interface ISearchInputWithTypesProps {
 export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [searchText, setSearchText] = useState<string>(props.searchTerm);
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
+  const [lastScrolledNoteId, setLastScrolledNoteId] = useState(0);
 
   const doSearchHandler = (key: any) => {
     if (key === 'Enter')
@@ -42,25 +43,24 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     if (scrollTop === 0) return '';
   }
 
-  useEffect(() => {
-    if (props.foundNotes.length === 1) navigateTo(props.foundNotes[0].id);
-  }, [props.foundNotes])
-
   const navigateTo = (noteId: number) => {
     setShowAllFound(false);
-    scrollToElement(`#lbl${noteId}`, { offset: 20 });  
+    if (lastScrolledNoteId !== props.foundNotes[0].id) {
+      setLastScrolledNoteId(props.foundNotes[0].id);
+      scrollToElement(`#lbl${noteId}`, { offset: 20 });  
+    }
   }
+  useEffect(() => {
+    if (props.foundNotes.length === 1) {
+      navigateTo(props.foundNotes[0].id);
+    }
+  }, [props.foundNotes.map(x => x.id)])
 
   return (
     <>
+    {console.log('log out here, it will show every time it changes, then go to chrome tools', showAllFound)}
       <div className={searchInputCLass(document.documentElement.scrollTop)}>
         <>
-            {/* <div style={{display: 'flex', justifyContent: 'center', placeContent: 'space-evenly'}}>
-              <FontAwesomeIcon onClick={() => setSelectedType(ENoteType.todo)} icon={faSpellCheck} cursor='pointer' style={{color: selectedType === ENoteType.todo ? 'blue' : ''}} />
-              <FontAwesomeIcon title="hierarchic" onClick={() => setSelectedType(ENoteType.hierarchic)} icon={faSitemap} cursor='pointer' style={{color: selectedType === ENoteType.hierarchic ? 'blue' : ''}} />
-              <FontAwesomeIcon title="timeline" onClick={() => setSelectedType(ENoteType.timeline)} icon={faRandom} cursor='pointer' style={{color: selectedType === ENoteType.timeline ? 'blue' : ''}} />
-              <FontAwesomeIcon title="event" onClick={() => setSelectedType(ENoteType.event)} icon={faCalendarTimes} cursor='pointer' style={{color: selectedType === ENoteType.event ? 'blue' : ''}} />
-            </div> */}
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
               <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
                 cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center', 
