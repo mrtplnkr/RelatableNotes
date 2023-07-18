@@ -39,7 +39,7 @@ export function Notepad (props: INotepadProps) {
               <SearchInputWithTypes {...{handleSearch, addNote,
                 searchTerm: filter.text,
                 exact: filter.exact,
-                foundNotes: notes.filter(x => found.includes(x.id)),
+                foundNotes: notes.filter(x => found?.includes(x.id)),
                 highlighted: highlighted.length>0}} />
             </div>
             <hr />
