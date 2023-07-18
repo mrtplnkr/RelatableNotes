@@ -58,7 +58,7 @@ export function Notepad (props: INotepadProps) {
           })}
       </div>
       <p>
-        <Link to="#/dataPreview">get visuals</Link>
+        <Link to="/dataPreview">get visuals</Link>
       </p>
     </div>
   );
