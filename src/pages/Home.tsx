@@ -15,17 +15,17 @@ export default class Home extends React.Component<IHomeProps> {
         <p>{version}</p>
         <p>
           <button className="primary">
-            <Link to="notepad">Make Notes</Link>
+            <Link style={{color: 'blue'}} to="notepad">Make Notes</Link>
           </button>
         </p>
         <p>
           <button className="primary">
-            <Link to="preview">Get Visuals</Link>
+            <Link style={{color: 'red'}} to="preview">Get Visuals</Link>
           </button>
         </p>
         <p>
           <button className="primary">
-            <Link to="export">Export data</Link>
+            <Link style={{color: 'green'}} to="export">Export data</Link>
           </button>
         </p>
         <p>
