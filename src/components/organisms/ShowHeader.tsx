@@ -2,7 +2,6 @@ import { faFolderMinus, faFolderOpen, faPlusCircle } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
-import { addSyntheticLeadingComment } from 'typescript';
 import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 

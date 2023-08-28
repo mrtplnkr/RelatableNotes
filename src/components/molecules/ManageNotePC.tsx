@@ -9,6 +9,7 @@ export interface IManageNotePCProps {
   hasChildren: boolean;
   dispatch: Dispatch<{ type: string; payload: INote }>;
   showChildren: boolean;
+  setShowOptions: Dispatch<React.SetStateAction<number>>;
   setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
   isAnythingCut: boolean;
   hasBrothers: boolean;
@@ -23,8 +24,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
   const [showTextbox, setShowTextbox] = useState<Property>(0);
   const [updatingText, setUpdatingText] = useState<boolean>(false);
 
-  const { isHighlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch } = props;
-  const [ opt, setShowOptions ] = useState<number>(0);
+  const { isHighlighted, showChildren, hasChildren, setShowChildren, hasBrothers, mainNote, dispatch, setShowOptions } = props;
 
   const setShowAddTextbox = (bool: boolean) => {
     if (bool) setShowTextbox(Property.text);
