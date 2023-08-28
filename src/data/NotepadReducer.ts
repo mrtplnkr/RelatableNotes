@@ -10,10 +10,6 @@ export interface INote {
     done?: boolean,
 }
 
-// export enum ENoteType {
-//     todo, hierarchic = 1, timeline, event
-// }
-
 export interface INotepadState {
     allNotes: INote[],
     highlighted: number[],
@@ -21,6 +17,11 @@ export interface INotepadState {
     filter: {
         text: string,
         exact: boolean,
+    }
+    settings: {
+        caseSensitive: boolean,
+        uniqueNotes: boolean,
+        searchBar: boolean,
     }
 }
 
@@ -60,6 +61,11 @@ export const initialState: INotepadState = {
     ],
     highlighted: [],
     found: [],
+    settings: {
+        caseSensitive: true,
+        uniqueNotes: true,
+        searchBar: true,
+    },
     filter: {
         text: '',
         exact: false

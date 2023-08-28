@@ -1,5 +1,6 @@
 import { faArrowUp, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { timeout } from 'd3';
 import { useEffect, useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
@@ -26,6 +27,8 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
  
   const sendSearch = (val: string) => {
     setShowAllFound(false);
+    console.log('set false');
+    
     props.handleSearch(val);
   };
 
@@ -39,22 +42,23 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   }, [searchText]);
 
   const searchInputCLass = (scrollTop: number) => {
-    if (scrollTop > 10) return 'searchFieldFixed';
+    if (scrollTop >= 20) return 'searchFieldFixed';
     if (scrollTop === 0) return '';
   }
 
   const navigateTo = (noteId: number) => {
-    setShowAllFound(false);
     if (lastScrolledNoteId !== props.foundNotes[0].id) {
       setLastScrolledNoteId(props.foundNotes[0].id);
       scrollToElement(`#lbl${noteId}`, { offset: 20 });  
     }
-  }
+  };
+  
   useEffect(() => {
     if (props.foundNotes.length === 1) {
       navigateTo(props.foundNotes[0].id);
+      // setShowAllFound(false);
     }
-  }, [props.foundNotes.map(x => x.id)])
+  }, [props.foundNotes.map(x => x.id)]);
 
   return (
     <>
@@ -81,11 +85,14 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             <FontAwesomeIcon style={{ position: 'fixed', right: 50, bottom: 50 }} icon={faArrowUp}
               onClick={() => {
                 setShowAllFound(false);
-                scrollToElement('#root', { offset: 20 })}
-              } />}
+                scrollToElement('#root', { offset: 20 });
+                timeout(() => searchInputCLass(document.documentElement.scrollTop));
+              }} />}
       </div>
       <span id="spanNotesFound" style={{alignSelf: 'end', paddingLeft: '1rem', float: 'right'}}>
-        (<u onClick={(e) => setShowAllFound(true)}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
+        (<u onClick={(e) => setShowAllFound(true)}>
+          {props.foundNotes ? props.foundNotes.length : 0}
+        </u>)
       </span>
       {showAllFound && <ul>
         {props.foundNotes.map(x => {
