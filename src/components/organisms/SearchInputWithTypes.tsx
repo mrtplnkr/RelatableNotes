@@ -52,11 +52,11 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
       scrollToElement(`#lbl${noteId}`, { offset: 20 });  
     }
   };
-  
+
   useEffect(() => {
     if (props.foundNotes.length === 1) {
       navigateTo(props.foundNotes[0].id);
-      // setShowAllFound(false);
+      // setShowAllFound(false); make it a setting feature scroll when exact match found
     }
   }, [props.foundNotes.map(x => x.id)]);
 
