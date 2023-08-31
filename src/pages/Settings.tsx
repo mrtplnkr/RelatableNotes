@@ -4,7 +4,7 @@ import { initialState, NotepadReducer } from '../data/NotepadReducer';
 interface ISettingsProps {
 }
 
-const Settings: FunctionComponent<ISettingsProps> = (props) => {
+const Settings: FunctionComponent<ISettingsProps> = (props: ISettingsProps) => {
   const [settings, dispatch] = useReducer(NotepadReducer, [], () => {
     const localData = localStorage.getItem("settings");
     return localData && localData.length > 0 ? JSON.parse(localData) : initialState.settings
