@@ -44,7 +44,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   }
 
   const navigateTo = (noteId: number) => {
-    setShowAllFound(false);
+    // setShowAllFound(false);
     if (lastScrolledNoteId !== props.foundNotes[0].id) {
       setLastScrolledNoteId(props.foundNotes[0].id);
       scrollToElement(`#lbl${noteId}`, { offset: 20 });  
@@ -85,7 +85,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
               } />}
       </div>
       <span id="spanNotesFound" style={{alignSelf: 'end', paddingLeft: '1rem', float: 'right'}}>
-        (<u onClick={(e) => setShowAllFound(true)}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
+        (<u onClick={(e) => setShowAllFound(x => !x)}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
       </span>
       {showAllFound && <ul>
         {props.foundNotes.map(x => {

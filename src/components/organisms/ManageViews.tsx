@@ -1,4 +1,3 @@
-import { dispatch } from 'd3';
 import * as React from 'react';
 import { Dispatch } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
