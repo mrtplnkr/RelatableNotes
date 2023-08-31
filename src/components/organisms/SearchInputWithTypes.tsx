@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { faArrowUp, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { timeout } from 'd3';
@@ -62,7 +63,6 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
 
   return (
     <>
-    {console.log('log out here, it will show every time it changes, then go to chrome tools', showAllFound)}
       <div className={searchInputCLass(document.documentElement.scrollTop)}>
         <>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
@@ -90,9 +90,9 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
               }} />}
       </div>
       <span id="spanNotesFound" style={{alignSelf: 'end', paddingLeft: '1rem', float: 'right'}}>
-        (<u onClick={(e) => setShowAllFound(true)}>
+        <u onClick={(e) => setShowAllFound(x => !x)}>
           {props.foundNotes ? props.foundNotes.length : 0}
-        </u>)
+        </u>
       </span>
       {showAllFound && <ul>
         {props.foundNotes.map(x => {
