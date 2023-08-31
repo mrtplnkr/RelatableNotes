@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
 import { initialState, INote, NotepadReducer } from './NotepadReducer';
 
