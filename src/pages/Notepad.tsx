@@ -14,7 +14,6 @@ export interface INotepadProps {
 export function Notepad (props: INotepadProps) {
   
   const { notes, found, highlighted, filter, dispatchNotes } = useNotepadContext();
-
   const [showOptions, setShowOptions] = useState<number>(0);
 
   const handleSearch = (text: string) => {
