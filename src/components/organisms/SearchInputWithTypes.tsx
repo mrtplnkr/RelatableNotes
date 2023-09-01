@@ -1,5 +1,6 @@
 import { faArrowUp, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { timeout } from 'd3';
 import { useEffect, useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
@@ -32,7 +33,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const addNoteHandler = (note: string) => {
     props.addNote(note);
     setSearchText('');
-  }
+  };
 
   useEffect(() => {
     if (searchText.length === 0) sendSearch(searchText);
@@ -41,7 +42,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const searchInputCLass = (scrollTop: number) => {
     if (scrollTop > 10) return 'searchFieldFixed';
     if (scrollTop === 0) return '';
-  }
+  };
 
   const navigateTo = (noteId: number) => {
     // setShowAllFound(false);
@@ -49,12 +50,15 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
       setLastScrolledNoteId(props.foundNotes[0].id);
       scrollToElement(`#lbl${noteId}`, { offset: 20 });  
     }
-  }
+  };
+
   useEffect(() => {
     if (props.foundNotes.length === 1) {
-      navigateTo(props.foundNotes[0].id);
+      timeout(() => {
+        navigateTo(props.foundNotes[0].id);
+      }, 999);
     }
-  }, [props.foundNotes.map(x => x.id)])
+  }, [props.foundNotes.map(x => x.id)]);
 
   return (
     <>
