@@ -63,7 +63,7 @@ export const initialState: INotepadState = {
     filter: {
         text: '',
         exact: false
-    }
+    },
 }
 
 const checkAssignOrder = (orders: number[]): number => {
