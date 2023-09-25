@@ -25,7 +25,7 @@ export interface IReusableObjectProps {
     }>;
 }
 
-export const ReusableObject = React.memo((props: IReusableObjectProps) => {
+export const ReusableObject: React.FunctionComponent<IReusableObjectProps> = (props => {
 
     const [loading, setLoading] = useState<boolean>(true);
     const [children, setChildren] = useState<INote[]>([]);

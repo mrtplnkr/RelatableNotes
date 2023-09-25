@@ -1,6 +1,7 @@
 import { faArrowUp, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { timeout } from 'd3';
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
@@ -39,67 +40,66 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     if (searchText.length === 0) sendSearch(searchText);
   }, [searchText]);
 
-  const searchInputCLass = (scrollTop: number) => {
-    if (scrollTop > 10) return 'searchFieldFixed';
-    if (scrollTop === 0) return '';
-  };
+  window.addEventListener(
+    "scroll",
+    _.debounce(() => {
+      setScrollTop(document.documentElement.scrollTop);
+      setShowAllFound(false);
+    }, 0)
+  );
 
   const navigateTo = (noteId: number) => {
-    // setShowAllFound(false);
     if (lastScrolledNoteId !== props.foundNotes[0].id) {
       setLastScrolledNoteId(props.foundNotes[0].id);
-      scrollToElement(`#lbl${noteId}`, { offset: 20 });  
     }
+    scrollToElement(`#lbl${noteId}`, { offset: 20 });  
   };
 
-  useEffect(() => {
-    if (props.foundNotes.length === 1) {
-      timeout(() => {
-        navigateTo(props.foundNotes[0].id);
-      }, 999);
-    }
-  }, [props.foundNotes.map(x => x.id)]);
+  const [scrollTop, setScrollTop] = useState<number>();
 
   return (
-    <>
-    {console.log('log out here, it will show every time it changes, then go to chrome tools', showAllFound)}
-      <div className={searchInputCLass(document.documentElement.scrollTop)}>
-        <>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '0.5em'}}>
-              <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
-                cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center', 
-                color: props.exact ? 'red' : ''}}
-              />
-              <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText} type="text" autoFocus
-                onChange={(e: any) => setSearchText(e.target.value)}
-                onKeyPress={(e: any) => doSearchHandler(e.key)}
-              />
-              <FontAwesomeIcon title="search" onClick={() => setSearchText('')} icon={faSearchMinus} cursor='pointer' 
-                style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', 
-                color: figureOutTheColor(searchText, props.highlighted, false)}}
-              />
-            </div>
-            <hr />
-          </>
-          {document.documentElement.scrollTop !== 0 &&
-            <FontAwesomeIcon style={{ position: 'fixed', right: 50, bottom: 50 }} icon={faArrowUp}
-              onClick={() => {
-                setShowAllFound(false);
-                scrollToElement('#root', { offset: 20 })}
-              } />}
+    <div className={scrollTop ? 'searchInputFixed' : ''}>
+      <div id="searchBar" style={{display: 'flex', justifyContent: 'center'}}>
+        <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
+          cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center', 
+          color: props.exact ? 'red' : ''}}
+        />
+        <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText} type="text" autoFocus
+          onChange={(e: any) => setSearchText(e.target.value)}
+          onKeyPress={(e: any) => doSearchHandler(e.key)}
+        />
+        <div style={{display: 'flex'}}>
+          <FontAwesomeIcon title="search" onClick={() => setSearchText('')} icon={faSearchMinus} cursor='pointer' 
+            style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', 
+            color: figureOutTheColor(searchText, props.highlighted, false)}}
+          />
+          <span id="spanNotesFound" style={{cursor: 'pointer', fontSize: '0.5em', marginTop: '-0.8rem', paddingLeft: '0.3rem'}}>
+            (<u onClick={() => {
+              if (!showAllFound && document.documentElement.scrollTop) {
+                scrollToElement('#root', {offset: 0, duration: 100});
+                timeout(() => setShowAllFound(x => !x), 200);
+              } else setShowAllFound(x => !x);
+            }}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
+          </span>
+        </div>
       </div>
-      <span id="spanNotesFound" style={{alignSelf: 'end', paddingLeft: '1rem', float: 'right'}}>
-        (<u onClick={(e) => setShowAllFound(x => !x)}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
-      </span>
-      {showAllFound && <ul>
+      <hr />
+      {scrollTop !== 0 &&
+        <FontAwesomeIcon style={{ position: 'fixed', right: 50, bottom: 50 }} icon={faArrowUp}
+          onClick={() => {
+            scrollToElement('#root', { offset: 0 });
+            setShowAllFound(false);
+          }} />
+      }
+      {showAllFound && <ul style={{listStyleType: 'none'}}>
         {props.foundNotes.map(x => {
           return (
             <li style={{ padding: '5px' }} key={x.id}>
-                <button onClick={() => navigateTo(x.id)}>{x.text}</button>
+                <button style={{border: '3px solid green'}} onClick={() => navigateTo(x.id)}>{x.text}</button>
             </li>
           );
         })}
       </ul>}
-    </>
+    </div>
   );
 }

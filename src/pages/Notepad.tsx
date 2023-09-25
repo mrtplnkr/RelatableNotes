@@ -32,18 +32,12 @@ export function Notepad (props: INotepadProps) {
   return (
     <div>
       <div style={{justifyContent: 'center'}}>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-          <div style={{flex: 1}}>
-            <div style={{}}>
-              <SearchInputWithTypes {...{handleSearch, addNote,
-                searchTerm: filter.text,
-                exact: filter.exact,
-                foundNotes: notes.filter(x => found?.includes(x.id)),
-                highlighted: highlighted.length>0}} />
-            </div>
-            <hr />
-          </div>
-        </div>
+        <SearchInputWithTypes {...{handleSearch, addNote,
+          searchTerm: filter.text,
+          exact: filter.exact,
+          foundNotes: notes.filter(x => found?.includes(x.id)),
+          highlighted: highlighted.length>0}} />
+        <hr />
         {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
             {notes.find(x => x.cut)!.text}
             <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em' }} />
