@@ -61,25 +61,25 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     <div className={scrollTop ? 'searchInputFixed' : ''}>
       <div id="searchBar" style={{display: 'flex', justifyContent: 'center'}}>
         <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
-          cursor='pointer' style={{display: 'flex', marginRight: '0.5em', justifyContent: 'center', 
+          cursor='pointer' style={{display: 'flex', margin: '0 0.5em', justifyContent: 'center', 
           color: props.exact ? 'red' : ''}}
         />
-        <input placeholder={`search existing notes`} style={{fontWeight:'bold'}} value={searchText} type="text" autoFocus
+        <input placeholder={`search existing notes`} style={{fontWeight:'bold', textAlign: 'center'}} value={searchText} type="text" autoFocus
           onChange={(e: any) => setSearchText(e.target.value)}
           onKeyPress={(e: any) => doSearchHandler(e.key)}
         />
         <div style={{display: 'flex'}}>
-          <FontAwesomeIcon title="search" onClick={() => setSearchText('')} icon={faSearchMinus} cursor='pointer' 
+          <FontAwesomeIcon title="search" onClick={() => sendSearch(searchText)} icon={faSearchMinus} cursor='pointer' 
             style={{display: 'flex', marginLeft: '0.5em', justifyContent: 'center', 
             color: figureOutTheColor(searchText, props.highlighted, false)}}
           />
           <span id="spanNotesFound" style={{cursor: 'pointer', fontSize: '0.5em', marginTop: '-0.8rem', paddingLeft: '0.3rem'}}>
-            (<u onClick={() => {
+            <u onClick={() => {
               if (!showAllFound && document.documentElement.scrollTop) {
                 scrollToElement('#root', {offset: 0, duration: 100});
                 timeout(() => setShowAllFound(x => !x), 200);
               } else setShowAllFound(x => !x);
-            }}>{props.foundNotes ? props.foundNotes.length : 0}</u>)
+            }}>({props.foundNotes ? props.foundNotes.length : 0})</u>
           </span>
         </div>
       </div>

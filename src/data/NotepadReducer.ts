@@ -30,7 +30,6 @@ export const initialState: INotepadState = {
         { parentId: 4, id: 41, text: "milk", order: 1 },
         { parentId: 4, id: 42, text: "bread", order: 2 },
         { parentId: 42, id: 412, text: 'white', order: 0 },
-        { parentId: 412, id: 4120, text: 'bagels', order: 0 },
         { parentId: 42, id: 413, text: 'dark', order: 1 },
         { parentId: 4, id: 43, text: "tea", order: 3 },
         { parentId: null, id: 2, text: "app dev features", order: 1 },
@@ -80,7 +79,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
     switch(action.type) {
         case 'applyFilter':
             return {...state, 
-                highlighted: [],
+                highlighted: state.allNotes.some(x => x.text.includes(action.payload.text)) ? state.highlighted : [],
                 found: state.allNotes.filter(x => x.text.includes(action.payload.text)).map(x => x.id),
                 filter: {
                     text: action.payload.text,
