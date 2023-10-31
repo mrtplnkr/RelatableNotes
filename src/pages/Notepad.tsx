@@ -31,7 +31,7 @@ export function Notepad (props: INotepadProps) {
 
   return (
     <div>
-      <div style={{justifyContent: 'center'}}>
+      <div>
         <SearchInputWithTypes {...{handleSearch, addNote,
           searchTerm: filter.text,
           exact: filter.exact,

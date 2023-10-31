@@ -18,7 +18,6 @@ interface INotepadContext {
 export const NotepadContext = React.createContext<INotepadContext | null>(null);
 
 function App() {
-  const data: any[] = [{text:'qew'}];
 
   return (
     <div className="App">
@@ -37,7 +36,7 @@ function App() {
               </Route>
               <Route path="notepad/:id" element={<Notepad />}>
               </Route>
-              <Route path="preview" element={<Preview data={data} />}>
+              <Route path="preview" element={<Preview />}>
               </Route>
               <Route path="export" element={<Export />}>
               </Route>

@@ -8,7 +8,6 @@ import { compareLatest } from '../helpers/compareLatest';
 // import MapContainer from '../components/organisms/MapContainer';
 
 export interface IPreviewProps {
-  data: any[];
 }
 
 interface INode {

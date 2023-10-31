@@ -24,8 +24,10 @@
 .searchInputFixed {
   position: fixed;
   z-index: 3;
+  left: 0;
   top: 0;
   padding-top: 50px;
+  right: 0;
 }
 
 .App-header {

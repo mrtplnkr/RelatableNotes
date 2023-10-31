@@ -1,3 +1,6 @@
+https://observablehq.com/@d3/zoomable-circle-packing?collection=@d3/d3-hierarchy
+https://observablehq.com/@sandraviz/force-directed-layout
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
