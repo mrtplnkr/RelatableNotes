@@ -61,7 +61,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
     <div className={scrollTop ? 'searchInputFixed' : ''}>
       <div id="searchBar" style={{display: 'flex', justifyContent: 'center'}}>
         <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
-          cursor='pointer' style={{display: 'flex', margin: '0 0.5em', justifyContent: 'center', 
+          cursor='pointer' style={{display: 'flex', margin: '0 0.5em', paddingLeft: '0.5em', 
           color: props.exact ? 'red' : ''}}
         />
         <input placeholder={`search existing notes`} style={{fontWeight:'bold', textAlign: 'center'}} value={searchText} type="text" autoFocus
