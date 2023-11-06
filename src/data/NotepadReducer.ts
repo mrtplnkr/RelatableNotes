@@ -80,7 +80,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'applyFilter':
             return {...state, 
                 highlighted: state.allNotes.some(x => x.text.includes(action.payload.text)) ? state.highlighted : [],
-                found: state.allNotes.filter(x => x.text.includes(action.payload.text)).map(x => x.id),
+                found: state.allNotes.filter(x => x.text.toLowerCase().includes(action.payload.text.toLowerCase())).map(x => x.id),
                 filter: {
                     text: action.payload.text,
                     exact: state.allNotes.some(x => x.text === action.payload.text) ? true : false
