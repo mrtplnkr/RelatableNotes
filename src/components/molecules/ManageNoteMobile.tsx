@@ -80,7 +80,9 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
             }</div>
         :
             <div style={{display: 'flex'}}>
-                <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus onKeyDown={(e: any) => {
+                <input style={{fontWeight:'bold', flex: '1'}} type="text" autoFocus
+                    onBlur={() => setShowTextbox(false)}
+                    onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                         props.dispatch({type: 'addNote', payload: {...props.mainNote, parentId: props.mainNote.id!, text: e.target.value, done: undefined }});
                         props.setShowOptions(0);
@@ -90,7 +92,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                         setShowTextbox(false);
                     }
                 }} />
-                <button onClick={() => setShowTextbox(!showTextbox)}>x</button>
+                <button className={'noBorder'} onClick={() => setShowTextbox(false)}>x</button>
             </div>
         }
     </>

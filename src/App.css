@@ -68,6 +68,10 @@ button {
   border: 3px solid blueviolet;
 }
 
+.noBorder {
+  border: none;
+}
+
 a {
   text-decoration: none;
   color: aqua;

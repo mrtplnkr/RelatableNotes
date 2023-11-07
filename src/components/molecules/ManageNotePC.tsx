@@ -85,7 +85,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                   }
                 }} />
               }</>
-              <button onClick={() => setShowTextbox(0)}>x</button>
+              <button className={'noBorder'} onClick={() => setShowTextbox(0)}>x</button>
             </div>
           }
       </div>}
