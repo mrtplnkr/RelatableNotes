@@ -30,6 +30,12 @@
   right: 0;
 }
 
+.foundNotesDiv {
+  list-style-type: 'none';
+  height: 10em;
+  overflow-y: scroll;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

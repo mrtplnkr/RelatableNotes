@@ -28,17 +28,13 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
  
   const sendSearch = (val: string) => {
     setShowAllFound(false);
-    props.handleSearch(val);
+    if (val.length) props.handleSearch(val);
   };
 
   const addNoteHandler = (note: string) => {
     props.addNote(note);
     setSearchText('');
   };
-
-  useEffect(() => {
-    if (searchText.length === 0) sendSearch(searchText);
-  }, [searchText]);
 
   window.addEventListener(
     "scroll",
@@ -91,7 +87,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             setShowAllFound(false);
           }} />
       }
-      {showAllFound && <ul style={{listStyleType: 'none'}}>
+      {showAllFound && <ul className={'foundNotesDiv'}>
         {props.foundNotes.map(x => {
           return (
             <li style={{ padding: '5px' }} key={x.id}>
