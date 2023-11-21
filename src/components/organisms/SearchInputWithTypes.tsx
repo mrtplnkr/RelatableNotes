@@ -74,7 +74,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
               if (!showAllFound && document.documentElement.scrollTop) {
                 scrollToElement('#root', {offset: 0, duration: 100});
                 timeout(() => setShowAllFound(x => !x), 200);
-              } else setShowAllFound(x => !x);
+              } else setShowAllFound(true);
             }}>({props.foundNotes ? props.foundNotes.length : 0})</u>
           </span>
         </div>
