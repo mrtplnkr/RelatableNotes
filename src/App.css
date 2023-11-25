@@ -36,7 +36,13 @@
   overflow-y: scroll;
   flex-flow: wrap;
   display: flex;
+  min-width: 10em;
+  width: 80%;
   max-width: 20em;
+}
+
+#searchContainer {
+  text-align: -webkit-center;
 }
 
 .App-header {

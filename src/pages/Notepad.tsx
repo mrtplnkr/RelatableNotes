@@ -44,7 +44,7 @@ export function Notepad (props: INotepadProps) {
         </span>}
           {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
               return (
-                  <div style={{ padding: '5px' }} key={x.id}>
+                  <div style={{ padding: '5px', maxWidth: '20em', wordBreak: 'break-all' }} key={x.id}>
                       <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes }} mainNote={x} size={18}></ReusableObject>
                   </div>
               );

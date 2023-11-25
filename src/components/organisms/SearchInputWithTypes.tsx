@@ -58,7 +58,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [scrollTop, setScrollTop] = useState<number>();
 
   return (
-    <div className={scrollTop ? 'searchInputFixed' : ''}>
+    <div id="searchContainer" className={scrollTop ? 'searchInputFixed' : ''}>
       <div id="searchBar" style={{display: 'flex', justifyContent: 'center'}}>
         <FontAwesomeIcon title="add" onClick={() => addNoteHandler(searchText)} icon={faPlus}
           cursor='pointer' style={{display: 'flex', margin: '0 0.5em', paddingLeft: '0.5em', 
