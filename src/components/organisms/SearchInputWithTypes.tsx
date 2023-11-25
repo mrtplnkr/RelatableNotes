@@ -1,8 +1,8 @@
-import { faArrowUp, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faFont, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { timeout } from 'd3';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
 import { INote } from '../../data/NotepadReducer';
@@ -21,13 +21,17 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [showAllFound, setShowAllFound] = useState<boolean>(false);
   const [lastScrolledNoteId, setLastScrolledNoteId] = useState(0);
 
+  const [activeCasing, setActiveCasing] = useState<boolean>(false);
+
   const doSearchHandler = (key: any) => {
-    if (key === 'Enter')
+    if (key === 'Enter') {
+      setShowAllFound(true);
       sendSearch(searchText);
+    }
   };
  
   const sendSearch = (val: string) => {
-    setShowAllFound(false);
+    // setShowAllFound(false);
     if (val.length) props.handleSearch(val);
   };
 
@@ -87,8 +91,12 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             setShowAllFound(false);
           }} />
       }
-      {showAllFound && <ul className={'foundNotesDiv'}>
-        {props.foundNotes.map(x => {
+      {showAllFound && <ul className={'notesFoundContainer'}>
+        <FontAwesomeIcon title="apply casing" onClick={() => setActiveCasing(a => !a)} icon={faFont}
+            cursor='pointer' style={{display: 'flex', margin: '0 0.5em', 
+            border: activeCasing ? '1px solid green' : '', color: props.exact ? 'red' : ''}}
+          />
+        {props.foundNotes.filter(x => x.text.includes(activeCasing ? searchText : '')).map(x => {
           return (
             <li style={{ padding: '5px' }} key={x.id}>
                 <button style={{border: '3px solid green'}} onClick={() => navigateTo(x.id)}>{x.text}</button>

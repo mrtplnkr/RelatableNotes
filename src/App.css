@@ -30,10 +30,13 @@
   right: 0;
 }
 
-.foundNotesDiv {
-  list-style-type: 'none';
-  height: 10em;
+.notesFoundContainer {
+  list-style-type: none;
+  max-height: 10em;
   overflow-y: scroll;
+  flex-flow: wrap;
+  display: flex;
+  max-width: 20em;
 }
 
 .App-header {
