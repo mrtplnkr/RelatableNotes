@@ -64,7 +64,8 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
           cursor='pointer' style={{display: 'flex', margin: '0 0.5em', paddingLeft: '0.5em', 
           color: props.exact ? 'red' : ''}}
         />
-        <input placeholder={`search existing notes`} style={{fontWeight:'bold', textAlign: 'center'}} value={searchText} type="text" autoFocus
+        <input name="searchInput" placeholder={`search existing notes`} value={searchText} type="text" autoFocus
+          style={{fontWeight:'bold', textAlign: 'center'}} 
           onChange={(e: any) => setSearchText(e.target.value)}
           onKeyPress={(e: any) => doSearchHandler(e.key)}
         />
