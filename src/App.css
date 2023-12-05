@@ -112,7 +112,7 @@ a {
 .blink {
   animation-duration: 400ms;
   animation-name: blink;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 5;
   animation-direction: alternate;
 }
 @keyframes blink {

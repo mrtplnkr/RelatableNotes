@@ -55,7 +55,7 @@ export function Preview (props: IPreviewProps) {
   const { notes } = useNotepadContext();
   React.useEffect(() => {
     filterData(filter);
-  }, [notes])
+  }, [notes.length])
 
   React.useEffect(() => {
     if (childrenIds?.length && data?.nodes) {
@@ -79,7 +79,7 @@ export function Preview (props: IPreviewProps) {
       }
      
     }
-  }, [notes, data, childrenIds])
+  }, [notes.length, data?.nodes.length, childrenIds?.length])
 
   const [filter, setFilter] = useState<number>(notes.filter(x => x.parentId === null).sort(compareLatest)[0].id);
 

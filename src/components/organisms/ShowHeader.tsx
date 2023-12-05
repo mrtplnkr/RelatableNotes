@@ -29,16 +29,17 @@ export function ShowHeader (props: IshowHeaderProps) {
           <div>
             {props.hasBrothers && <OrderButtons mainNote={props.mainNote!} dispatch={props.dispatch!} />}
           </div>
-          <div className="dropdown" style={{flex: '1', margin: '0 5px'}}>
+          <div className="dropdown" style={{flex: '1', margin: '0 5px', wordBreak: 'break-word'}}>
             {!props.updatingText ? <div style={{justifyContent: 'center', padding: '0 5px', borderRadius: '5px', display: 'flex', alignItems: 'center'}} className="dropbtn">
               <>
                 {props.mainNote!.url ? 
                   // eslint-disable-next-line react/jsx-no-target-blank
-                  <a target="_blank" href={props.mainNote.url}
-                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
-                      {props.mainNote.text}</a> 
+                  <a id={`lbl${props.mainNote.id}`} target="_blank" href={props.mainNote.url}
+                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''} style={{minWidth: '10em'}}>
+                      {props.mainNote.text}</a>
                 :
-                  <span id={`lbl${props.mainNote.id}`} className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
+                  <span id={`lbl${props.mainNote.id}`} style={{minWidth: '10em'}}
+                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text}</span>
                 }
               </>

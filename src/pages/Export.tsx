@@ -15,7 +15,7 @@ const Export: FunctionComponent<IExportProps> = (props) => {
 
   useEffect(() => {
     setSelectedNote(notes[0].id.toString());
-  }, [notes])
+  }, [])
 
   const handleClick = (val: string) => {
     var blob = new Blob([JSON.stringify(notes.filter((x: INote) => x.id === parseInt(val)))], {type: "application/json;charset=utf-8"});

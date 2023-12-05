@@ -35,11 +35,11 @@ export const ReusableObject: React.FunctionComponent<IReusableObjectProps> = (pr
 
     React.useEffect(() => {
         reloadChildren();
-    }, [notes]);
+    }, [notes.length]);
 
     React.useEffect(() => {
         if (highlighted.includes(mainNote.id)) setShowChildren(true);
-    }, [highlighted])
+    }, [highlighted.length])
 
     const reloadChildren = () => {
         setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));

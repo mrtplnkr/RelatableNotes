@@ -25,7 +25,7 @@ export const NotepadProvider = (children: any) => {
     useEffect(() => {
         if (notes)
             localStorage.setItem("Notes", JSON.stringify(notes));
-    }, [notes])
+    }, [notes.allNotes.length])
     
     const arr: number[] = []; //TODO: hack
 
