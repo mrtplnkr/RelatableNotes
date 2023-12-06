@@ -40,7 +40,7 @@ export function Notepad (props: INotepadProps) {
         <hr />
         {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
             {notes.find(x => x.cut)!.text}
-            <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em' }} />
+            <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em', zIndex: 4 }} />
         </span>}
           {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
               return (
