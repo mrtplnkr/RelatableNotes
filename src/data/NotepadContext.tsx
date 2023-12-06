@@ -27,45 +27,6 @@ export const NotepadProvider = (children: any) => {
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes.allNotes.length])
     
-    const arr: number[] = []; //TODO: hack
-
-    useEffect(() => {
-        if (notes.filter && notes.filter.text.length > 1) {
-            const check = notes.allNotes.filter(x => !notes.filter.text || x.text.toLowerCase().includes(notes.filter.text.toLowerCase()));
-            if (check && check.length && notes.filter.text !== '') {
-                getParents(check[0].id);
-                delay(arr.reverse());
-            }
-        }
-    }, [notes.filter.text]);
-
-    const delay = async (arr: number[]) => {
-        for await (let id of arr) {
-            dispatch({type: 'highlightNote', payload: {id: id, parentId: null, order: 0, text: ''}});
-            await sleep(999);
-        }
-    };
-
-    const sleep = (delay: number) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, delay);
-        });
-    }
-
-    const getParents = async (id: number) => {
-        await getParentList(id);
-    }
-
-    const getParentList = async (noteId: number) => {
-        arr.push(noteId);
-        const note = notes.allNotes.find(x => x.id === noteId);
-        if (note?.parentId) {
-            await getParentList(note.parentId);
-        } else {
-            return arr;
-        }
-    }
-    
     return (
         <NotepadContext.Provider value={{notes: notes.allNotes, found: notes.found, highlighted: notes.highlighted, filter: notes.filter, dispatchNotes: dispatch}}>
             {{ ...children.children }}

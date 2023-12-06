@@ -53,7 +53,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
       setLastScrolledNoteId(props.foundNotes[0].id);
     }
     scrollToElement(`#lbl${noteId}`, { offset: 20 });  
-  };
+  }
 
   const [scrollTop, setScrollTop] = useState<number>();
 
@@ -92,7 +92,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             setShowAllFound(false);
           }} />
       }
-      {showAllFound && <ul className={'notesFoundContainer'}>
+      {showAllFound && props.foundNotes.length > 1 && <ul className={'notesFoundContainer'}>
         <FontAwesomeIcon title="apply casing" onClick={() => setActiveCasing(a => !a)} icon={faFont}
             cursor='pointer' style={{display: 'flex', margin: '0 0.5em', 
             border: activeCasing ? '1px solid green' : '', color: props.exact ? 'red' : ''}}

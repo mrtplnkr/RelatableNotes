@@ -35,10 +35,10 @@ export function ShowHeader (props: IshowHeaderProps) {
                 {props.mainNote!.url ? 
                   // eslint-disable-next-line react/jsx-no-target-blank
                   <a id={`lbl${props.mainNote.id}`} target="_blank" href={props.mainNote.url}
-                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''} style={{minWidth: '10em'}}>
+                    className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text}</a>
                 :
-                  <span id={`lbl${props.mainNote.id}`} style={{minWidth: '10em'}}
+                  <span id={`lbl${props.mainNote.id}`}
                     className={props.isHighlighted ? 'zoom-in-zoom-out' : ''}>
                       {props.mainNote.text}</span>
                 }

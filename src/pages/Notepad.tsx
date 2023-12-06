@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReusableObject } from '../components/ReusableObject';
 import { INote } from '../data/NotepadReducer';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { compareLatest } from '../helpers/compareLatest';
+import { delay } from '../data/functional';
+import scrollToElement from 'scroll-to-element';
+import { timeout } from 'd3';
 
 export interface INotepadProps {
 }
@@ -27,6 +30,39 @@ export function Notepad (props: INotepadProps) {
       alert("already exists, I'll show ya");
       handleSearch(newNote);
     }
+  }
+  
+  useEffect(() => {
+    const arr: number[] = []; //TODO: hack
+    if (filter && filter.text.length > 1) {
+        const notesFound = notes.filter(x => !filter.text || x.text.toLowerCase().includes(filter.text.toLowerCase()));
+        if (notesFound && notesFound.length && filter.text !== '') {
+            getParents(notesFound[0].id, arr);
+            delay(dispatchNotes, arr.reverse());
+            // if (exact)
+            if (notesFound.length === 1) {
+console.log('do you even run');
+
+              scrollToElement(`#root`, { offset: 100 });
+              console.log('do you even run2');
+
+            }
+        }
+    }
+  }, [filter.text]);
+
+  const getParents = async (id: number, arr: number[]) => {
+      await getParentList(id, arr);
+  }
+
+  const getParentList = async (noteId: number, arr: number[]) => {
+      arr.push(noteId);
+      const note = notes.find(x => x.id === noteId);
+      if (note?.parentId) {
+          await getParentList(note.parentId, arr);
+      } else {
+          return arr;
+      }
   }
 
   return (
