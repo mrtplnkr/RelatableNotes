@@ -72,9 +72,11 @@ export function Notepad(props: INotepadProps) {
           foundNotes: notes.filter(x => found?.includes(x.id)),
           highlighted: highlighted.length>0}} />
         <hr />
-        {notes.some(x => x.cut) && <span style={{ position: 'absolute', right: 0 }}>
-            {notes.find(x => x.cut)!.text}
-            <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo' cursor={'pointer'} icon={faUndo} style={{ padding: '0 0.5em', zIndex: 4 }} />
+        {notes.some(x => x.cut) && <span style={{ textOverflow: 'eclipse', overflow: 'hidden', 
+          maxWidth: '200px', textAlign: 'right', position: 'fixed', right: 0, zIndex: '11' }}>
+            <FontAwesomeIcon onClick={() => dispatchNotes({ type: 'cancelCut', payload: notes[0] })} title='undo'
+               icon={faUndo} style={{ cursor: 'pointer', padding: '0 0.5em', zIndex: 4 }} />
+            <div style={{fontSize: '0.6em'}}>{notes.find(x => x.cut)!.text}</div>
         </span>}
           {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
               return (
