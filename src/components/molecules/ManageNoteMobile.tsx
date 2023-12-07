@@ -2,7 +2,7 @@ import React, { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
 import { faCompressArrowsAlt, faCut, faEdit, faExpandArrowsAlt, faLink, faPaste, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ShowHeader } from '../organisms/ShowHeader';
+import { NoteHeader } from '../organisms/NoteHeader';
 
 export interface IManageNoteMobileProps {
     mainNote: INote;
@@ -27,7 +27,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
     return (
     <>
         <div style={{display: 'flex'}}>
-            <ShowHeader {...{isHighlighted, setShowTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
+            <NoteHeader {...{isHighlighted, setShowTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, updatingText, setUpdatingText, hasBrothers, mainNote, dispatch }} />
             {!mainNote.cut && <div style={{alignSelf: 'center', marginLeft: '0.5em'}} onClick={() => props.showOptions === props.mainNote.id ? props.setShowOptions(0) : props.setShowOptions(props.mainNote.id)}>
                 {props.showOptions === props.mainNote.id ? <FontAwesomeIcon icon={faCompressArrowsAlt} /> : <FontAwesomeIcon icon={faExpandArrowsAlt} />}
             </div>}

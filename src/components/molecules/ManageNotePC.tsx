@@ -2,7 +2,7 @@ import { faCut, faEdit, faLink, faPaste, faPlus, faTrash } from '@fortawesome/fr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, Dispatch } from 'react';
 import { INote } from '../../data/NotepadReducer';
-import { ShowHeader } from '../organisms/ShowHeader';
+import { NoteHeader } from '../organisms/NoteHeader';
 
 export interface IManageNotePCProps {
   mainNote: INote;
@@ -32,7 +32,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
 
   return (
     <div className="dropdown">
-      <ShowHeader {...{isHighlighted, setShowTextbox: setShowAddTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
+      <NoteHeader {...{isHighlighted, setShowTextbox: setShowAddTextbox, showChildren, hasChildren, setShowChildren, setShowOptions, hasBrothers, updatingText, setUpdatingText, mainNote, dispatch }} />
       {!props.mainNote.cut && <div className="dropdown-content">
           {!showTextbox ? 
             <>

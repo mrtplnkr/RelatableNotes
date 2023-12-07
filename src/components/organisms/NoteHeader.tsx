@@ -6,7 +6,7 @@ import { useNotepadContext } from '../../data/NotepadContext';
 import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
-export interface IshowHeaderProps {
+export interface INoteHeaderProps {
     hasChildren: boolean;
     showChildren: boolean;
     setShowChildren: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,7 @@ export interface IshowHeaderProps {
     setShowTextbox: (val: boolean) => void;
 }
 
-export function ShowHeader (props: IshowHeaderProps) {
+export function NoteHeader (props: INoteHeaderProps) {
   
   const { forceUpdate } = useNotepadContext();
 
