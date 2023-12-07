@@ -23,7 +23,6 @@ export interface IshowHeaderProps {
 export function ShowHeader (props: IshowHeaderProps) {
   
   const { forceUpdate } = useNotepadContext();
-console.log('why i dont get rerendered after update', props.mainNote.text);
 
   return (
     <>

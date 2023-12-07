@@ -13,7 +13,7 @@ import scrollToElement from 'scroll-to-element';
 export interface INotepadProps {
 }
 
-export function Notepad (props: INotepadProps) {
+export function Notepad(props: INotepadProps) {
   
   const { notes, found, highlighted, filter, dispatchNotes } = useNotepadContext();
   const [showOptions, setShowOptions] = useState<number>(0);

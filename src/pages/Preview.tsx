@@ -23,7 +23,7 @@ interface IGraphData {
   links: ILink[];
 }
 
-export function Preview (props: IPreviewProps) {
+export default function Preview (props: IPreviewProps) {
 
   // graph payload (with minimalist structure)
   const [data, setData] = useState<IGraphData>();

@@ -29,7 +29,6 @@ export const NotepadProvider = (children: any) => {
     }
 
     useEffect(() => {
-        console.log('storing data run', notes);
         if (notes)
             localStorage.setItem("Notes", JSON.stringify(notes));
     }, [notes.allNotes.length, update])

@@ -1,7 +1,6 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, lazy, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Preview } from './pages/Preview';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import { Notepad } from './pages/Notepad';
@@ -9,6 +8,7 @@ import { INote, INotepadState } from './data/NotepadReducer';
 import { NotepadProvider } from './data/NotepadContext';
 import Export from './pages/Export';
 import Settings from './pages/Settings';
+import Loading from './components/atoms/Loading';
 
 interface INotepadContext {
   notepadState: INotepadState;
@@ -16,6 +16,10 @@ interface INotepadContext {
 }
 
 export const NotepadContext = React.createContext<INotepadContext | null>(null);
+
+const Preview = lazy(() =>
+  import('./pages/Preview'),
+);
 
 function App() {
 
@@ -27,6 +31,8 @@ function App() {
           <img src={logo} alt="logo" />
         </a>
       
+        <Suspense fallback={<Loading />}>
+
         <HashRouter>
           <NotepadProvider>
             <Routes>
@@ -45,6 +51,8 @@ function App() {
             </Routes>
             </NotepadProvider>
         </HashRouter>
+
+        </Suspense>
 
       </header>
 

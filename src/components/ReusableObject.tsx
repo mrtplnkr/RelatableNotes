@@ -5,6 +5,7 @@ import { Dispatch, useCallback, useState } from 'react';
 import { useNotepadContext } from '../data/NotepadContext';
 import { compareLatest } from '../helpers';
 import { ManageViews } from './organisms/ManageViews';
+import Loading from './atoms/Loading';
 
 export type ReusableType = {
     id: number,
@@ -68,7 +69,7 @@ export const ReusableObject = (props:IReusableObjectProps) => {
                         </div>
                     </div>}
                 </>
-            </> : <span>loading...</span>}
+            </> : <Loading />}
         </div>
     );
 };
