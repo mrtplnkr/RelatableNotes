@@ -47,7 +47,7 @@ export const ReusableObject = (props:IReusableObjectProps) => {
         <div style={{ fontSize: props.size }}>
             {!loading ? <>
                 <>
-                    {<div style={{ border: filterChildren.length > 0 ? `1px solid ${randomColor()}` : 'none', borderRadius: '50%', padding: filterChildren.length > 0 ? '25px' : '5px' }}>
+                    {<div style={{ border: filterChildren.length > 0 ? `1px solid ${randomColor()}` : 'none', borderRadius: '50%', padding: filterChildren.length > 0 ? '25px 0' : '5px 0' }}>
                         <ManageViews {...{
                             showOptions, showChildren, setShowChildren, setShowOptions,
                             children: filterChildren,
