@@ -2,6 +2,7 @@ import { faFolderMinus, faFolderOpen, faPlusCircle } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Dispatch } from 'react';
+import { useNotepadContext } from '../../data/NotepadContext';
 import { INote } from '../../data/NotepadReducer';
 import OrderButtons from '../atoms/OrderButtons';
 
@@ -21,6 +22,9 @@ export interface IshowHeaderProps {
 
 export function ShowHeader (props: IshowHeaderProps) {
   
+  const { forceUpdate } = useNotepadContext();
+console.log('why i dont get rerendered after update', props.mainNote.text);
+
   return (
     <>
       {props.mainNote.cut ? 
@@ -50,6 +54,7 @@ export function ShowHeader (props: IshowHeaderProps) {
                 <input autoFocus defaultValue={props.mainNote.text} style={{fontWeight:'bold'}} type="text" onBlur={() => props.setUpdatingText(false)} onKeyDown={(e: any) => {
                     if (e.keyCode === 13) {
                       props.dispatch({type: 'updateNote', payload: {...props.mainNote, text: e.target.value }})
+                      forceUpdate!();
                       props.setUpdatingText(false);
                     } else if (e.keyCode === 27) {
                       props.setUpdatingText(false);

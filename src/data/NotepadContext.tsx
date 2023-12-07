@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
+import { createContext, Dispatch, useContext, useEffect, useReducer, useState } from 'react';
 import { initialState, INote, NotepadReducer } from './NotepadReducer';
 
 interface INotepadContext {
@@ -7,6 +7,7 @@ interface INotepadContext {
     filter: { text: string, exact: boolean };
     found: number[];
     dispatchNotes: Dispatch<{ type: string; payload: INote; }>;
+    forceUpdate?: () => void;
 }
 
 const NotepadContext = createContext<INotepadContext>({notes: [], found: [], highlighted: [], filter: {text:'', exact: false}, 
@@ -22,13 +23,19 @@ export const NotepadProvider = (children: any) => {
         return localData && localData.length > 0 ? JSON.parse(localData) : initialState
     });
 
+    const [update, setUpdate] = useState(false);
+    const forceUpdate = () => {
+        setUpdate(a => !a);
+    }
+
     useEffect(() => {
+        console.log('storing data run', notes);
         if (notes)
             localStorage.setItem("Notes", JSON.stringify(notes));
-    }, [notes.allNotes.length])
+    }, [notes.allNotes.length, update])
     
     return (
-        <NotepadContext.Provider value={{notes: notes.allNotes, found: notes.found, highlighted: notes.highlighted, filter: notes.filter, dispatchNotes: dispatch}}>
+        <NotepadContext.Provider value={{notes: notes.allNotes, forceUpdate: forceUpdate, found: notes.found, highlighted: notes.highlighted, filter: notes.filter, dispatchNotes: dispatch}}>
             {{ ...children.children }}
         </NotepadContext.Provider>
     )

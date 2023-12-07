@@ -108,6 +108,7 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
                     ? {...x, order: x.order-1} : x) };
         case 'updateNote':
             const checkChildren = state.allNotes.some((content) => content.parentId === action.payload.parentId && content.done)
+            console.log('update note runned', state);
             return {...state, allNotes: state.allNotes
                 .map((content) => content.id === action.payload.id ? {...action.payload} : content )
                 .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};

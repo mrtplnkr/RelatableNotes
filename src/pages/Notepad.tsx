@@ -9,7 +9,6 @@ import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { compareLatest } from '../helpers/compareLatest';
 import { delay } from '../data/functional';
 import scrollToElement from 'scroll-to-element';
-import { timeout } from 'd3';
 
 export interface INotepadProps {
 }
@@ -41,11 +40,8 @@ export function Notepad (props: INotepadProps) {
             delay(dispatchNotes, arr.reverse());
             // if (exact)
             if (notesFound.length === 1) {
-console.log('do you even run');
-
               scrollToElement(`#root`, { offset: 100 });
               console.log('do you even run2');
-
             }
         }
     }

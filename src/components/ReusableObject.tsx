@@ -15,7 +15,6 @@ export type ReusableType = {
 
 export interface IReusableObjectProps {
     mainNote: INote;
-    reloadChildren?: () => void;
     size?: number;
     showOptions: number;
     setShowOptions: Dispatch<React.SetStateAction<number>>;
@@ -25,53 +24,44 @@ export interface IReusableObjectProps {
     }>;
 }
 
-export const ReusableObject: React.FunctionComponent<IReusableObjectProps> = (props => {
+export const ReusableObject = (props:IReusableObjectProps) => {
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [children, setChildren] = useState<INote[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
     const [showChildren, setShowChildren] = useState<boolean>(false);
 
     const { notes, highlighted } = useNotepadContext();
-
-    React.useEffect(() => {
-        reloadChildren();
-    }, [notes.length]);
+    const { setShowOptions, mainNote, showOptions, dispatch } = props;
 
     React.useEffect(() => {
         if (highlighted.includes(mainNote.id)) setShowChildren(true);
     }, [highlighted.length])
 
-    const reloadChildren = () => {
-        setChildren(notes.filter((x: INote) => x.parentId === mainNote!.id));
-        setLoading(false);
-    };
-
-    const { setShowOptions, mainNote, showOptions, dispatch } = props;
+    const filterChildren = !mainNote ? [] : notes.filter((x: INote) => x.parentId === mainNote!.id);
 
     const sortByOrder = useCallback((c: INote[]) => {
         return c.sort(compareLatest);
-    }, [children]);
+    }, [filterChildren]);
 
     return (
         <div style={{ fontSize: props.size }}>
             {!loading ? <>
                 <>
-                    {<div style={{ border: children.length > 0 ? `1px solid ${randomColor()}` : 'none', borderRadius: '50%', padding: children.length > 0 ? '25px' : '5px' }}>
+                    {<div style={{ border: filterChildren.length > 0 ? `1px solid ${randomColor()}` : 'none', borderRadius: '50%', padding: filterChildren.length > 0 ? '25px' : '5px' }}>
                         <ManageViews {...{
                             showOptions, showChildren, setShowChildren, setShowOptions,
-                            children,
+                            children: filterChildren,
                             mainNote: mainNote!,
                             dispatch: dispatch,
-                            hasChildren: children.length > 0,
+                            hasChildren: filterChildren.length > 0,
                             isAnythingCut: notes.filter(a => a.cut).length > 0,
                             hasBrothers: notes.filter(a => a.parentId === mainNote.parentId).length > 1,
                             isHighlighted: highlighted.includes(props.mainNote.id)
                         }} />
                         <div style={{border: highlighted.includes(mainNote.id) ? '1px red dotted' : '1px black dotted'}}>
-                            {showChildren && children?.length > 0 && sortByOrder(children).map((x) => {
+                            {showChildren && filterChildren?.length > 0 && sortByOrder(filterChildren).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
-                                        <ReusableObject {...{ showOptions, setShowOptions, reloadChildren, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
+                                        <ReusableObject {...{ showOptions, setShowOptions, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
                                     </div>
                                 );
                             })}
@@ -81,4 +71,4 @@ export const ReusableObject: React.FunctionComponent<IReusableObjectProps> = (pr
             </> : <span>loading...</span>}
         </div>
     );
-});
+};
