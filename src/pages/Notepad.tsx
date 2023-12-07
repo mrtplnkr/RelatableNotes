@@ -40,7 +40,9 @@ export function Notepad(props: INotepadProps) {
             delay(dispatchNotes, arr.reverse());
             // if (exact)
             if (notesFound.length === 1) {
-              scrollToElement(`#root`, { offset: 100 });
+              setTimeout(() => {
+                scrollToElement(`#lbl${notesFound[0].id}`, { offset: 20 });  
+              }, 1000);
               console.log('do you even run2');
             }
         }
