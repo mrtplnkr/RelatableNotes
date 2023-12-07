@@ -1,5 +1,5 @@
 import React, { Dispatch, lazy, Suspense } from 'react';
-import logo from './logo.svg';
+import logo from './logo192.png';
 import './App.css';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
@@ -28,7 +28,7 @@ function App() {
       
       <header className="App-header">
         <a href="/">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className={'spin'} style={{width:'5em'}} />
         </a>
       
         <Suspense fallback={<Loading />}>
