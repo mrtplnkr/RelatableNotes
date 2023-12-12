@@ -37,6 +37,7 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
 
   const addNoteHandler = (note: string) => {
     props.addNote(note);
+    scrollToElement(`#root`, { offset: 0 });  
     setSearchText('');
   };
 

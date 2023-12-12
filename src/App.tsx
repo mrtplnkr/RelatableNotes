@@ -28,7 +28,7 @@ function App() {
       
       <header className="App-header">
         <a href="/">
-          <img src={logo} alt="logo" className={'spin'} style={{width:'5em'}} />
+          <img src={logo} alt="logo" className={'spin'} style={{width:'4em'}} />
         </a>
       
         <Suspense fallback={<Loading />}>
