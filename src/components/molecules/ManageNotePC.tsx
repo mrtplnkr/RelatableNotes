@@ -49,6 +49,7 @@ export function ManageNotePC (props: IManageNotePCProps) {
                 }
                 {!props.isAnythingCut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     props.dispatch({type: 'cutNote', payload: props.mainNote});
+                    props.setShowChildren(false);
                 }}><FontAwesomeIcon icon={faCut} /></button> :
                 <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                     props.dispatch({type: 'pasteNote', payload: props.mainNote});

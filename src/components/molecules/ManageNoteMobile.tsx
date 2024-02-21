@@ -50,6 +50,7 @@ export function ManageNoteMobile (props: IManageNoteMobileProps) {
                     {!props.isAnythingCut && !props.mainNote.cut ? <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                         props.dispatch({type: 'cutNote', payload: props.mainNote});
                         props.setShowOptions(0);
+                        props.setShowChildren(false);
                     }}><FontAwesomeIcon icon={faCut} /></button> :
                     <button style={{fontSize: '1.5em', fontWeight: 'bold'}} onClick={() => {
                         props.dispatch({type: 'pasteNote', payload: props.mainNote});
