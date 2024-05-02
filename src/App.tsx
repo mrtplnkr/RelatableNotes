@@ -1,4 +1,4 @@
-import React, { Dispatch, lazy, Suspense } from 'react';
+import React, { Dispatch, lazy, Suspense, useState } from 'react';
 import logo from './logo192.png';
 import './App.css';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -27,10 +27,12 @@ function App() {
     <div className="App">
       
       <header className="App-header">
-        <a href="/">
-          <img src={logo} alt="logo" className={'spin'} style={{width:'4em'}} />
-        </a>
-      
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <a href="/" >
+            <img src={logo} alt="logo" className={'spin'} style={{width:'4em'}} />
+          </a>
+        </div>
+
         <Suspense fallback={<Loading />}>
 
         <HashRouter>

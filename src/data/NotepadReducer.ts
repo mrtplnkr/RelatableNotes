@@ -5,6 +5,7 @@ export interface INote {
     id: number,
     text: string,
     order: number,
+    dateUpdated: Date,
     url?: string,
     cut?: boolean,
     done?: boolean,
@@ -26,36 +27,36 @@ export interface INotepadState {
 
 export const initialState: INotepadState = {
     allNotes: [
-        { parentId: null, id: 4, text: "shopping list", order: 0 },
-        { parentId: 4, id: 41, text: "milk", order: 1 },
-        { parentId: 4, id: 42, text: "bread", order: 2 },
-        { parentId: 42, id: 412, text: 'white', order: 0 },
-        { parentId: 42, id: 413, text: 'dark', order: 1 },
-        { parentId: 4, id: 43, text: "tea", order: 3 },
-        { parentId: null, id: 2, text: "app dev features", order: 1 },
-        { parentId: 2, id: 21, text: "creating new note with children", order: 1 },
-        { parentId: 2, id: 22, text: "update, edit, delete", order: 2 },
-        { parentId: 2, id: 23, text: "provide visualisation", order: 3 },
-        { parentId: null, id: 3, text: "life priorities", order: 2 },
-        { parentId: 3, id: 31, text: "money?", order: 1 },
-        { parentId: 3, id: 32, text: "love", order: 2 },
-        { parentId: 3, id: 33, text: "health", order: 3 },
-        { parentId: 3, id: 34, text: "peace", order: 4 },
-        { parentId: null, id: 5, text: "Travel bucket list", order: 3 },
-        { parentId: 5, id: 51, text: "Thailand", order: 1 },
-        { parentId: 5, id: 52, text: "Turkey", order: 2 },
-        { parentId: 5, id: 53, text: "Sweden", order: 3 },
-        { parentId: 5, id: 54, text: "France", order: 3 },
-        {"id":414,"parentId":null,"text":"Car example", order: 4, url: 'https://audi.com'},
-        {"id":415,"parentId":414,"text":"wheels", order: 1},
-        {"id":416,"parentId":414,"text":"steering", order: 2},
-        {"id":417,"parentId":414,"text":"engine", order: 3},
-        {"id":418,"parentId":414,"text":"headlights", order: 4},
-        {"id":419,"parentId":417,"text":"cylinders", order: 0},
-        {"id":420,"parentId":417,"text":"ignition", order: 1},
-        {"id":421,"parentId":420,"text":"spark plugs", order: 1},
-        {"id":422,"parentId":420,"text":"coilpack", order: 2},
-        {"id":423,"parentId":417,"text":"fuel pump", order: 2},
+        { parentId: null, id: 4, text: "shopping list", order: 0, dateUpdated: new Date() },
+        { parentId: 4, id: 41, text: "milk", order: 1, dateUpdated: new Date() },
+        { parentId: 4, id: 42, text: "bread", order: 2, dateUpdated: new Date() },
+        { parentId: 42, id: 412, text: 'white', order: 0, dateUpdated: new Date() },
+        { parentId: 42, id: 413, text: 'dark', order: 1, dateUpdated: new Date() },
+        { parentId: 4, id: 43, text: "tea", order: 3, dateUpdated: new Date() },
+        { parentId: null, id: 2, text: "app dev features", order: 1, dateUpdated: new Date() },
+        { parentId: 2, id: 21, text: "creating new note with children", order: 1, dateUpdated: new Date() },
+        { parentId: 2, id: 22, text: "update, edit, delete", order: 2, dateUpdated: new Date() },
+        { parentId: 2, id: 23, text: "provide visualisation", order: 3, dateUpdated: new Date() },
+        { parentId: null, id: 3, text: "life priorities", order: 2, dateUpdated: new Date() },
+        { parentId: 3, id: 31, text: "money?", order: 1, dateUpdated: new Date() },
+        { parentId: 3, id: 32, text: "love", order: 2, dateUpdated: new Date() },
+        { parentId: 3, id: 33, text: "health", order: 3, dateUpdated: new Date() },
+        { parentId: 3, id: 34, text: "peace", order: 4, dateUpdated: new Date() },
+        { parentId: null, id: 5, text: "Travel bucket list", order: 3, dateUpdated: new Date() },
+        { parentId: 5, id: 51, text: "Thailand", order: 1, dateUpdated: new Date() },
+        { parentId: 5, id: 52, text: "Turkey", order: 2, dateUpdated: new Date() },
+        { parentId: 5, id: 53, text: "Sweden", order: 3, dateUpdated: new Date() },
+        { parentId: 5, id: 54, text: "France", order: 3, dateUpdated: new Date() },
+        {"id":414,"parentId":null,"text":"Car example", order: 4, url: 'https://audi.com', dateUpdated: new Date()},
+        {"id":415,"parentId":414,"text":"wheels", order: 1, dateUpdated: new Date()},
+        {"id":416,"parentId":414,"text":"steering", order: 2, dateUpdated: new Date()},
+        {"id":417,"parentId":414,"text":"engine", order: 3, dateUpdated: new Date()},
+        {"id":418,"parentId":414,"text":"headlights", order: 4, dateUpdated: new Date()},
+        {"id":419,"parentId":417,"text":"cylinders", order: 0, dateUpdated: new Date()},
+        {"id":420,"parentId":417,"text":"ignition", order: 1, dateUpdated: new Date()},
+        {"id":421,"parentId":420,"text":"spark plugs", order: 1, dateUpdated: new Date()},
+        {"id":422,"parentId":420,"text":"coilpack", order: 2, dateUpdated: new Date()},
+        {"id":423,"parentId":417,"text":"fuel pump", order: 2, dateUpdated: new Date()},
     ],
     highlighted: [],
     found: [],
@@ -97,21 +98,20 @@ export const NotepadReducer = (state: INotepadState, action: { type: string, pay
         case 'pasteNote':
             const newHighestOrder = checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.id).map(object => object.order ));
                 return {...state, allNotes: state.allNotes.map((content) => content.cut === true ?
-                    {...content, cut: false, parentId: action.payload.id, order: newHighestOrder} : content)};
+                    {...content, cut: false, dateUpdated: new Date(), parentId: action.payload.id, order: newHighestOrder} : content)};
         case 'addNote':
             const ids = state.allNotes.map(object => object.id);
-            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', id: Math.max(...ids) + 1,
+            return { ...state, allNotes: [...state.allNotes, {...action.payload, url: '', id: Math.max(...ids) + 1, dateUpdated: new Date(),
                 order: checkAssignOrder(state.allNotes.filter(x => x.parentId === action.payload.parentId).map(object => object.order ))}] };
         case 'removeNote':
             return { ...state, allNotes: state.allNotes.filter(x => x.id !== action.payload.id)
                 .map(x => x.parentId === action.payload.parentId && x.order > action.payload.order 
-                    ? {...x, order: x.order-1} : x) };
+                    ? {...x, order: x.order-1} : x) };// TODO check if this is needed
         case 'updateNote':
             const checkChildren = state.allNotes.some((content) => content.parentId === action.payload.parentId && content.done)
-            console.log('update note runned', state);
             return {...state, allNotes: state.allNotes
-                .map((content) => content.id === action.payload.id ? {...action.payload} : content )
-                .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren} : content)};
+                .map((content) => content.id === action.payload.id ? {...action.payload, dateUpdated: new Date()} : content )
+                .map((content) => content.id === action.payload.parentId ? {...content, done: !checkChildren, dateUpdated: new Date()} : content)};
         case 'moveUp':
             const next = changeOrder(state.allNotes.filter(a => a.parentId === action.payload.parentId), -1, action.payload.id);
             return {...state, allNotes: state.allNotes.map((content) => 

@@ -6,7 +6,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchInputWithTypes } from '../components/organisms/SearchInputWithTypes';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
-import { compareLatest } from '../helpers/compareLatest';
+import { compareLatest, EnumSort } from '../helpers/compareLatest';
 import { delay } from '../data/functional';
 import scrollToElement from 'scroll-to-element';
 
@@ -18,13 +18,17 @@ export function Notepad(props: INotepadProps) {
   const { notes, found, highlighted, filter, dispatchNotes } = useNotepadContext();
   const [showOptions, setShowOptions] = useState<number>(0);
 
+  const [sortBy, setSortBy] = useState(EnumSort.index);
+  console.log('sortBy', sortBy);
+
   const handleSearch = (text: string) => {
-    dispatchNotes({ type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text}});
+    dispatchNotes({ type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, dateUpdated: new Date()}});
   }
 
   const addNote = (newNote: string) => {
     if (!notes.some(x => x.text === newNote)) {
-      dispatchNotes({ type: 'addNote', payload: { order: 0, id: 1, parentId: null, text: newNote }});
+      dispatchNotes({ type: 'addNote', payload: { order: 0, id: 1, parentId: null, text: newNote, dateUpdated: new Date() }});
+      handleSearch('');
     } else {
       alert("already exists, I'll show ya");
       handleSearch(newNote);
@@ -67,8 +71,8 @@ export function Notepad(props: INotepadProps) {
     <div>
       <div>
         <SearchInputWithTypes {...{handleSearch, addNote,
-          searchTerm: filter.text,
-          exact: filter.exact,
+          searchTerm: filter.text, sortBy,
+          exact: filter.exact, setSortBy,
           foundNotes: notes.filter(x => found?.includes(x.id)),
           highlighted: highlighted.length>0}} />
         <hr />
@@ -81,7 +85,7 @@ export function Notepad(props: INotepadProps) {
           {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
               return (
                   <div style={{ padding: '5px', maxWidth: '20em' }} key={x.id}>
-                      <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes }} mainNote={x} size={18}></ReusableObject>
+                      <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes, sortBy: sortBy }} mainNote={x} size={18}></ReusableObject>
                   </div>
               );
           })}

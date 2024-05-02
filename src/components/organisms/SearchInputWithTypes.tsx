@@ -1,4 +1,4 @@
-import { faArrowUp, faFont, faPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faCalendarTimes, faFont, faPlus, faSearchMinus, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { timeout } from 'd3';
 import _ from 'lodash';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
 import { INote } from '../../data/NotepadReducer';
+import { EnumSort } from '../../helpers/compareLatest';
 
 export interface ISearchInputWithTypesProps {
     handleSearch(text: string): void;
@@ -14,6 +15,8 @@ export interface ISearchInputWithTypesProps {
     exact: boolean;
     highlighted: boolean;
     foundNotes: INote[];
+    sortBy: EnumSort;
+    setSortBy(type: EnumSort): any;
 }
 
 export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
@@ -22,6 +25,8 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
   const [lastScrolledNoteId, setLastScrolledNoteId] = useState(0);
 
   const [activeCasing, setActiveCasing] = useState<boolean>(false);
+
+  const { sortBy, setSortBy } = props;
 
   const doSearchHandler = (key: any) => {
     if (key === 'Enter') {
@@ -93,6 +98,9 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
             setShowAllFound(false);
           }} />
       }
+      <FontAwesomeIcon style={{ position: 'fixed', right: 50, top: 50 }}
+        icon={sortBy === EnumSort.date ? faSortAlphaDown : faCalendarTimes}
+        onClick={() => setSortBy(sortBy === EnumSort.index ? EnumSort.date : EnumSort.index)} />
       {showAllFound && props.foundNotes.length > 1 && <ul className={'notesFoundContainer'}>
         <FontAwesomeIcon title="apply casing" onClick={() => setActiveCasing(a => !a)} icon={faFont}
             cursor='pointer' style={{display: 'flex', margin: '0 0.5em', 

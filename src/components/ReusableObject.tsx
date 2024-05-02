@@ -6,6 +6,7 @@ import { useNotepadContext } from '../data/NotepadContext';
 import { compareLatest } from '../helpers';
 import { ManageViews } from './organisms/ManageViews';
 import Loading from './atoms/Loading';
+import { EnumSort } from '../helpers/compareLatest';
 
 export type ReusableType = {
     id: number,
@@ -16,6 +17,7 @@ export type ReusableType = {
 
 export interface IReusableObjectProps {
     mainNote: INote;
+    sortBy: EnumSort;
     size?: number;
     showOptions: number;
     setShowOptions: Dispatch<React.SetStateAction<number>>;
@@ -31,7 +33,7 @@ export const ReusableObject = (props:IReusableObjectProps) => {
     const [showChildren, setShowChildren] = useState<boolean>(false);
 
     const { notes, highlighted } = useNotepadContext();
-    const { setShowOptions, mainNote, showOptions, dispatch } = props;
+    const { setShowOptions, mainNote, showOptions, dispatch, sortBy } = props;
 
     React.useEffect(() => {
         if (highlighted.includes(mainNote.id)) setShowChildren(true);
@@ -39,8 +41,8 @@ export const ReusableObject = (props:IReusableObjectProps) => {
 
     const filterChildren = !mainNote ? [] : notes.filter((x: INote) => x.parentId === mainNote!.id);
 
-    const sortByOrder = useCallback((c: INote[]) => {
-        return c.sort(compareLatest);
+    const sortByOrder = useCallback((notes: INote[]) => {
+        return notes.sort((a, b) => compareLatest(a, b, sortBy));
     }, [filterChildren]);
 
     return (
@@ -62,7 +64,7 @@ export const ReusableObject = (props:IReusableObjectProps) => {
                             {showChildren && filterChildren?.length > 0 && sortByOrder(filterChildren).map((x) => {
                                 return (
                                     <div style={{ padding: '5px' }} key={x.id}>
-                                        <ReusableObject {...{ showOptions, setShowOptions, dispatch }} mainNote={x} size={props.size! - 1}></ReusableObject>
+                                        <ReusableObject {...{ showOptions, setShowOptions, dispatch, sortBy }} mainNote={x} size={props.size! - 1}></ReusableObject>
                                     </div>
                                 );
                             })}

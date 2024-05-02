@@ -18,8 +18,27 @@ const Export: FunctionComponent<IExportProps> = (props) => {
   }, [])
 
   const handleClick = (val: string) => {
-    var blob = new Blob([JSON.stringify(notes.filter((x: INote) => x.id === parseInt(val)))], {type: "application/json;charset=utf-8"});
+    const json = JSON.stringify(notes.filter((x: INote) => x.id === parseInt(val)));
+    var blob = new Blob([], {type: "application/json;charset=utf-8"});
     saveAs(blob, `${notes.find(a => a.id === parseInt(selectedNote!))?.text}.txt`);
+  }
+
+  const recursiveJson = (notes: INote[]): INote[] => {
+    const selectedNotes: INote[] = [];
+    notes.forEach(note => {
+      selectedNotes.concat(notes.filter(x => x.id === note.id));
+    });
+    const children = selectedNotesHaveChildren(selectedNotes);
+    if (children.length > 0) recursiveJson(children);
+    return selectedNotes;
+  }
+
+  const selectedNotesHaveChildren = (parentNotes: INote[]): INote[] => {
+    const childrenFound: INote[] = [];
+    parentNotes.forEach(note => {
+      childrenFound.concat(notes.filter(x => x.id === note.id));
+    });
+    return childrenFound;
   }
 
   return <>
