@@ -19,7 +19,7 @@ export function Notepad(props: INotepadProps) {
   const [showOptions, setShowOptions] = useState<number>(0);
 
   const [sortBy, setSortBy] = useState(EnumSort.index);
-  console.log('sortBy', sortBy);
+  console.log('sortBy', sortBy, notes);
 
   const handleSearch = (text: string) => {
     dispatchNotes({ type: 'applyFilter', payload: {id: 0, parentId: null, order: 0, text: text, dateUpdated: new Date()}});
@@ -82,13 +82,13 @@ export function Notepad(props: INotepadProps) {
                icon={faUndo} style={{ cursor: 'pointer', padding: '0 0.5em', zIndex: 4 }} />
             <div style={{fontSize: '0.6em'}}>{notes.find(x => x.cut)!.text}</div>
         </span>}
-          {notes.filter((x: INote) => x.parentId === null).sort(compareLatest).map((x, index) => {
-              return (
-                  <div style={{ padding: '5px', maxWidth: '20em' }} key={x.id}>
-                      <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes, sortBy: sortBy }} mainNote={x} size={18}></ReusableObject>
-                  </div>
-              );
-          })}
+        {notes.filter((x: INote) => x.parentId === null).sort((a, b) => compareLatest(a, b, sortBy)).map((x, index) => {
+            return (
+                <div style={{ padding: '5px', maxWidth: '20em' }} key={x.id}>
+                    <ReusableObject {...{ showOptions, setShowOptions, dispatch: dispatchNotes, sortBy: sortBy }} mainNote={x} size={18}></ReusableObject>
+                </div>
+            );
+        })}
       </div>
       <p>
         <Link to="/preview">get visuals</Link>
