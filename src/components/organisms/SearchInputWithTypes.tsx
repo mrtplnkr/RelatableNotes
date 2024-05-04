@@ -1,7 +1,6 @@
 import { faArrowUp, faCalendarTimes, faFont, faPlus, faSearchMinus, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { timeout } from 'd3';
-import _ from 'lodash';
 import { useState } from 'react';
 import scrollToElement from 'scroll-to-element';
 import { figureOutTheColor } from '../../data/functional';
@@ -48,10 +47,10 @@ export function SearchInputWithTypes (props: ISearchInputWithTypesProps) {
 
   window.addEventListener(
     "scroll",
-    _.debounce(() => {
+    () => {
       setScrollTop(document.documentElement.scrollTop);
       setShowAllFound(false);
-    }, 0)
+    }
   );
 
   const navigateTo = (noteId: number) => {
